@@ -1,0 +1,2156 @@
+[
+  {
+    "description": "1.0 Simple @every tests",
+    "expression": "@every 1 day",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-02 00:00:00",
+      "2020-01-03 00:00:00",
+      "2020-01-04 00:00:00"
+    ]
+  },
+  {
+    "description": "1.1 Simple @every tests",
+    "expression": "@every 1 week",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-08 00:00:00",
+      "2020-01-15 00:00:00",
+      "2020-01-22 00:00:00"
+    ]
+  },
+  {
+    "description": "1.2 Simple @every tests",
+    "expression": "@every 1 month",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-02-01 00:00:00",
+      "2020-03-01 00:00:00",
+      "2020-04-01 00:00:00"
+    ]
+  },
+  {
+    "description": "1.3 Simple @every tests",
+    "expression": "@every 1 year",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2021-01-01 00:00:00",
+      "2022-01-01 00:00:00",
+      "2023-01-01 00:00:00"
+    ]
+  },
+  {
+    "description": "2.1 Simple @every 3",
+    "expression": "@every 3 seconds",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-01 00:00:03",
+      "2020-01-01 00:00:06",
+      "2020-01-01 00:00:09"
+    ]
+  },
+  {
+    "description": "2.2 Simple @every 3",
+    "expression": "@every 3 minutes",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-01 00:03:00",
+      "2020-01-01 00:06:00",
+      "2020-01-01 00:09:00"
+    ]
+  },
+  {
+    "description": "2.3 Simple @every 3",
+    "expression": "@every 3 hours",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-01 03:00:00",
+      "2020-01-01 06:00:00",
+      "2020-01-01 09:00:00"
+    ]
+  },
+  {
+    "description": "2.4 Simple @every 3",
+    "expression": "@every 3 days",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-04 00:00:00",
+      "2020-01-07 00:00:00",
+      "2020-01-10 00:00:00"
+    ]
+  },
+  {
+    "description": "3.1 every X with anchored value",
+    "expression": "@every 5 seconds BasedAt 4",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-01 00:00:04",
+      "2020-01-01 00:00:09",
+      "2020-01-01 00:00:14"
+    ]
+  },
+  {
+    "description": "3.2 every X with anchored value",
+    "expression": "@every 5 minutes BasedAt 7",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-01 00:02:00",
+      "2020-01-01 00:07:00",
+      "2020-01-01 00:12:00"
+    ]
+  },
+  {
+    "description": "3.3 every X with anchored value",
+    "expression": "@every 5 hours BasedAt 10",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-01 05:00:00",
+      "2020-01-01 10:00:00",
+      "2020-01-01 15:00:00"
+    ]
+  },
+  {
+    "description": "3.4 every X with anchored value",
+    "expression": "@every 5 days BasedAt 10th",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-05 00:00:00",
+      "2020-01-10 00:00:00",
+      "2020-01-15 00:00:00"
+    ]
+  },
+  {
+    "description": "3.5 every X with anchored value",
+    "expression": "@every 2 wks AnchoredAt SUN",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-05 00:00:00",
+      "2020-01-19 00:00:00",
+      "2020-02-02 00:00:00"
+    ]
+  },
+  {
+    "description": "3.6 every X with anchored value",
+    "expression": "@every 2 months BasedOn JUL",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-03-01 00:00:00",
+      "2020-05-01 00:00:00",
+      "2020-07-01 00:00:00"
+    ]
+  },
+  {
+    "description": "4.1 every X between A and B in the same time unit",
+    "expression": "@every 5 seconds @between sec 10 and 20",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-01 00:00:10",
+      "2020-01-01 00:00:15",
+      "2020-01-01 00:00:20",
+      "2020-01-01 00:01:10"
+    ]
+  },
+  {
+    "description": "4.2 every X between A and B in the same time unit",
+    "expression": "@every 5 minutes @between min 10 and 20",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-01 00:10:00",
+      "2020-01-01 00:15:00",
+      "2020-01-01 00:20:00",
+      "2020-01-01 01:10:00"
+    ]
+  },
+  {
+    "description": "4.3 every X between A and B in the same time unit",
+    "expression": "@every 5 hours @between hr 10 and 20",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-01 10:00:00",
+      "2020-01-01 15:00:00",
+      "2020-01-01 20:00:00",
+      "2020-01-02 10:00:00"
+    ]
+  },
+  {
+    "description": "4.4 every X between A and B in the same time unit",
+    "expression": "@every 5 days @between day 10 and 20",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-10 00:00:00",
+      "2020-01-15 00:00:00",
+      "2020-01-20 00:00:00",
+      "2020-02-10 00:00:00"
+    ]
+  },
+  {
+    "description": "5.1 every X at A in the same time unit",
+    "expression": "@At [2023-01-01 10:10, 2023-05-01 10:10, 2025-01-01 10:10, 2025-05-01 10:10]",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2023-01-01 10:10",
+      "2023-05-01 10:10",
+      "2025-01-01 10:10",
+      "2025-05-01 10:10",
+      ""
+    ]
+  },
+  {
+    "description": "5.2 every X at A in the same time unit",
+    "expression": "@At [2023-01-01 10:10:15, 2023-05-01 10:10:15, 2025-01-01 10:10:15, 2025-05-01 10:10:15]",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2023-01-01 10:10:15",
+      "2023-05-01 10:10:15",
+      "2025-01-01 10:10:15",
+      "2025-05-01 10:10:15",
+      ""
+    ]
+  },
+  {
+    "description": "6.1 @At, @On, @In specific times",
+    "expression": "@at 2020-01-01 10:10:10",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-01 10:10:10",
+      ""
+    ]
+  },
+  {
+    "description": "6.2 @At, @On, @In specific times",
+    "expression": "@on JAN-01 10:10:10",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-01 10:10:10",
+      "2021-01-01 10:10:10"
+    ]
+  },
+  {
+    "description": "6.3 @At, @On, @In specific times",
+    "expression": "@At 21 10:10:10",
+    "baseTimeUtcStr": "2020-01-21 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-21 10:10:10",
+      "2020-02-21 10:10:10",
+      "2020-03-21 10:10:10"
+    ]
+  },
+  {
+    "description": "7.1 @At, @On, @In Multiple times",
+    "expression": "@at [10:10, 11:10, 12:10]",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-01 10:10:00",
+      "2020-01-01 11:10:00",
+      "2020-01-01 12:10:00",
+      "2020-01-02 10:10:00"
+    ]
+  },
+  {
+    "description": "7.2 @At, @On, @In Multiple times",
+    "expression": "@on [JAN-01, FEB-01, MAR-01]",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-02-01 00:00:00",
+      "2020-03-01 00:00:00",
+      "2021-01-01 00:00:00"
+    ]
+  },
+  {
+    "description": "7.3 @At, @On, @In Multiple times",
+    "expression": "@at day [10, 11, 12]",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-10 00:00:00",
+      "2020-01-11 00:00:00",
+      "2020-01-12 00:00:00",
+      "2020-02-10 00:00:00"
+    ]
+  },
+  {
+    "description": "8.1 @Every with @Between in different time units",
+    "expression": "@every 5 minutes @between sec 10 and 20",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-01 00:00:10",
+      "2020-01-01 00:05:10",
+      "2020-01-01 00:10:10"
+    ]
+  },
+  {
+    "description": "8.2 @Every with @Between in different time units",
+    "expression": "@every 25 seconds @between min 10 and 12",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-01 00:10:00",
+      "2020-01-01 00:10:25",
+      "2020-01-01 00:10:50",
+      "2020-01-01 00:11:15",
+      "2020-01-01 00:11:40",
+      "2020-01-01 00:12:05",
+      "2020-01-01 00:12:30",
+      "2020-01-01 00:12:55",
+      "2020-01-01 01:10:00",
+      "2020-01-01 01:10:25",
+      "2020-01-01 01:10:50",
+      "2020-01-01 01:11:15",
+      "2020-01-01 01:11:40",
+      "2020-01-01 01:12:05",
+      "2020-01-01 01:12:30",
+      "2020-01-01 01:12:55"
+    ]
+  },
+  {
+    "description": "8.3 @Every with @Between in different time units",
+    "expression": "@every 25 minutes @between hour 10 and 12",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-01 10:00:00",
+      "2020-01-01 10:25:00",
+      "2020-01-01 10:50:00",
+      "2020-01-01 11:15:00",
+      "2020-01-01 11:40:00",
+      "2020-01-01 12:05:00",
+      "2020-01-01 12:30:00",
+      "2020-01-01 12:55:00",
+      "2020-01-02 10:00:00",
+      "2020-01-02 10:25:00",
+      "2020-01-02 10:50:00",
+      "2020-01-02 11:15:00",
+      "2020-01-02 11:40:00",
+      "2020-01-02 12:05:00",
+      "2020-01-02 12:30:00",
+      "2020-01-02 12:55:00"
+    ]
+  },
+  {
+    "description": "8.4 @Every with @Between in different time units",
+    "expression": "@every 25 seconds @between 1:20pm and 01:22pm",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-01 13:20:00",
+      "2020-01-01 13:20:25",
+      "2020-01-01 13:20:50",
+      "2020-01-01 13:21:15",
+      "2020-01-01 13:21:40",
+      "2020-01-01 13:22:05",
+      "2020-01-01 13:22:30",
+      "2020-01-01 13:22:55",
+      "2020-01-02 13:20:00",
+      "2020-01-02 13:20:25",
+      "2020-01-02 13:20:50",
+      "2020-01-02 13:21:15",
+      "2020-01-02 13:21:40",
+      "2020-01-02 13:22:05",
+      "2020-01-02 13:22:30",
+      "2020-01-02 13:22:55"
+    ]
+  },
+  {
+    "description": "8.5 @Every with @Between in different time units",
+    "expression": "@every 25 seconds @between 1:20am and 01:22am",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-01 01:20:00",
+      "2020-01-01 01:20:25",
+      "2020-01-01 01:20:50",
+      "2020-01-01 01:21:15",
+      "2020-01-01 01:21:40",
+      "2020-01-01 01:22:05",
+      "2020-01-01 01:22:30",
+      "2020-01-01 01:22:55",
+      "2020-01-02 01:20:00",
+      "2020-01-02 01:20:25",
+      "2020-01-02 01:20:50",
+      "2020-01-02 01:21:15",
+      "2020-01-02 01:21:40",
+      "2020-01-02 01:22:05",
+      "2020-01-02 01:22:30",
+      "2020-01-02 01:22:55"
+    ]
+  },
+  {
+    "description": "8.6 @Every with @Between in different time units",
+    "expression": "@every 25 seconds @between 1:20am and 3:10am",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-01 01:20:00"
+    ]
+  },
+  {
+    "description": "8.7 @Every with @Between in different time units",
+    "expression": "@every 25 minutes @between hour 10 and 12",
+    "baseTimeUtcStr": "2020-01-01 12:55:00",
+    "expectedDateTimeStrs": [
+      "2020-01-02 10:00:00"
+    ]
+  },
+  {
+    "description": "9.1 @At, @On, @In Multiple times",
+    "expression": "@every 2 days, @at [10:10, 11:10, 12:10]",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-01 10:10:00",
+      "2020-01-01 11:10:00",
+      "2020-01-01 12:10:00",
+      "2020-01-03 10:10:00"
+    ]
+  },
+  {
+    "description": "9.2 @At, @On, @In Multiple times",
+    "expression": "@every 2 years, @on [JAN-01, FEB-01, MAR-01]",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-02-01 00:00:00",
+      "2020-03-01 00:00:00",
+      "2022-01-01 00:00:00"
+    ]
+  },
+  {
+    "description": "9.3 @At, @On, @In Multiple times",
+    "expression": "@every 2 months, @at day [10, 11, 12]",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-01-10 00:00:00",
+      "2020-01-11 00:00:00",
+      "2020-01-12 00:00:00",
+      "2020-03-10 00:00:00"
+    ]
+  },
+  {
+    "description": "10.1 @At @On @In ClosestWeekday with Anchored",
+    "expression": "@every 2 months AnchoredOn Aug, @on ClosestWeekdayTo 10",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-08-10 00:00:00",
+      "2020-10-09 00:00:00",
+      "2020-12-10 00:00:00",
+      "2021-02-10 00:00:00",
+      "2021-04-09 00:00:00",
+      "2021-06-10 00:00:00"
+    ]
+  },
+  {
+    "description": "10.2 @At @On @In ClosestWeekday without Anchored",
+    "expression": "@every month, @on ClosestWeekdayTo 5",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-06 00:00:00",
+      "2020-08-05 00:00:00",
+      "2020-09-04 00:00:00"
+    ]
+  },
+  {
+    "description": "10.3 @At @On @In ClosestWeekday without Anchored and no every",
+    "expression": "@on ClosestWeekdayTo 5",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-06 00:00:00",
+      "2020-08-05 00:00:00",
+      "2020-09-04 00:00:00"
+    ]
+  },
+  {
+    "description": "11.1 @At @On @In LastWeekday with Anchored",
+    "expression": "@every 2 months AnchoredOn Aug, @on LastWeekday",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-08-31 00:00:00",
+      "2020-10-30 00:00:00",
+      "2020-12-31 00:00:00",
+      "2021-02-26 00:00:00",
+      "2021-04-30 00:00:00",
+      "2021-06-30 00:00:00"
+    ]
+  },
+  {
+    "description": "11.2 @At @On @In LastWeekday without Anchored",
+    "expression": "@every month, @on LastWeekday",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-31 00:00:00",
+      "2020-08-31 00:00:00",
+      "2020-09-30 00:00:00"
+    ]
+  },
+  {
+    "description": "11.3 @At @On @In LastWeekday without Anchored no every",
+    "expression": "@on LastWeekday",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-31 00:00:00",
+      "2020-08-31 00:00:00",
+      "2020-09-30 00:00:00"
+    ]
+  },
+  {
+    "description": "12.1 @At @On @In FirstWeekday with Anchored",
+    "expression": "@every 2 months AnchoredOn Aug, @on FirstWeekday",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-08-03 00:00:00",
+      "2020-10-01 00:00:00",
+      "2020-12-01 00:00:00",
+      "2021-02-01 00:00:00"
+    ]
+  },
+  {
+    "description": "12.2 @At @On @In FirstWeekday without Anchored",
+    "expression": "@every month, @on FirstWeekday",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-08-03 00:00:00",
+      "2020-09-01 00:00:00",
+      "2020-10-01 00:00:00",
+      "2020-11-02 00:00:00"
+    ]
+  },
+  {
+    "description": "12.3 @At @On @In FirstWeekday without Anchored and no every",
+    "expression": "@on FirstWeekday",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-08-03 00:00:00",
+      "2020-09-01 00:00:00",
+      "2020-10-01 00:00:00",
+      "2020-11-02 00:00:00"
+    ]
+  },
+  {
+    "description": "13.1 @At @On @In LastDayOfMonth with Anchored",
+    "expression": "@every 2 months AnchoredOn Aug, @on LastDayOfMonth",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-08-31 00:00:00",
+      "2020-10-31 00:00:00",
+      "2020-12-31 00:00:00",
+      "2021-02-28 00:00:00"
+    ]
+  },
+  {
+    "description": "13.2 @At @On @In LastDayOfMonth without Anchored",
+    "expression": "@every month, @on LastDayOfMonth",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-31 00:00:00",
+      "2020-08-31 00:00:00",
+      "2020-09-30 00:00:00",
+      "2020-10-31 00:00:00",
+      "2020-11-30 00:00:00"
+    ]
+  },
+  {
+    "description": "13.3 @At @On @In LastDayOfMonth without Anchored and no every",
+    "expression": "@on LastDayOfMonth",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-31 00:00:00",
+      "2020-08-31 00:00:00",
+      "2020-09-30 00:00:00",
+      "2020-10-31 00:00:00",
+      "2020-11-30 00:00:00"
+    ]
+  },
+  {
+    "description": "14.1 @At @On @In FirstDayOfMonth with Anchored",
+    "expression": "@every 2 months AnchoredOn Aug, @on FirstDayOfMonth",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-08-01 00:00:00",
+      "2020-10-01 00:00:00",
+      "2020-12-01 00:00:00",
+      "2021-02-01 00:00:00"
+    ]
+  },
+  {
+    "description": "14.2 @At @On @In FirstDayOfMonth without Anchored",
+    "expression": "@every month, @on FirstDayOfMonth",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-08-01 00:00:00",
+      "2020-09-01 00:00:00",
+      "2020-10-01 00:00:00",
+      "2020-11-01 00:00:00"
+    ]
+  },
+  {
+    "description": "14.3 @At @On @In FirstDayOfMonth without Anchored and no every",
+    "expression": "@on FirstDayOfMonth",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-08-01 00:00:00",
+      "2020-09-01 00:00:00",
+      "2020-10-01 00:00:00",
+      "2020-11-01 00:00:00"
+    ]
+  },
+  {
+    "description": "14.1 @At @On @In MAX with Anchored",
+    "expression": "@every 2 months AnchoredOn Aug, @on day Last",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-08-31 00:00:00",
+      "2020-10-31 00:00:00",
+      "2020-12-31 00:00:00",
+      "2021-02-28 00:00:00"
+    ]
+  },
+  {
+    "description": "14.2 @At @On @In MAX without Anchored",
+    "expression": "@every month, @on Last day",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-31 00:00:00",
+      "2020-08-31 00:00:00",
+      "2020-09-30 00:00:00",
+      "2020-10-31 00:00:00",
+      "2020-11-30 00:00:00"
+    ]
+  },
+  {
+    "description": "15.1 @At @On @In first with Anchored",
+    "expression": "@every 2 months AnchoredOn Aug, @on first day",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-08-01 00:00:00",
+      "2020-10-01 00:00:00",
+      "2020-12-01 00:00:00",
+      "2021-02-01 00:00:00"
+    ]
+  },
+  {
+    "description": "15.2 @At @On @In first without Anchored",
+    "expression": "@every month, @on first day",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-08-01 00:00:00",
+      "2020-09-01 00:00:00",
+      "2020-10-01 00:00:00",
+      "2020-11-01 00:00:00"
+    ]
+  },
+  {
+    "description": "15.3 @At @On @In first without Anchored and no every",
+    "expression": "@on day first",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-08-01 00:00:00",
+      "2020-09-01 00:00:00",
+      "2020-10-01 00:00:00",
+      "2020-11-01 00:00:00"
+    ]
+  },
+  {
+    "description": "16.1 @At @On @In FirstDayOfMonth+N with Anchored",
+    "expression": "@every 2 months AnchoredOn Aug, @on FirstDayOfMonth + 5",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-08-06 00:00:00",
+      "2020-10-06 00:00:00",
+      "2020-12-06 00:00:00",
+      "2021-02-06 00:00:00"
+    ]
+  },
+  {
+    "description": "16.2 @At @On @In FirstDayOfMonth+N without Anchored",
+    "expression": "@every month, @on FirstDayOfMonth + 5",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-06 00:00:00",
+      "2020-08-06 00:00:00",
+      "2020-09-06 00:00:00",
+      "2020-10-06 00:00:00",
+      "2020-11-06 00:00:00"
+    ]
+  },
+  {
+    "description": "16.3 @At @On @In FirstDayOfMonth+N without Anchored and no every",
+    "expression": "@on FirstDayOfMonth + 5",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-06 00:00:00",
+      "2020-08-06 00:00:00",
+      "2020-09-06 00:00:00",
+      "2020-10-06 00:00:00",
+      "2020-11-06 00:00:00"
+    ]
+  },
+  {
+    "description": "17.3 @At @On @In first+N without Anchored and no every",
+    "expression": "@on day first + 5",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-06 00:00:00",
+      "2020-08-06 00:00:00",
+      "2020-09-06 00:00:00",
+      "2020-10-06 00:00:00",
+      "2020-11-06 00:00:00"
+    ]
+  },
+  {
+    "description": "18.1 @At @On @In LastDayOfMonth-N with Anchored",
+    "expression": "@every 2 months AnchoredOn Aug, @on LastDayOfMonth - 5",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-08-26 00:00:00",
+      "2020-10-26 00:00:00",
+      "2020-12-26 00:00:00",
+      "2021-02-23 00:00:00"
+    ]
+  },
+  {
+    "description": "18.2 @At @On @In LastDayOfMonth-N without Anchored",
+    "expression": "@every month, @on LastDayOfMonth - 5",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-26 00:00:00",
+      "2020-08-26 00:00:00",
+      "2020-09-25 00:00:00",
+      "2020-10-26 00:00:00",
+      "2020-11-25 00:00:00"
+    ]
+  },
+  {
+    "description": "18.3 @At @On @In LastDayOfMonth-N without Anchored and no every",
+    "expression": "@on LastDayOfMonth - 5",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-26 00:00:00",
+      "2020-08-26 00:00:00",
+      "2020-09-25 00:00:00",
+      "2020-10-26 00:00:00",
+      "2020-11-25 00:00:00"
+    ]
+  },
+  {
+    "description": "19.1 @At @On @In FirstDayOfWeek",
+    "expression": "@every month, @on FirstMon",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-06 00:00:00",
+      "2020-08-03 00:00:00",
+      "2020-09-07 00:00:00",
+      "2020-10-05 00:00:00",
+      "2020-11-02 00:00:00"
+    ]
+  },
+  {
+    "description": "19.2 @At @On @In FirstDayOfWeek",
+    "expression": "@every month, @on FirstWed",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-08-05 00:00:00",
+      "2020-09-02 00:00:00",
+      "2020-10-07 00:00:00",
+      "2020-11-04 00:00:00"
+    ]
+  },
+  {
+    "description": "20.1 @At @On @In LastDayOfWeek",
+    "expression": "@every month, @on LastMon",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-27 00:00:00",
+      "2020-08-31 00:00:00",
+      "2020-09-28 00:00:00",
+      "2020-10-26 00:00:00",
+      "2020-11-30 00:00:00"
+    ]
+  },
+  {
+    "description": "21.1 @At @On @In SecondDayOfWeek",
+    "expression": "@every month, @on SecondMon",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-13 00:00:00",
+      "2020-08-10 00:00:00",
+      "2020-09-14 00:00:00",
+      "2020-10-12 00:00:00",
+      "2020-11-09 00:00:00"
+    ]
+  },
+  {
+    "description": "21.2 @At @On @In SecondDayOfWeek",
+    "expression": "@every month, @on SecondThu",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-09 00:00:00",
+      "2020-08-13 00:00:00",
+      "2020-09-10 00:00:00",
+      "2020-10-08 00:00:00",
+      "2020-11-12 00:00:00"
+    ]
+  },
+  {
+    "description": "22.1 @At @On @In ThirdSaturday",
+    "expression": "@every month, @on ThirdSat",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-18 00:00:00",
+      "2020-08-15 00:00:00",
+      "2020-09-19 00:00:00",
+      "2020-10-17 00:00:00",
+      "2020-11-21 00:00:00"
+    ]
+  },
+  {
+    "description": "22.2 @At @On @In ThirdTuesday",
+    "expression": "@every month, @on ThirdTue",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-21 00:00:00",
+      "2020-08-18 00:00:00",
+      "2020-09-15 00:00:00",
+      "2020-10-20 00:00:00",
+      "2020-11-17 00:00:00"
+    ]
+  },
+  {
+    "description": "23.1 @At @On @In FourthThursday",
+    "expression": "@every month, @on FourthThu",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-23 00:00:00",
+      "2020-08-27 00:00:00",
+      "2020-09-24 00:00:00",
+      "2020-10-22 00:00:00",
+      "2020-11-26 00:00:00"
+    ]
+  },
+  {
+    "description": "23.2 @At @On @In FourthTuesday",
+    "expression": "@every month, @on FourthTue",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-28 00:00:00",
+      "2020-08-25 00:00:00",
+      "2020-09-22 00:00:00",
+      "2020-10-27 00:00:00",
+      "2020-11-24 00:00:00"
+    ]
+  },
+  {
+    "description": "23.3 @At @On @In FourthSaturday",
+    "expression": "@every month, @on FourthSat",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-25 00:00:00",
+      "2020-08-22 00:00:00",
+      "2020-09-26 00:00:00",
+      "2020-10-24 00:00:00",
+      "2020-11-28 00:00:00"
+    ]
+  },
+  {
+    "description": "24.1 @At @On @In FifthThursday skip months",
+    "expression": "@every month, @on FifthThu",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-30 00:00:00",
+      "2020-10-29 00:00:00",
+      "2020-12-31 00:00:00",
+      "2021-04-29 00:00:00",
+      "2021-07-29 00:00:00"
+    ]
+  },
+  {
+    "description": "25.1 @At @On @In FirstWeekday +2",
+    "expression": "@every month, @on FirstWeekday + 2",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-03 00:00:00",
+      "2020-08-05 00:00:00",
+      "2020-09-03 00:00:00",
+      "2020-10-03 00:00:00",
+      "2020-11-04 00:00:00"
+    ]
+  },
+  {
+    "description": "25.2 @At @On @In FirstWeekday -1",
+    "expression": "@every month, @on FirstWeekday -1",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-08-02 00:00:00",
+      "2020-09-01 00:00:00",
+      "2020-10-01 00:00:00",
+      "2020-11-01 00:00:00"
+    ]
+  },
+  {
+    "description": "25.3 @At @On @In LastWeekday + 1",
+    "expression": "@every month, @on LastWeekday +1",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-31 00:00:00",
+      "2020-08-31 00:00:00",
+      "2020-09-30 00:00:00",
+      "2020-10-31 00:00:00",
+      "2020-11-30 00:00:00"
+    ]
+  },
+  {
+    "description": "25.4 @At @On @In LastWeekday - 2",
+    "expression": "@every month, @on LastWeekday -2",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-29 00:00:00",
+      "2020-08-29 00:00:00",
+      "2020-09-28 00:00:00",
+      "2020-10-28 00:00:00",
+      "2020-11-28 00:00:00"
+    ]
+  },
+  {
+    "description": "25.5 @At @On @In ThirdFriday + 1",
+    "expression": "@every month, @on ThirdFriday +1",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-18 00:00:00",
+      "2020-08-22 00:00:00",
+      "2020-09-19 00:00:00",
+      "2020-10-17 00:00:00",
+      "2020-11-21 00:00:00"
+    ]
+  },
+  {
+    "description": "25.6 @At @On @In ThirdFriday - 1",
+    "expression": "@every month, @on ThirdFriday -1",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-16 00:00:00",
+      "2020-08-20 00:00:00",
+      "2020-09-17 00:00:00",
+      "2020-10-15 00:00:00",
+      "2020-11-19 00:00:00"
+    ]
+  },
+  {
+    "description": "25.7 @At @On @In FourthFriday + 5",
+    "expression": "@every month, @on FourthFriday +5",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-29 00:00:00",
+      "2020-08-31 00:00:00",
+      "2020-09-30 00:00:00",
+      "2020-10-28 00:00:00",
+      "2020-11-30 00:00:00"
+    ]
+  },
+  {
+    "description": "26.1 @every 5 hour AnchoredAt 0 @between day 1 and Last - 1",
+    "expression": "@every 5 hour AnchoredAt 0 @between day Last - 5 and Last - 1",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-26 00:00:00",
+      "2020-07-26 05:00:00",
+      "2020-07-26 10:00:00",
+      "2020-07-26 15:00:00",
+      "2020-07-26 20:00:00",
+      "2020-07-27 00:00:00",
+      "2020-07-27 05:00:00",
+      "2020-07-27 10:00:00",
+      "2020-07-27 15:00:00",
+      "2020-07-27 20:00:00",
+      "2020-07-28 00:00:00",
+      "2020-07-28 05:00:00",
+      "2020-07-28 10:00:00",
+      "2020-07-28 15:00:00",
+      "2020-07-28 20:00:00",
+      "2020-07-29 00:00:00",
+      "2020-07-29 05:00:00",
+      "2020-07-29 10:00:00",
+      "2020-07-29 15:00:00",
+      "2020-07-29 20:00:00",
+      "2020-07-30 00:00:00",
+      "2020-07-30 05:00:00",
+      "2020-07-30 10:00:00",
+      "2020-07-30 15:00:00",
+      "2020-07-30 20:00:00",
+      "2020-08-26 00:00:00",
+      "2020-08-26 05:00:00",
+      "2020-08-26 10:00:00",
+      "2020-08-26 15:00:00",
+      "2020-08-26 20:00:00"
+    ]
+  },
+  {
+    "description": "26.2 @every 5 hour AnchoredAt 0 @between FirstDay + 25 and LastDay - 1",
+    "expression": "@every 5 hour AnchoredAt 0 @between FirstDay + 25 and LastDay - 1",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-26 00:00:00",
+      "2020-07-26 05:00:00",
+      "2020-07-26 10:00:00",
+      "2020-07-26 15:00:00",
+      "2020-07-26 20:00:00",
+      "2020-07-27 00:00:00",
+      "2020-07-27 05:00:00",
+      "2020-07-27 10:00:00",
+      "2020-07-27 15:00:00",
+      "2020-07-27 20:00:00",
+      "2020-07-28 00:00:00",
+      "2020-07-28 05:00:00",
+      "2020-07-28 10:00:00",
+      "2020-07-28 15:00:00",
+      "2020-07-28 20:00:00",
+      "2020-07-29 00:00:00",
+      "2020-07-29 05:00:00",
+      "2020-07-29 10:00:00",
+      "2020-07-29 15:00:00",
+      "2020-07-29 20:00:00",
+      "2020-07-30 00:00:00",
+      "2020-07-30 05:00:00",
+      "2020-07-30 10:00:00",
+      "2020-07-30 15:00:00",
+      "2020-07-30 20:00:00",
+      "2020-08-26 00:00:00",
+      "2020-08-26 05:00:00",
+      "2020-08-26 10:00:00",
+      "2020-08-26 15:00:00",
+      "2020-08-26 20:00:00"
+    ]
+  },
+  {
+    "description": "27.1 @every 1 day @on 00:00 @TZ America/New_York",
+    "expression": "@every 1 day @at 12:00am @TZ America/New_York",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-01 04:00:00",
+      "2020-07-02 04:00:00",
+      "2020-07-03 04:00:00",
+      "2020-07-04 04:00:00"
+    ]
+  },
+  {
+    "description": "28.1 @on th jan",
+    "expression": "@on 21th jan",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2021-01-21 00:00:00",
+      "2022-01-21 00:00:00"
+    ]
+  },
+  {
+    "description": "28.2 @on th jan",
+    "expression": "@on 2nd jan 2021",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2021-01-02 00:00:00",
+      ""
+    ]
+  },
+  {
+    "description": "28.3 @on th jan",
+    "expression": "@on 1st jan 2021 10:30pm",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2021-01-01 22:30:00",
+      ""
+    ]
+  },
+  {
+    "description": "28.4 @on th jan",
+    "expression": "@at [3rd january 10:30:25 am, 3rd jul 10:30:25am]",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-03 10:30:25",
+      "2021-01-03 10:30:25",
+      "2021-07-03 10:30:25",
+      "2022-01-03 10:30:25"
+    ]
+  },
+  {
+    "description": "29.1 @from",
+    "expression": "@every 25 minutes @from 10:15pm",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-01 22:15:00",
+      "2020-07-01 22:40:00",
+      "2020-07-01 23:05:00",
+      "2020-07-01 23:30:00",
+      "2020-07-01 23:55:00",
+      "2020-07-02 22:15:00"
+    ]
+  },
+  {
+    "description": "29.2 @upto",
+    "expression": "@every 25 minutes @upto 10:15am",
+    "baseTimeUtcStr": "2020-07-01 9:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-01 9:25:00",
+      "2020-07-01 9:50:00",
+      "2020-07-01 10:15:00",
+      "2020-07-02 00:00:00"
+    ]
+  },
+  {
+    "description": "30.1 @between nu",
+    "expression": "@every 10 minutes @between [10:10am and 10:30am, 11:00am and 11:30am]",
+    "baseTimeUtcStr": "2020-07-01 9:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-01 10:10:00",
+      "2020-07-01 10:20:00",
+      "2020-07-01 10:30:00",
+      "2020-07-01 11:00:00",
+      "2020-07-01 11:10:00",
+      "2020-07-01 11:20:00",
+      "2020-07-01 11:30:00",
+      "2020-07-02 10:10:00",
+      "2020-07-02 10:20:00",
+      "2020-07-02 10:30:00",
+      "2020-07-02 11:00:00",
+      "2020-07-02 11:10:00",
+      "2020-07-02 11:20:00",
+      "2020-07-02 11:30:00"
+    ]
+  },
+  {
+    "description": "30.2 @between",
+    "expression": "@every 10 minutes @between [10:10am and 13:05, 15:50 and 17:02]",
+    "baseTimeUtcStr": "2020-07-01 9:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-01 10:10:00",
+      "2020-07-01 10:20:00",
+      "2020-07-01 10:30:00",
+      "2020-07-01 10:40:00",
+      "2020-07-01 10:50:00",
+      "2020-07-01 11:00:00",
+      "2020-07-01 11:10:00",
+      "2020-07-01 11:20:00",
+      "2020-07-01 11:30:00",
+      "2020-07-01 11:40:00",
+      "2020-07-01 11:50:00",
+      "2020-07-01 12:00:00",
+      "2020-07-01 12:10:00",
+      "2020-07-01 12:20:00",
+      "2020-07-01 12:30:00",
+      "2020-07-01 12:40:00",
+      "2020-07-01 12:50:00",
+      "2020-07-01 13:00:00",
+      "2020-07-01 15:50:00",
+      "2020-07-01 16:00:00",
+      "2020-07-01 16:10:00",
+      "2020-07-01 16:20:00",
+      "2020-07-01 16:30:00",
+      "2020-07-01 16:40:00",
+      "2020-07-01 16:50:00",
+      "2020-07-01 17:00:00",
+      "2020-07-02 10:10:00"
+    ]
+  },
+  {
+    "description": "30.3 @between",
+    "expression": "@every 12 days @between [Feb and Jul, Sep and Nov]",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-13",
+      "2020-07-25",
+      "2020-09-01",
+      "2020-09-13",
+      "2020-09-25",
+      "2020-10-07",
+      "2020-10-19",
+      "2020-10-31",
+      "2020-11-12",
+      "2020-11-24",
+      "2021-02-01",
+      "2021-02-13",
+      "2021-02-25",
+      "2021-03-09",
+      "2021-03-21",
+      "2021-04-02",
+      "2021-04-14",
+      "2021-04-26",
+      "2021-05-08",
+      "2021-05-20",
+      "2021-06-01",
+      "2021-06-13",
+      "2021-06-25",
+      "2021-07-07",
+      "2021-07-19",
+      "2021-07-31",
+      "2021-09-01"
+    ]
+  },
+  {
+    "description": "31.1 @every day of the week",
+    "expression": "@every mon",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-06 00:00:00",
+      "2020-07-13 00:00:00",
+      "2020-07-20 00:00:00"
+    ]
+  },
+  {
+    "description": "31.2 @every day of the week",
+    "expression": "@every wednesday @between 10:10am and 10:30am",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-01 10:10:00",
+      "2020-07-08 10:10:00",
+      "2020-07-15 10:10:00"
+    ]
+  },
+  {
+    "description": "31.3 @every day of the week",
+    "expression": "@every week @on tuesday",
+    "baseTimeUtcStr": "2020-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-07-07 00:00:00",
+      "2020-07-14 00:00:00",
+      "2020-07-21 00:00:00"
+    ]
+  },
+  {
+    "description": "32.1 Simple @Secondly test",
+    "expression": "@Secondly",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": ["2020-01-01 00:00:01", "2020-01-01 00:00:02", "2020-01-01 00:00:03"]
+  },
+  {
+    "description": "32.2 Simple @Minutely test",
+    "expression": "@Minutely",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": ["2020-01-01 00:01:00", "2020-01-01 00:02:00", "2020-01-01 00:03:00"]
+  },
+  {
+    "description": "32.3 Simple @Hourly test",
+    "expression": "@Hourly",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": ["2020-01-01 01:00:00", "2020-01-01 02:00:00", "2020-01-01 03:00:00"]
+  },
+  {
+    "description": "32.4 Simple @Daily test",
+    "expression": "@Daily",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": ["2020-01-02 00:00:00", "2020-01-03 00:00:00", "2020-01-04 00:00:00"]
+  },
+  {
+    "description": "32.5 Simple @Weekly test",
+    "expression": "@Weekly",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": ["2020-01-08 00:00:00", "2020-01-15 00:00:00", "2020-01-22 00:00:00"]
+  },
+  {
+    "description": "32.6 Simple @Monthly test",
+    "expression": "@Monthly",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": ["2020-02-01 00:00:00", "2020-03-01 00:00:00", "2020-04-01 00:00:00"]
+  },
+  {
+    "description": "32.7 Simple @Yearly test",
+    "expression": "@Yearly",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": ["2021-01-01 00:00:00", "2022-01-01 00:00:00", "2023-01-01 00:00:00"]
+  },
+
+  {
+    "description": "33.1 AI generated: Every 2 hours starting at noon",
+    "expression": "@every 2 hours",
+    "baseTimeUtcStr": "2023-05-10 12:00:00",
+    "expectedDateTimeStrs": [
+      "2023-05-10 14:00:00",
+      "2023-05-10 16:00:00",
+      "2023-05-10 18:00:00"
+    ]
+  },
+  {
+    "description": "33.2 AI generated: Every Monday at 9am",
+    "expression": "@every week @on monday @at 09:00",
+    "baseTimeUtcStr": "2024-01-01 08:00:00",
+    "expectedDateTimeStrs": [
+      "2024-01-01 09:00:00",
+      "2024-01-08 09:00:00",
+      "2024-01-15 09:00:00"
+    ]
+  },
+  {
+    "description": "33.3 AI generated: Monthly on the 15th at 18:30",
+    "expression": "@every month @on 15th @at 18:30",
+    "baseTimeUtcStr": "2025-02-10 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-02-15 18:30:00",
+      "2025-03-15 18:30:00",
+      "2025-04-15 18:30:00"
+    ]
+  },
+  {
+    "description": "33.4 AI generated: Yearly on July 4th at midnight",
+    "expression": "@every year @on jul-04 @at 00:00",
+    "baseTimeUtcStr": "2022-06-30 00:00:00",
+    "expectedDateTimeStrs": [
+      "2022-07-04 00:00:00",
+      "2023-07-04 00:00:00",
+      "2024-07-04 00:00:00"
+    ]
+  },
+  {
+    "description": "33.5 AI generated: Every 10 minutes between 8am and 9am",
+    "expression": "@every 10 minutes @between 08:00 and 09:00",
+    "baseTimeUtcStr": "2023-09-01 07:55:00",
+    "expectedDateTimeStrs": [
+      "2023-09-01 08:00:00",
+      "2023-09-01 08:10:00",
+      "2023-09-01 08:20:00",
+      "2023-09-01 08:30:00",
+      "2023-09-01 08:40:00",
+      "2023-09-01 08:50:00",
+      "2023-09-01 09:00:00",
+      "2023-09-02 08:00:00"
+    ]
+  },
+  {
+    "description": "33.6 AI generated: Every Friday the 13th at 13:13",
+    "expression": "@every month @on 13th @on friday @at 13:13",
+    "baseTimeUtcStr": "2025-06-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-06-13 13:13:00",
+      "2026-02-13 13:13:00",
+      "2026-03-13 13:13:00",
+      "2026-11-13 13:13:00"
+    ]
+  },
+  {
+    "description": "33.7 AI generated: Every last day of the month at 23:59",
+    "expression": "@every month @on LastDayOfMonth @at 23:59",
+    "baseTimeUtcStr": "2025-01-15 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-01-31 23:59:00",
+      "2025-02-28 23:59:00",
+      "2025-03-31 23:59:00",
+      "2025-04-30 23:59:00"
+    ]
+  },
+  {
+    "description": "33.6 AI generated: Every weekday at 8:00am",
+    "expression": "@every day @between monday and friday @at 08:00",
+    "baseTimeUtcStr": "2025-07-01 07:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-01 08:00:00",
+      "2025-07-02 08:00:00",
+      "2025-07-03 08:00:00",
+      "2025-07-04 08:00:00",
+      "2025-07-07 08:00:00"
+    ]
+  },
+  {
+    "description": "33.7 AI generated: Every 3rd Tuesday of the month at 10:00",
+    "expression": "@every month @on ThirdTuesday @at 10:00",
+    "baseTimeUtcStr": "2025-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-01-21 10:00:00",
+      "2025-02-18 10:00:00",
+      "2025-03-18 10:00:00"
+    ]
+  },
+  {
+    "description": "33.8 AI generated: Every February 29th at noon (leap years)",
+    "expression": "@every year @on feb-29 @at 12:00",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-02-29 12:00:00",
+      "2024-02-29 12:00:00",
+      "2028-02-29 12:00:00"
+    ]
+  },
+  {
+    "description": "33.9 AI generated: Every 4th Thursday at 17:00",
+    "expression": "@every month @on FourthThursday @at 5:00pm",
+    "baseTimeUtcStr": "2025-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-01-23 17:00:00",
+      "2025-02-27 17:00:00",
+      "2025-03-27 17:00:00"
+    ]
+  },
+  {
+    "description": "33.10 AI generated: Every weekend at 10:30",
+    "expression": "@every week @on [sunday, saturday] @at 10:30",
+    "baseTimeUtcStr": "2025-07-04 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-05 10:30:00",
+      "2025-07-06 10:30:00",
+      "2025-07-12 10:30:00",
+      "2025-07-13 10:30:00"
+    ]
+  },
+  {
+    "description": "33.11 AI generated: Every 15th of the month at 6:00pm",
+    "expression": "@every month @on 15th @at 18:00",
+    "baseTimeUtcStr": "2025-03-10 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-03-15 18:00:00",
+      "2025-04-15 18:00:00",
+      "2025-05-15 18:00:00"
+    ]
+  },
+  {
+    "description": "33.12 AI generated: Every 2 weeks on Sunday and Saturday at 10:30",
+    "expression": "@every 2 week @on [sunday, saturday] @at 10:30",
+    "baseTimeUtcStr": "2025-07-04 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-05 10:30:00", 
+      "2025-07-13 10:30:00", 
+      "2025-07-19 10:30:00", 
+      "2025-07-27 10:30:00", 
+      "2025-08-02 10:30:00", 
+      "2025-08-10 10:30:00"
+    ]
+  },
+  {
+    "description": "33.13 AI generated: Every first day of the year at midnight",
+    "expression": "@every year @on jan-01 @at 00:00",
+    "baseTimeUtcStr": "2023-10-10 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-01-01 00:00:00",
+      "2025-01-01 00:00:00",
+      "2026-01-01 00:00:00"
+    ]
+  },
+  {
+    "description": "33.13 AI generated: Every day at noon except weekends",
+    "expression": "@every day @between monday and friday @at 12:00",
+    "baseTimeUtcStr": "2025-07-03 11:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-03 12:00:00",
+      "2025-07-04 12:00:00",
+      "2025-07-07 12:00:00"
+    ]
+  },
+  {
+    "description": "33.14 AI generated: Every 3 weeks on Monday and Friday at 08:00",
+    "expression": "@every 3 week @on [monday, friday] @at 08:00",
+    "baseTimeUtcStr": "2025-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-04 08:00:00",
+      "2025-07-21 08:00:00",
+      "2025-07-25 08:00:00",
+      "2025-08-11 08:00:00",
+      "2025-08-15 08:00:00",
+      "2025-09-01 08:00:00"
+    ]
+  },
+  {
+    "description": "33.15 AI generated: Every 2 weeks on Wednesday and Monday at 09:15 (unordered)",
+    "expression": "@every 2 week @on [wednesday, monday] @at 09:15",
+    "baseTimeUtcStr": "2025-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-02 09:15:00",
+      "2025-07-14 09:15:00",
+      "2025-07-16 09:15:00",
+      "2025-07-28 09:15:00",
+      "2025-07-30 09:15:00",
+      "2025-08-11 09:15:00"
+    ]
+  },
+  {
+    "description": "33.15 AI generated: Every 4 weeks on Sunday at 12:00",
+    "expression": "@every 4 week @on sunday @at 12:00",
+    "baseTimeUtcStr": "2025-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-06 12:00:00",
+      "2025-08-03 12:00:00",
+      "2025-08-31 12:00:00",
+      "2025-09-28 12:00:00"
+    ]
+  },
+  {
+    "description": "33.16 AI generated: Every week on Tuesday, Thursday, and Saturday at 18:00",
+    "expression": "@every week @on [tuesday, thursday, saturday] @at 18:00",
+    "baseTimeUtcStr": "2025-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-01 18:00:00",
+      "2025-07-03 18:00:00",
+      "2025-07-05 18:00:00",
+      "2025-07-08 18:00:00",
+      "2025-07-10 18:00:00",
+      "2025-07-12 18:00:00"
+    ]
+  },
+  {
+    "description": "33.17 AI generated: Every 2 weeks on Saturday and Monday at 07:30",
+    "expression": "@every 2 week @on [saturday, monday] @at 07:30",
+    "baseTimeUtcStr": "2025-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-05 07:30:00",
+      "2025-07-14 07:30:00",
+      "2025-07-19 07:30:00",
+      "2025-07-28 07:30:00",
+      "2025-08-02 07:30:00",
+      "2025-08-11 07:30:00"
+    ]
+  },
+  {
+    "description": "33.18 AI generated: Every 2 weeks on Thursday and Sunday at 14:00, base date is a Friday",
+    "expression": "@every 2 week @on [thursday, sunday] @at 14:00",
+    "baseTimeUtcStr": "2025-07-04 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-06 14:00:00",
+      "2025-07-10 14:00:00",
+      "2025-07-20 14:00:00",
+      "2025-07-24 14:00:00",
+      "2025-08-03 14:00:00"
+    ]
+  },
+  {
+    "description": "33.19 AI generated: Every 3 weeks on all weekdays at 10:00",
+    "expression": "@every 3 week @on [monday, tuesday, wednesday, thursday, friday] @at 10:00",
+    "baseTimeUtcStr": "2025-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-01 10:00:00", 
+      "2025-07-02 10:00:00", 
+      "2025-07-03 10:00:00", 
+      "2025-07-04 10:00:00",
+      "2025-07-21 10:00:00", 
+      "2025-07-22 10:00:00", 
+      "2025-07-23 10:00:00",
+      "2025-07-24 10:00:00",
+      "2025-07-25 10:00:00",
+      "2025-08-11 10:00:00"
+    ]
+  },
+  {
+    "description": "33.20 AI generated: Every 5 weeks on Saturday at 15:30 (spanning months)",
+    "expression": "@every 5 week @on saturday @at 15:30",
+    "baseTimeUtcStr": "2025-06-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-06-07 15:30:00",
+      "2025-07-12 15:30:00",
+      "2025-08-16 15:30:00",
+      "2025-09-20 15:30:00"
+    ]
+  },
+  {
+    "description": "33.21 AI generated: Every 2 weeks on Tuesday at 06:45, base date is a Wednesday (off-cycle start)",
+    "expression": "@every 2 week @on tuesday @at 06:45",
+    "baseTimeUtcStr": "2025-07-02 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-08 06:45:00",
+      "2025-07-22 06:45:00",
+      "2025-08-05 06:45:00",
+      "2025-08-19 06:45:00"
+    ]
+  },
+  {
+    "description": "33.22 AI generated: Every week on Sunday at 23:59, base date is a Monday (should skip to next Sunday)",
+    "expression": "@every week @on sunday @at 23:59",
+    "baseTimeUtcStr": "2025-07-07 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-13 23:59:00",
+      "2025-07-20 23:59:00",
+      "2025-07-27 23:59:00",
+      "2025-08-03 23:59:00"
+    ]
+  },
+  {
+    "description": "33.25 AI generated: Every 4 weeks on Monday and Saturday at 11:00 (spanning months) 2",
+    "expression": "@every 4 week @on [monday, saturday] @at 11:00",
+    "baseTimeUtcStr": "2025-06-29 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-06-30 11:00:00",
+      "2025-07-05 11:00:00", 
+      "2025-07-28 11:00:00", 
+      "2025-08-02 11:00:00", 
+      "2025-08-25 11:00:00", 
+      "2025-08-30 11:00:00", 
+      "2025-09-22 11:00:00", 
+      "2025-09-27 11:00:00"  
+    ]
+  },
+  {
+    "description": "33.26 AI generated: Every 2 weeks on Thursday and Sunday at 14:00, base date is a Friday",
+    "expression": "@every 2 week @on [thursday, sunday] @at 14:00",
+    "baseTimeUtcStr": "2025-07-04 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-06 14:00:00",
+      "2025-07-10 14:00:00",
+      "2025-07-20 14:00:00",
+      "2025-07-24 14:00:00",
+      "2025-08-03 14:00:00"
+    ]
+  },
+  {
+    "description": "33.27 AI generated: Closest weekday to the 15th (falls on a weekday)",
+    "expression": "@every month @on ClosestWeekDayTo 15th @at 09:00",
+    "baseTimeUtcStr": "2025-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-15 09:00:00",
+      "2025-08-15 09:00:00",
+      "2025-09-15 09:00:00"
+    ]
+  },
+  {
+    "description": "33.28 AI generated: Closest weekday to the 6th (falls on a Sunday, should pick Monday 7th)",
+    "expression": "@every month @on ClosestWeekDayTo 6th @at 10:00",
+    "baseTimeUtcStr": "2025-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-07 10:00:00",
+      "2025-08-06 10:00:00",
+      "2025-09-05 10:00:00"
+    ]
+  },
+  {
+    "description": "33.29 AI generated: Closest weekday to the 1st (falls on a Saturday, should pick Monday 3rd)",
+    "expression": "@every month @on ClosestWeekDayTo 1st @at 08:30",
+    "baseTimeUtcStr": "2025-11-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-11-03 08:30:00",
+      "2025-12-01 08:30:00",
+      "2026-01-01 08:30:00"
+    ]
+  },
+  {
+    "description": "33.30 AI generated: Closest weekday to the 31st (not all months have 31, should pick closest weekday in last week)",
+    "expression": "@every month @on ClosestWeekdayTo 31st @at 16:00",
+    "baseTimeUtcStr": "2025-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-31 16:00:00",
+      "2025-08-29 16:00:00",
+      "2025-09-30 16:00:00",
+      "2025-10-31 16:00:00",
+      "2025-11-28 16:00:00",
+      "2025-12-31 16:00:00"
+    ]
+  },
+  {
+    "description": "33.31 IA generated: LastWeekday of the month at 09:00",
+    "expression": "@every month @on LastWeekday @at 09:00",
+    "baseTimeUtcStr": "2025-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-31 09:00:00",   
+      "2025-08-29 09:00:00",   
+      "2025-09-30 09:00:00" 
+    ]
+  },
+  {
+    "description": "33.32 IA generated: FirstWeekday of the month at 08:00",
+    "expression": "@every month @on FirstWeekday @at 08:00",
+    "baseTimeUtcStr": "2025-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-01 08:00:00",  
+      "2025-08-01 08:00:00",  
+      "2025-09-01 08:00:00"   
+    ]
+  },
+  {
+    "description": "33.33 IA generated: LastWeekday of February (leap year) at 12:00",
+    "expression": "@every year @in february @on LastWeekday @at 12:00",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-02-29 12:00:00",  
+      "2025-02-28 12:00:00", 
+      "2026-02-27 12:00:00"    
+    ]
+  },
+  {
+    "description": "33.34 IA generated: FirstWeekday of February (leap year) at 07:30",
+    "expression": "@every year @in february @on FirstWeekday @at 07:30",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-02-01 07:30:00",  
+      "2025-02-03 07:30:00",   
+      "2026-02-02 07:30:00"  
+    ]
+  },
+
+  {
+    "description": "33.41 IA generated: FirstWednesday + 1 of July at 09:00",
+    "expression": "@every year @in july @on FirstWednesday + 1 @at 09:00",
+    "baseTimeUtcStr": "2025-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-07-03 09:00:00",
+      "2026-07-02 09:00:00",
+      "2027-07-08 09:00:00"
+    ]
+  },
+  {
+    "description": "33.42 IA generated: LastMonday - 1 of August at 08:30",
+    "expression": "@every year @in august @on LastMonday - 1 @at 08:30",
+    "baseTimeUtcStr": "2025-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-08-24 08:30:00",
+      "2026-08-30 08:30:00",
+      "2027-08-29 08:30:00"
+    ]
+  },
+  {
+    "description": "33.43 IA generated: FirstFriday + 1 of September at 10:00",
+    "expression": "@every year @in september @on FirstFriday + 1 @at 10:00",
+    "baseTimeUtcStr": "2025-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-09-06 10:00:00",
+      "2026-09-05 10:00:00",
+      "2027-09-04 10:00:00"
+    ]
+  },
+  {
+    "description": "33.44 IA generated: LastFriday - 1 of October at 17:00",
+    "expression": "@every year @in october @on LastFriday - 1 @at 17:00",
+    "baseTimeUtcStr": "2025-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2025-10-30 17:00:00",
+      "2026-10-29 17:00:00",
+      "2027-10-28 17:00:00"
+    ]
+  },
+  {
+    "description": "33.45 AI generated: Clamp FirstThursday - 1 of February (never before Feb 1)",
+    "expression": "@every year @in february @on FirstThursday - 1 @at 09:00",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-02-01 09:00:00",
+      "2025-02-05 09:00:00",
+      "2026-02-04 09:00:00"
+    ]
+  },
+  {
+    "description": "33.46 AI generated: Clamp FirstMonday - 1 of February (never before Feb 1)",
+    "expression": "@every year @in february @on FirstMonday - 1 @at 09:00",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-02-04 09:00:00",
+      "2025-02-02 09:00:00",
+      "2026-02-01 09:00:00"
+    ]
+  },
+  {
+    "description": "33.47 AI generated: Clamp LastFriday + 1 of February (never after Feb end)",
+    "expression": "@every year @in february @on LastFriday + 1 @at 09:00",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-02-24 09:00:00",
+      "2025-02-28 09:00:00",
+      "2026-02-28 09:00:00"
+    ]
+  },
+  {
+    "description": "33.48 AI generated: Clamp LastMonday + 1 of February (never after Feb end)",
+    "expression": "@every year @in february @on LastMonday + 1 @at 09:00",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-02-27 09:00:00",
+      "2025-02-25 09:00:00",
+      "2026-02-24 09:00:00"
+    ]
+  },
+  {
+    "description": "33.49 AI generated: Clamp LastWeekday + 1 of February (never after Feb end)",
+    "expression": "@every year @in february @on LastWeekday + 1 @at 09:00",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-02-29 09:00:00",
+      "2025-02-28 09:00:00",
+      "2026-02-28 09:00:00"
+    ]
+  },
+  {
+    "description": "33.50 AI generated: Clamp FirstFriday - 1 of February (never before Feb 1)",
+    "expression": "@every year @in february @on FirstFriday - 1 @at 09:00",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-02-01 09:00:00",
+      "2025-02-06 09:00:00",
+      "2026-02-05 09:00:00"
+    ]
+  },
+  {
+    "description": "33.51 AI generated: Clamp FirstTuesday - 1 of February (never before Feb 1)",
+    "expression": "@every year @in february @on FirstTuesday - 1 @at 09:00",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-02-05 09:00:00",
+      "2025-02-03 09:00:00",
+      "2026-02-02 09:00:00"
+    ]
+  },
+  {
+    "description": "33.52 AI generated: Clamp LastThursday + 1 of February (never after Feb end)",
+    "expression": "@every year @in february @on LastThursday + 1 @at 09:00",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-02-29 09:00:00",
+      "2025-02-28 09:00:00",
+      "2026-02-27 09:00:00"
+    ]
+  },
+  {
+    "description": "33.53 AI generated: Clamp FirstWednesday - 1 of February (never before Feb 1)",
+    "expression": "@every year @in february @on FirstWednesday - 1 @at 09:00",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-02-06 09:00:00",
+      "2025-02-04 09:00:00",
+      "2026-02-03 09:00:00"
+    ]
+  },
+  {
+    "description": "33.54 AI generated: Clamp LastTuesday + 1 of February (never after Feb end)",
+    "expression": "@every year @in february @on LastTuesday + 1 @at 09:00",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-02-28 09:00:00",
+      "2025-02-26 09:00:00",
+      "2026-02-25 09:00:00"
+    ]
+  },
+  {
+    "description": "33.55 AI generated: ClosestWeekDayTo 29th February (leap and non-leap)",
+    "expression": "@every year @in february @on ClosestWeekDayTo 29 @at 09:00",
+    "baseTimeUtcStr": "2023-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2023-02-28 09:00:00",
+      "2024-02-29 09:00:00",
+      "2025-02-28 09:00:00"
+    ]
+  },
+  {
+    "description": "33.56 AI generated: FirstWeekday + 2 of February",
+    "expression": "@every year @in february @on FirstWeekday + 2 @at 09:00",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-02-03 09:00:00",
+      "2025-02-05 09:00:00",
+      "2026-02-04 09:00:00"
+    ]
+  },
+  {
+    "description": "33.57 AI generated: LastWeekday - 2 of February",
+    "expression": "@every year @in february @on LastWeekday - 2 @at 09:00",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-02-27 09:00:00",
+      "2025-02-26 09:00:00",
+      "2026-02-25 09:00:00"
+    ]
+  },
+  {
+    "description": "33.58 AI generated: 2ndMonday + 1 of February",
+    "expression": "@every year @in february @on 2ndMonday + 1 @at 09:00",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-02-13 09:00:00",
+      "2025-02-11 09:00:00",
+      "2026-02-10 09:00:00"
+    ]
+  },
+  {
+    "description": "33.59 AI generated: 2ndMonday - 1 of February",
+    "expression": "@every year @in february @on 2ndMonday - 1 @at 09:00",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-02-11 09:00:00",
+      "2025-02-09 09:00:00",
+      "2026-02-08 09:00:00"
+    ]
+  },
+  {
+    "description": "33.60 AI generated: Clamp FirstMonday - 2 of February (never before Feb 1)",
+    "expression": "@every year @in february @on FirstMonday - 2 @at 09:00",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-02-03 09:00:00",
+      "2025-02-01 09:00:00",
+      "2026-02-01 09:00:00"
+    ]
+  },
+  {
+    "description": "33.61 AI generated:",
+    "expression": "@every 25 min @on [monday, tuesday, friday] @between 9:00 and 10:00",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-01-01 09:00:00",
+      "2024-01-01 09:25:00",
+      "2024-01-01 09:50:00",
+      "2024-01-02 09:00:00",
+      "2024-01-02 09:25:00",
+      "2024-01-02 09:50:00",
+      "2024-01-05 09:00:00",
+      "2024-01-05 09:25:00",
+      "2024-01-05 09:50:00"
+    ]
+  },
+  {
+    "description": "33.62 IA generated: Every month on every Monday and Wednesday (Jan 2024)",
+    "expression": "@every 1 month @on [monday, wednesday]",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-01-03 00:00:00",
+      
+      "2024-02-05 00:00:00",
+      "2024-02-07 00:00:00",
+      
+      "2024-03-04 00:00:00",
+      "2024-03-06 00:00:00",
+      
+      "2024-04-01 00:00:00",
+      "2024-04-03 00:00:00",
+      
+      "2024-05-01 00:00:00",
+      "2024-05-06 00:00:00",
+      
+      "2024-06-03 00:00:00"
+    ]
+  },
+  {
+    "description": "33.63 IA generated: Every month on every Monday and Wednesday (Feb 2024)",
+    "expression": "@every 1 month @on [monday, wednesday]",
+    "baseTimeUtcStr": "2024-02-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-02-05 00:00:00",
+      "2024-02-07 00:00:00",
+      
+      "2024-03-04 00:00:00",
+      "2024-03-06 00:00:00",
+      
+      "2024-04-01 00:00:00",
+      "2024-04-03 00:00:00",
+      
+      "2024-05-01 00:00:00",
+      "2024-05-06 00:00:00",
+      
+      "2024-06-03 00:00:00",
+      "2024-06-05 00:00:00"
+    ]
+  },
+  {
+    "description": "33.64 IA generated: Every month on every Monday and Wednesday (Mar 2024)",
+    "expression": "@every 1 month @on [monday, wednesday]",
+    "baseTimeUtcStr": "2024-03-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-03-04 00:00:00",
+      "2024-03-06 00:00:00",
+      
+      "2024-04-01 00:00:00",
+      "2024-04-03 00:00:00",
+      
+      "2024-05-01 00:00:00",
+      "2024-05-06 00:00:00",
+      
+      "2024-06-03 00:00:00",
+      "2024-06-05 00:00:00",
+      
+      "2024-07-01 00:00:00",
+      "2024-07-03 00:00:00"
+    ]
+  },
+  {
+    "description": "33.65 IA generated: Every 12 months anchoredOn JANUARY @on [1stFriday, 3rdWednesday]",
+    "expression": "@every 12 months anchoredOn JANUARY @on [1stFriday, 3rdWednesday]",
+    "baseTimeUtcStr": "2024-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-01-05 00:00:00",
+      "2024-01-17 00:00:00",
+      "2025-01-03 00:00:00",
+      "2025-01-15 00:00:00",
+      "2026-01-02 00:00:00",
+      "2026-01-21 00:00:00"
+    ]
+  },
+  {
+    "description": "33.66 IA generated: Every 24 months anchoredOn JULY @on [1stFriday, 3rdWednesday]",
+    "expression": "@every 24 months anchoredOn JULY @on [1stFriday, 3rdWednesday]",
+    "baseTimeUtcStr": "2024-07-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-07-05 00:00:00",
+      "2024-07-17 00:00:00",
+      "2026-07-03 00:00:00",
+      "2026-07-15 00:00:00"
+    ]
+  },
+  {
+    "description": "33.67 IA generated: Every 12 months anchoredOn OCTOBER @on [1stFriday, 3rdWednesday]",
+    "expression": "@every 12 months anchoredOn OCTOBER @on [1stFriday, 3rdWednesday]",
+    "baseTimeUtcStr": "2024-10-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-10-04 00:00:00",
+      "2024-10-16 00:00:00",
+      "2025-10-03 00:00:00",
+      "2025-10-15 00:00:00",
+      "2026-10-02 00:00:00",
+      "2026-10-21 00:00:00"
+    ]
+  },
+  {
+    "description": "33.68 IA generated: Every 2 months anchoredOn FEBRUARY @on [1stFriday, 3rdWednesday]",
+    "expression": "@every 2 months anchoredOn FEBRUARY @on [1stFriday, 3rdWednesday]",
+    "baseTimeUtcStr": "2024-02-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-02-02 00:00:00",
+      "2024-02-21 00:00:00",
+      "2024-04-05 00:00:00",
+      "2024-04-17 00:00:00",
+      "2024-06-07 00:00:00",
+      "2024-06-19 00:00:00"
+    ]
+  },
+  {
+    "description": "33.69 IA generated: Every 3 months anchoredOn MARCH @on [1stFriday, 3rdWednesday]",
+    "expression": "@every 3 months anchoredOn MARCH @on [1stFriday, 3rdWednesday]",
+    "baseTimeUtcStr": "2024-03-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-03-20 00:00:00",
+      "2024-06-07 00:00:00",
+      "2024-06-19 00:00:00",
+      "2024-09-06 00:00:00",
+      "2024-09-18 00:00:00"
+    ]
+  },
+  {
+    "description": "33.70 IA generated: Every 4 months anchoredOn APRIL @on [1stFriday, 3rdWednesday]",
+    "expression": "@every 4 months anchoredOn APRIL @on [1stFriday, 3rdWednesday]",
+    "baseTimeUtcStr": "2024-04-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-04-05 00:00:00",
+      "2024-04-17 00:00:00",
+      "2024-08-02 00:00:00",
+      "2024-08-21 00:00:00",
+      "2024-12-06 00:00:00",
+      "2024-12-18 00:00:00"
+    ]
+  },
+  {
+    "description": "33.71 IA generated: Every 6 months anchoredOn JUNE @on [1stFriday, 3rdWednesday]",
+    "expression": "@every 6 months AnchoredOn JUNE @on [1stFriday, 3rdWednesday]",
+    "baseTimeUtcStr": "2024-06-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2024-06-07 00:00:00",
+      "2024-06-19 00:00:00",
+      "2024-12-06 00:00:00",
+      "2024-12-18 00:00:00",
+      "2025-06-06 00:00:00",
+      "2025-06-18 00:00:00"
+    ]
+  },
+  {
+    "description": "33.72 IA generated: every year on 29th Feb and on Friday",
+    "expression": "@every year @on Feb 29th 14:00 @on Friday",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2036-02-29 14:00:00",
+      "2064-02-29 14:00:00",
+      "2092-02-29 14:00:00",
+      "2104-02-29 14:00:00",
+      "2132-02-29 14:00:00",
+      "2160-02-29 14:00:00",
+      "2188-02-29 14:00:00",
+      "2228-02-29 14:00:00",
+      "2256-02-29 14:00:00",
+      "2284-02-29 14:00:00"
+    ]
+  },
+  {
+    "description": "33.73 IA generated: DST start: every year on last Sunday of March at 02:00 America/New_York",
+    "expression": "@every year @on LastSunday @on March @at 02:00 @timezone America/New_York",
+    "baseTimeUtcStr": "2023-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2023-03-26 06:00:00",
+      "2024-03-31 06:00:00",
+      "2025-03-30 06:00:00"
+    ]
+  },
+  {
+    "description": "33.74 IA generated: End-of-month: every month on 31st",
+    "expression": "@every month @on 31st",
+    "baseTimeUtcStr": "2023-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2023-01-31 00:00:00",
+      "2023-03-31 00:00:00",
+      "2023-05-31 00:00:00",
+      "2023-07-31 00:00:00",
+      "2023-08-31 00:00:00",
+      "2023-10-31 00:00:00",
+      "2023-12-31 00:00:00"
+    ]
+  },
+  {
+    "description": "33.75 IA generated: Leap year: every 4 years on 29th Feb",
+    "expression": "@every 4 years @on 29th Feb",
+    "baseTimeUtcStr": "2020-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2020-02-29 00:00:00",
+      "2024-02-29 00:00:00",
+      "2028-02-29 00:00:00",
+      "2032-02-29 00:00:00"
+    ]
+  },
+  {
+    "description": "33.75 IA generated: Overlap: every month on 1st Monday and Monday (should not duplicate)",
+    "expression": "@every month @on 1stMonday @on Monday",
+    "baseTimeUtcStr": "2023-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2023-01-02 00:00:00",
+      "2023-02-06 00:00:00",
+      "2023-03-06 00:00:00",
+      "2023-04-03 00:00:00"
+    ]
+  },
+  {
+    "description": "33.76 IA generated: Every year on last Friday of October",
+    "expression": "@every year @on lastFriday @on October",
+    "baseTimeUtcStr": "2023-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2023-10-27 00:00:00",
+      "2024-10-25 00:00:00",
+      "2025-10-31 00:00:00",
+      "2026-10-30 00:00:00",
+      "2027-10-29 00:00:00",
+      "2028-10-27 00:00:00",
+      "2029-10-26 00:00:00",
+      "2030-10-25 00:00:00",
+      "2031-10-31 00:00:00",
+      "2032-10-29 00:00:00"
+    ]
+  },
+  {
+    "description": "33.77 IA generated: Monthly recurrence with clamping (30th, starting February)",
+    "expression": "@every month @on 30th",
+    "baseTimeUtcStr": "2023-02-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2023-03-30 00:00:00",
+      "2023-04-30 00:00:00",
+      "2023-05-30 00:00:00",
+      "2023-06-30 00:00:00",
+      "2023-07-30 00:00:00",
+      "2023-08-30 00:00:00",
+      "2023-09-30 00:00:00",
+      "2023-10-30 00:00:00",
+      "2023-11-30 00:00:00",
+      "2023-12-30 00:00:00"
+    ]
+  },
+  {
+    "description": "33.78 IA generated: Weekly recurrence crossing months (Sunday)",
+    "expression": "@every week @on Sunday",
+    "baseTimeUtcStr": "2023-01-29 00:00:00",
+    "expectedDateTimeStrs": [
+      "2023-02-05 00:00:00",
+      "2023-02-12 00:00:00",
+      "2023-02-19 00:00:00",
+      "2023-02-26 00:00:00"
+    ]
+  },
+  {
+    "description": "33.79 IA generated: Daily recurrence with timezone conversion (Asia/Tokyo, 23:00 local)",
+    "expression": "@every day @at 23:00 @timezone Asia/Tokyo",
+    "baseTimeUtcStr": "2023-01-01 14:30:00",
+    "expectedDateTimeStrs": [
+      "2023-01-02 14:00:00",
+      "2023-01-03 14:00:00",
+      "2023-01-04 14:00:00",
+      "2023-01-05 14:00:00"
+    ]
+  },
+  {
+    "description": "33.80 IA generated: Recurrence with between (10th to 15th each month)",
+    "expression": "@every month @between 10th and 15th",
+    "baseTimeUtcStr": "2023-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2023-01-10 00:00:00",
+      "2023-02-10 00:00:00",
+      "2023-03-10 00:00:00",
+      "2023-04-10 00:00:00",
+      "2023-05-10 00:00:00"
+    ]
+  }
+]

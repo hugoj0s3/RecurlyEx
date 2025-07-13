@@ -1,0 +1,53 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+
+# Build results
+[Bb]uild/
+[Ll]og/
+*.log
+
+# Rider & ReSharper
+.idea/
+*.sln.iml
+*.DotSettings.user
+_ReSharper*/
+*.DotSettings
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.VC.db
+
+# NuGet
+*.nupkg
+packages/
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Others
+TestResults/
+*.dbmdl
+*.bak
+*.cache
+*.pdb
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Rider module files
+riderModule.iml
+
+# Optional: ignore local secrets
+secrets.json
+
+# Optional: ignore publish output
+publish/

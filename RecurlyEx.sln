@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecurlyEx", "RecurlyEx\RecurlyEx.csproj", "{CFF7F757-6BAD-445B-BC83-B77E215FF854}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecurlyEx.UnitTests", "RecurlyEx.UnitTests\RecurlyEx.UnitTests.csproj", "{CC0D1612-8E1E-45BD-93CC-A829F7E1E63E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CFF7F757-6BAD-445B-BC83-B77E215FF854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFF7F757-6BAD-445B-BC83-B77E215FF854}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFF7F757-6BAD-445B-BC83-B77E215FF854}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFF7F757-6BAD-445B-BC83-B77E215FF854}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC0D1612-8E1E-45BD-93CC-A829F7E1E63E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC0D1612-8E1E-45BD-93CC-A829F7E1E63E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC0D1612-8E1E-45BD-93CC-A829F7E1E63E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC0D1612-8E1E-45BD-93CC-A829F7E1E63E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
