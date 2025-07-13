@@ -374,3 +374,5 @@ Colon + ordinal day (e.g. 1st JAN 14:00)
 PS: The comma is ignored if not in brackets for multiple dates
 - `@on 1st, January` works, but not @on [1st, January]
 
+## Changelog
+See [CHANGELOG.md](./CHANGELOG.md) for release history and details.
