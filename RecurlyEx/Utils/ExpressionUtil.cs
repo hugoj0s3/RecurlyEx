@@ -1,6 +1,4 @@
-using Microsoft.Extensions.Caching.Memory;
-
-namespace RecurlyEx;
+namespace RecurlyEx.Utils;
 
 internal static class ExpressionUtil
 {
@@ -191,11 +189,13 @@ internal static class ExpressionUtil
         return TryGetValueForMatch(timeUnit, year, month, expression);
     }
     
-
-    private static readonly object NullSentinel = new object();
-    private static readonly MemoryCache TryGetValueForMatchCache = new(new MemoryCacheOptions());
-    private static readonly string MemoryCacheKeyPrefix = 
-       typeof(ExpressionUtil).Assembly.FullName + ".TryGetValueForMatchCache";
+    private static readonly RecurlyExCache TryGetValueForMatchCache = new (TimeSpan.FromMinutes(10), 10000);
+    internal class TryGetValueForMatchResult
+    {
+        public int? Value { get; set; }
+        public bool IsValid { get; set; }
+    }
+    
     internal static int? TryGetValueForMatch(RecurlyExTimeUnit timeUnit, int year, int month, string expression)
     {
         var (value, isValid) = DoTryGetValueForMatchCache(timeUnit, year, month, expression);
@@ -207,34 +207,27 @@ internal static class ExpressionUtil
         var (_, isValid) = DoTryGetValueForMatchCache(timeUnit, year, month, expression);
         return isValid;
     }
-
+    
     private static (int? value, bool isValid) DoTryGetValueForMatchCache(RecurlyExTimeUnit timeUnit, int year, int month, string expression)
     {
         var yearForCache = timeUnit == RecurlyExTimeUnit.Day ? year : 0;
         var monthForCache = timeUnit == RecurlyExTimeUnit.Day ? month : 0;
-        
-        var keyValue = $"{MemoryCacheKeyPrefix}.{timeUnit}_!{yearForCache}_!{monthForCache}_!{expression}.value";
-        var keyIsValid = $"{MemoryCacheKeyPrefix}.{timeUnit}_!{yearForCache}_!{monthForCache}_!{expression}.isValid";
-        
-        if (TryGetValueForMatchCache.TryGetValue(keyIsValid, out var isValidCached) && 
-            TryGetValueForMatchCache.TryGetValue(keyValue, out var valueCached))
+
+        var key = $"{timeUnit}_!{yearForCache}_!{monthForCache}_!{expression}";
+
+        var cached = TryGetValueForMatchCache.Get(key) as TryGetValueForMatchResult;
+        if (cached != null)
         {
-            if (ReferenceEquals(valueCached, NullSentinel))
-            {
-                return (null, (bool)(isValidCached ?? false));
-            }
-            
-            return ((int?)valueCached, (bool)(isValidCached ?? false));
+            return (cached.Value, cached.IsValid);
         }
-        
-        (var value, var isValid) = DoTryGetValueForMatch(timeUnit, year, month, expression);
-        
-        var toCache = value == null ? NullSentinel : (object)value;
-        TryGetValueForMatchCache.Set(keyValue, toCache, TimeSpan.FromMinutes(10));
-        TryGetValueForMatchCache.Set(keyIsValid, isValid, TimeSpan.FromMinutes(10));
-        
+
+        var (value, isValid) = DoTryGetValueForMatch(timeUnit, year, month, expression);
+
+        TryGetValueForMatchCache.Set(key, new TryGetValueForMatchResult { Value = value, IsValid = isValid });
+
         return (value, isValid);
     }
+
     
     private static (int? value, bool isValid) DoTryGetValueForMatch(RecurlyExTimeUnit timeUnit, int year, int month, string expression)
     {
