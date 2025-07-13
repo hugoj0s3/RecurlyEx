@@ -52,17 +52,6 @@ public class RecurlyExNextOccurrenceTests
         stopwatch.Stop();
         testOutputHelper.WriteLine($"Elapsed time: {stopwatch.ElapsedMilliseconds} ms");
         stopwatch.Elapsed.TotalMilliseconds.Should().BeLessThan(2000);
-        
-        var recurlyEx2 = RecurlyEx.Parse("@every 25 min @on friday @between 1:00pm and 03:00pm");
-
-        var nextOccurrences2 = recurlyEx2.TryGetNextOccurrencesInUtc(DateTime.Parse("2020-01-01 00:00:00"), 11);
-
-        foreach (var nextOccurrence2 in nextOccurrences2)
-        {
-            testOutputHelper.WriteLine(nextOccurrence2.ToString("dddd, dd MMMM yyyy HH:mm:ss"));
-        }
-        
-        testOutputHelper.WriteLine(new DateTime(2132, 2, 29).ToString("dddd, dd MMMM yyyy HH:mm:ss"));
     }
     
     public static IEnumerable<object[]> LoadNextOccurrenceTestCases()
