@@ -1,5 +1,22 @@
 # RecurlyEx
-RecurlyEx is a library for scheduling recurring events in a easy and human readable way.
+RecurlyEx is a C# library for scheduling recurring events using easy-to-read, natural language–inspired expressions.
+It's like cron, but readable.
+
+🔁 Examples of expressions you can write:
+
+- @every day @at 9:00am
+- @every week @on [Tuesday, Thursday] @at 18:00
+- @every month @on ClosestWeekdayTo 6th
+- @every 25 seconds @between 1:20pm and 01:22pm
+
+## ✨ Features
+
+- Human-readable cron-like recurrence
+- Powerful `@between`, `@upto`, `@from` filtering
+- Closest weekday, first/last day handling
+- Time zone support with IANA TZ names
+- Friendly aliases (`@daily`, `@hourly`, etc.)
+
 
 ## Installation
 ```bash
@@ -10,17 +27,20 @@ dotnet add package RecurlyEx
 ```csharp
 using RecurlyEx;
 
-var recurlyEx = 
-    RecurlyEx.Parse("@every 25 min @on friday @between 1:00pm and 03:00pm");
+// Define a recurrence rule using natural language
+var recurlyEx = RecurlyEx.Parse("@every 25 min @on friday @between 1:00pm and 03:00pm");
 
-var nextOccurrences = 
-    recurlyEx.TryGetNextOccurrencesInUtc(DateTime.Parse("2020-01-01 00:00:00"), 11);
+// Get the next 11 occurrences starting from Jan 1, 2020
+var nextOccurrences = recurlyEx.TryGetNextOccurrencesInUtc(
+    DateTime.Parse("2020-01-01 00:00:00"), 11
+);
 
 foreach (var nextOccurrence in nextOccurrences)
 {
-    Console.WriteLine(nextOccurrence.ToString("dddd, dd MMMM yyyy HH:mm:ss")); ;
+    Console.WriteLine(nextOccurrence.ToString("dddd, dd MMMM yyyy HH:mm:ss"));
 }
 
+/*
 Output:
 Friday, 03 January 2020 13:00:00
 Friday, 03 January 2020 13:25:00
@@ -33,6 +53,7 @@ Friday, 10 January 2020 13:50:00
 Friday, 10 January 2020 14:15:00
 Friday, 10 January 2020 14:40:00
 Friday, 17 January 2020 13:00:00
+*/
 ```
 
 ## Supported Recurrence Expression Syntax
@@ -106,14 +127,14 @@ For multiple uses bracket the time units and numbers:
 - `@in [<time-unit> <number>, ...]`
 - `@at [<time-unit> <number>, ...]`
 **Examples:**
-- `@on day 10` — on the 10th day of the month or use `@on 10th`
-- `@in month 10` — in the december or use `@in december` or `@in dec`
+- `@on day 10` — on the 10th day of the month or just `@on 10th`
+- `@in month 10` — in december or use `@in december` or `@in dec`
 - `@at hour 10 @at minute 30` — at the 10th day of the month or use `@at 10:30am`
 
 **Examples:**
 - `@on [day 1, day 20, day 30]` or `@on [1st, 20th, 30th]` — on the 1st, 20th, and 30th days of the month
 - `@at [10:00pm, 12:00am]` or `@at [22:00, 00:00]` — - `@at [10:00pm, 12:00am]` or `@at [22:00, 00:00]` — If neither `am` nor `pm` is specified, the time will be interpreted using 24-hour notation by default.
-- `@on [friday, saturday]` or `@on [fri, sat]` — on friday or saturday
+- `@on [friday, saturday]` or `@on [fri, sat]` — on Friday or Saturday
 
 **Special Days**
 
@@ -188,8 +209,6 @@ For multiple uses bracket the time units and numbers:
     - `@on LastDay - 1` — matches the day before the last day of the month (i.e., the second-to-last day).
     - `@on FirstDay + 2` — matches the third day of the month.
 It never crosses month boundaries, e.g `@on FirstDay + 31` it will match the last day of the month. or `@on LastDay - 31` it will match the first day of the month.
-
-
 
 **Note:**  
 The recurrence engine does not make a strict distinction between `@on`, `@at`, and `@in` when used in expressions. 
