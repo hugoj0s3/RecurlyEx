@@ -19,17 +19,21 @@
         <RepositoryUrl>https://github.com/hugoj0s3/RecurlyEx</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageIconUrl>https://raw.githubusercontent.com/hugoj0s3/RecurlyEx/main/logo.png</PackageIconUrl>
         <Copyright>Copyright © 2025 Hugo Silva</Copyright>
         <PackageTags>recurrence;cron;schedule;scheduling;natural-language;dotnet;csharp</PackageTags>
         <PackageReleaseNotes>Initial public release.</PackageReleaseNotes>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <IsPackable>true</IsPackable>
+        <PackageReadmeFile>RecurlyEx.NuGet.README.md</PackageReadmeFile>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.7" />
         <PackageReference Include="TimeZoneConverter" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="RecurlyEx.NuGet.README.md" Pack="true" PackagePath="" />
     </ItemGroup>
 
 </Project>
