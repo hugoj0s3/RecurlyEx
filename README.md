@@ -2,6 +2,10 @@
 RecurlyEx is a C# library for scheduling recurring events using easy-to-read, natural language–inspired expressions.
 It's like cron, but readable.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+![.NET](https://github.com/hugoj0s3/RecurlyEx/actions/workflows/dotnet.yml/badge.svg)
+
+
 🔁 Examples of expressions you can write:
 
 - @every day @at 9:00am
