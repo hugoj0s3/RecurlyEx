@@ -58,6 +58,8 @@ Friday, 17 January 2020 13:00:00
 */
 ```
 
+Want to test it right now? [Try on .NET Fiddle 🚀](https://dotnetfiddle.net/Jkj6Dr)
+
 ## Supported Recurrence Expression Syntax
 
 ### `@every` — Main Recurrence Interval
