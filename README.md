@@ -2,6 +2,10 @@
 RecurlyEx is a C# library for scheduling recurring events using easy-to-read, natural language–inspired expressions.
 It's like cron, but readable.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+![.NET](https://github.com/hugoj0s3/RecurlyEx/actions/workflows/dotnet.yml/badge.svg)
+
+
 🔁 Examples of expressions you can write:
 
 - @every day @at 9:00am
@@ -25,10 +29,10 @@ dotnet add package RecurlyEx
 
 ## Usage
 ```csharp
-using RecurlyEx;
+using System;
 
 // Define a recurrence rule using natural language
-var recurlyEx = RecurlyEx.Parse("@every 25 min @on friday @between 1:00pm and 03:00pm");
+var recurlyEx = RecurlyEx.RecurlyEx.Parse("@every 25 min @on friday @between 1:00pm and 03:00pm");
 
 // Get the next 11 occurrences starting from Jan 1, 2020
 var nextOccurrences = recurlyEx.TryGetNextOccurrencesInUtc(
@@ -39,6 +43,8 @@ foreach (var nextOccurrence in nextOccurrences)
 {
     Console.WriteLine(nextOccurrence.ToString("dddd, dd MMMM yyyy HH:mm:ss"));
 }
+
+
 
 /*
 Output:
@@ -55,6 +61,8 @@ Friday, 10 January 2020 14:40:00
 Friday, 17 January 2020 13:00:00
 */
 ```
+
+Want to test it right now? [Try on .NET Fiddle 🚀](https://dotnetfiddle.net/Jkj6Dr)
 
 ## Supported Recurrence Expression Syntax
 
@@ -252,13 +260,13 @@ The `@upto` and `@from` rules allow you to restrict occurrences to only those be
 
 **Examples:**
 - `@every 10 secs @upto 1:00pm`  
-  Matches every 10 seconds, including 1:00pm, but only up to and including 1:00pm each day.
+  Matches every 10 seconds, including 1:00pm, but only up to and including 1:00pm each 10 seconds.
 - `@every minute @from 18:00`  
-  Matches every minute, including 6:00pm, and all times after on each day.
+  Matches every minute, including 6:00pm, and all times after on each minute.
 - `@every day @upto 15th`  
   Matches all days up to and including the 15th of each month.
 - `@every hour @from 09:00`  
-  Matches every hour, starting from and including 9:00am each day.
+  Matches every hour, starting from and including 9:00am each hour.
 
 **Notes:**
 - The boundary value itself is included; for example, `@upto 1:00pm` matches up to and including 1:00pm.
