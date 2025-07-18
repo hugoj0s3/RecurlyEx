@@ -62,7 +62,7 @@ Friday, 17 January 2020 13:00:00
 */
 ```
 
-Want to test it right now? [Try on .NET Fiddle 🚀](https://dotnetfiddle.net/Jkj6Dr)
+Want to test it right now? [Try on .NET Fiddle 🚀](https://dotnetfiddle.net/OavnHQ)
 
 ## Supported Recurrence Expression Syntax
 
