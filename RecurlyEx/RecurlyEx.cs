@@ -158,10 +158,28 @@ public class RecurlyEx
         // 4. If still not after base time, advance by the minimum non-everyX unit
         if (localNextOccurrence <= localBaseTime)
         {
-            var minAdvanceUnit = Rules.Where(x => x is not RecurlyExEveryXRule)
-                .OrderBy(x => x.TimeUnit)
-                .First().TimeUnit;
+            var matchableRules = this.Rules.OfType<RecurlyExMatchableRule>().ToList();
+            
+            // 1. Filter out all between rules from matchableRules
+            var nonBetweenRules = matchableRules
+                .Where(x => x is not RecurlyExBetweenRule && x is not RecurlyExBetweenMultiplesRule);
 
+            // 2. Add between rules that do NOT match localNextOccurrence
+            var unmatchedBetweenRules = matchableRules
+                .Where(x => x is RecurlyExBetweenRule b || x is RecurlyExBetweenMultiplesRule)
+                .Where(x => !x.Match(localNextOccurrence))
+                .ToList();
+
+            // 3. Combine all candidates
+            var allCandidates = nonBetweenRules
+                .Concat(unmatchedBetweenRules);
+
+            // 4. Find the minimum TimeUnit
+            var minAdvanceUnit = allCandidates
+                .OrderBy(x => x.TimeUnit)
+                .First()
+                .TimeUnit;
+            
             if (minAdvanceUnit == RecurlyExTimeUnit.Week)
             {
                 minAdvanceUnit = RecurlyExTimeUnit.Day;
@@ -407,17 +425,6 @@ public class RecurlyEx
                         (x is RecurlyExAtInOnMultiplesRule m && m.HasTimeUnit(everyTimeUnit))))
                 {
                     errors.Add("You cannot use an At/On/In rules at the same time unit as an 'every X' rule except for week.");
-                    return errors;
-                }
-            }
-
-            if (everyTimeUnit == RecurlyExTimeUnit.Day)
-            {
-                if (Rules.Any(x =>
-                        (x.TimeUnit == RecurlyExTimeUnit.Week && x is RecurlyExAtInOnRule) ||
-                        (x is RecurlyExAtInOnMultiplesRule m && m.HasTimeUnit(RecurlyExTimeUnit.Week))))
-                {
-                    errors.Add("You cannot combine an 'every day' rule with an At/On/In rule for weeks.");
                     return errors;
                 }
             }

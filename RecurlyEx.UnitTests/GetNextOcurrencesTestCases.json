@@ -2152,5 +2152,52 @@
       "2023-04-10 00:00:00",
       "2023-05-10 00:00:00"
     ]
+  },
+  {
+    "description": "33.81 IA generated: Every day with on weekday rule and recurrence with between (1:00pm and 03:00pm each day)",
+    "expression": "@every day @on [friday, tuesday] @between 1:00pm and 03:00pm",
+    "baseTimeUtcStr": "2023-01-01 00:00:00",
+    "expectedDateTimeStrs": [
+      "2023-01-03 13:00:00",
+      "2023-01-06 13:00:00",
+      "2023-01-10 13:00:00",
+      "2023-01-13 13:00:00",
+      "2023-01-17 13:00:00"
+    ]
+  },
+  {
+    "description": "33.82 IA generated: Recurrence with between",
+    "expression": "@every week @on [friday, tuesday] @between 1:00pm and 03:00pm",
+    "baseTimeUtcStr": "2023-01-01 14:00:00",
+    "expectedDateTimeStrs": [
+      "2023-01-03 14:00:00",
+      "2023-01-06 14:00:00",
+      "2023-01-10 14:00:00",
+      "2023-01-13 14:00:00",
+      "2023-01-17 14:00:00"
+    ]
+  },
+  {
+    "description": "33.83 IA generated: ",
+    "expression": "@every week @between 1:00pm and 03:00pm",
+    "baseTimeUtcStr": "2023-01-01 11:00:00",
+    "expectedDateTimeStrs": [
+      "2023-01-01 13:00:00",
+      "2023-01-08 13:00:00",
+      "2023-01-15 13:00:00",
+      "2023-01-22 13:00:00",
+      "2023-01-29 13:00:00"
+    ]
+  },
+  {
+    "description": "33.84 IA generated: ",
+    "expression": "@every week @between 1:00pm and 03:00pm",
+    "baseTimeUtcStr": "2023-01-01 14:00:00",
+    "expectedDateTimeStrs": [
+      "2023-01-08 14:00:00",
+      "2023-01-15 14:00:00",
+      "2023-01-22 14:00:00",
+      "2023-01-29 14:00:00"
+    ]
   }
 ]
