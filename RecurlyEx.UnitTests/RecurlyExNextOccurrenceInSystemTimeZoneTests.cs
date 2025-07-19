@@ -67,7 +67,7 @@ public class RecurlyExNextOccurrenceInSystemTimeZoneTests
     public void TryGetNextOccurrence_NoResult_ReturnsNull()
     {
         var recurlyEx = RecurlyEx.Parse("daily at 14:00");
-        var baseTime = new DateTime(2024, 1, 1, 10, 0, 0, DateTimeKind.Local);
+        var baseTime = new DateTime(2024, 1, 1, 10, 0, 0);
         var maxLookahead = baseTime.AddHours(1); // Not enough time to find 14:00
         
         var result = recurlyEx.TryGetNextOccurrence(baseTime, maxLookahead);
@@ -79,7 +79,7 @@ public class RecurlyExNextOccurrenceInSystemTimeZoneTests
     public void GetNextOccurrence_WithTokyoTimezone_CalculatesInTokyoReturnsLocal()
     {
         var recurlyEx = RecurlyEx.Parse("daily at 09:00 tz Asia/Tokyo");
-        var baseTime = new DateTime(2024, 1, 1, 15, 0, 0, DateTimeKind.Local);
+        var baseTime = new DateTime(2024, 1, 1, 15, 0, 0);
         
         var result = recurlyEx.GetNextOccurrence(baseTime);
         
@@ -99,7 +99,7 @@ public class RecurlyExNextOccurrenceInSystemTimeZoneTests
     public void GetNextOccurrences_ThrowsWhenNotEnoughOccurrences()
     {
         var recurlyEx = RecurlyEx.Parse("daily at 14:00");
-        var baseTime = new DateTime(2024, 1, 1, 10, 0, 0, DateTimeKind.Local);
+        var baseTime = new DateTime(2024, 1, 1, 10, 0, 0);
         var maxLookahead = baseTime.AddHours(1); // Not enough time to find any occurrences
         
         var action = () => recurlyEx.GetNextOccurrences(baseTime, 5, maxLookahead);
