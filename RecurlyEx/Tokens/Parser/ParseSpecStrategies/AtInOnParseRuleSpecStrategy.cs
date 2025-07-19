@@ -30,7 +30,7 @@ internal class AtInOnParseRuleSpecStrategy : ParseRuleSpecStrategy
             if (timeUnit.TimeUnit == RecurlyExTimeUnitAndUnknown.Unknown)
             {
                 var error = string.IsNullOrEmpty(timeUnit.Error)
-                    ? "Invalid at/In/On expression. start and end must have known time units" : timeUnit.Error;
+                    ? "Invalid @at/@In/@On expression. start and end must have known time units" : timeUnit.Error;
                 errors.Add(error);
                 return (atInOnRules, errors);
             }
@@ -120,7 +120,7 @@ internal class AtInOnParseRuleSpecStrategy : ParseRuleSpecStrategy
         var maxValueLength = atInOnMultipleValues.Values.Max(x => x.Count);
         if (atInOnMultipleValues.Values.Any(x => x.Count != maxValueLength))
         {
-            var error = "Invalid at, on, in expression. Multiple values must have the same number of time units";
+            var error = "Invalid @at, @on, @in expression. Multiple values must have the same number of time units";
             return (new List<RecurlyExRule>(), new List<string>() { error });
         }
 
@@ -128,7 +128,7 @@ internal class AtInOnParseRuleSpecStrategy : ParseRuleSpecStrategy
         {
             return (new List<RecurlyExRule>(), new List<string>()
             {
-                "Invalid at, on, in expression. Multiple values must have known time units"
+                "Invalid @at, @on, @in expression. Multiple values must have known time units"
             });
         }
         

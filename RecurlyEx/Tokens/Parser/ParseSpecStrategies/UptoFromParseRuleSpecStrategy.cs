@@ -14,22 +14,20 @@ internal class UptoFromParseRuleSpecStrategy : ParseRuleSpecStrategy
         var firstToken = tokens.First();
         if (tokens.Count < 2)
         {
-            return (new List<RecurlyExRule>(), "Invalid upto or from expression".AsList());
+            return (new List<RecurlyExRule>(), "Invalid @upto or @from expression".AsList());
         }
         
         var timeUnits = TokenParserUtil.ParseTimeUnitValues(tokens.Skip(1).ToList());
         if (timeUnits.Count < 1)
         { 
-           return (new List<RecurlyExRule>(), "Invalid upto or from expression".AsList());
+           return (new List<RecurlyExRule>(), "Invalid @upto or @from expression".AsList());
         }
         
         var betweenRule = new RecurlyExBetweenRule()
         {
             FullExpression = TokenParserUtil.JoinTokens(tokens),
         };
-        
-        var firstTokenLower = firstToken.Value.ToLower();
-        var isUpto = firstTokenLower == "@upto" || firstTokenLower == "upto";
+        var isUpto = firstToken.Value.ToLower() == "@upto";
         for (var i = timeUnits.Count - 1; i >= 0; i--)
         {
             var timeUnit = timeUnits[i];
@@ -37,7 +35,7 @@ internal class UptoFromParseRuleSpecStrategy : ParseRuleSpecStrategy
             if (timeUnit.TimeUnit == RecurlyExTimeUnitAndUnknown.Unknown)
             {
                 var error = string.IsNullOrEmpty(timeUnit.Error)
-                    ? "Invalid between expression. start and end must have known time units" : timeUnit.Error;
+                    ? "Invalid @between expression. start and end must have known time units" : timeUnit.Error;
                 return (new List<RecurlyExRule>(), error.AsList());
             }
             

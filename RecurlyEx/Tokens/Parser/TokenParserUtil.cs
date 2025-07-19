@@ -14,86 +14,80 @@ internal static class TokenParserUtil
         GroupedRuleSpec? currentGroupSpec = null;
         foreach (var token in tokens)
         {
-            var firstTokenLower = token.Value.ToLower();
-            if (firstTokenLower.StartsWith("@"))
+            switch (token.Value.ToLower())
             {
-                firstTokenLower = firstTokenLower.Substring(1);
-            }
-            
-            switch (firstTokenLower)
-            {
-                case "yearly":
+                case "@yearly":
                     currentGroupSpec = new GroupedRuleSpec()
                     {
                         Type = RuleSpecType.Yearly
                     };
 
                     break;
-                case "monthly":
+                case "@monthly":
                     currentGroupSpec = new GroupedRuleSpec()
                     {
                         Type = RuleSpecType.Monthly
                     };
                     break;
-                case "weekly":
+                case "@weekly":
                     currentGroupSpec = new GroupedRuleSpec()
                     {
                         Type = RuleSpecType.Weekly
                     };
                     break;
-                case "daily":
+                case "@daily":
                     currentGroupSpec = new GroupedRuleSpec()
                     {
                         Type = RuleSpecType.Daily
                     };
                     break;
-                case "hourly":
+                case "@hourly":
                     currentGroupSpec = new GroupedRuleSpec()
                     {
                         Type = RuleSpecType.Hourly
                     };
                     break;
-                case "minutely":
+                case "@minutely":
                     currentGroupSpec = new GroupedRuleSpec()
                     {
                         Type = RuleSpecType.Minutely
                     };
                     break;
-                case "secondly":
+                case "@secondly":
                     currentGroupSpec = new GroupedRuleSpec()
                     {
                         Type = RuleSpecType.Secondly
                     };
                     break;
-                case "every":
+                case "@every":
                     currentGroupSpec = new GroupedRuleSpec()
                     {
                         Type = RuleSpecType.EveryX
                     };
                     break;
-                case "between":
+                case "@between":
                     currentGroupSpec = new GroupedRuleSpec()
                     {
                         Type = RuleSpecType.Between
                     };
                     break;
-                case "tz":
-                case "timezone":
+                case "@tz":
+                case "@timezone":
                     currentGroupSpec = new GroupedRuleSpec()
                     {
                         Type = RuleSpecType.TimeZone
                     };
                     break;
-                case "at":
-                case "on":
-                case "in":
+                case "@at":
+                case "@on":
+                case "@in":
                     currentGroupSpec = new GroupedRuleSpec()
                     {
                         Type = RuleSpecType.AtInOn
                     };
                     break;
-                case "upto":
-                case "from":
+                case "@upto":
+                case "@from":
                     currentGroupSpec = new GroupedRuleSpec()
                     {
                         Type = RuleSpecType.UptoOrFrom

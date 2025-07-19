@@ -9,18 +9,18 @@ using Xunit.Sdk;
 namespace RecurlyEx.UnitTests;
 
 [TestCaseOrderer("RecurlyEx.UnitTests.NumberCaseOrderer", "RecurlyEx.UnitTests")]
-public class RecurlyExNextOccurrenceInUtcTests
+public class RecurlyExNextOccurrenceTests
 {
     private readonly ITestOutputHelper testOutputHelper;
 
-    public RecurlyExNextOccurrenceInUtcTests(ITestOutputHelper testOutputHelper)
+    public RecurlyExNextOccurrenceTests(ITestOutputHelper testOutputHelper)
     {
         this.testOutputHelper = testOutputHelper;
     }
 
     [Theory]
     [MemberData(nameof(LoadNextOccurrenceTestCases))]
-    public void GetNextOccurrencesInUtc_ValidExpressions_Success(
+    public void GetNextOccurrences_ValidExpressions_Success(
         string description, 
         string expression, 
         string baseTimeUtcStr,
@@ -76,12 +76,8 @@ public class RecurlyExNextOccurrenceInUtcTests
             throw new Exception($"Failed to deserialize {resourceName}");
         }
         
-        var testCasesWithoutAmpersat = cases
-            .Select(x => new object[] { x.Description.Replace("@", " ") + " Without ampersat", x.Expression.Replace("@", " "), x.BaseTimeUtcStr, x.ExpectedDateTimeStrs });
-        var testCasesWithAmpersat = cases
-            .Select(x => new object[] { x.Description + " With ampersat", x.Expression, x.BaseTimeUtcStr, x.ExpectedDateTimeStrs });
-        
-        return testCasesWithoutAmpersat.Concat(testCasesWithAmpersat);
+        return cases
+            .Select(x => new object[] { x.Description, x.Expression, x.BaseTimeUtcStr, x.ExpectedDateTimeStrs });
     }
     
     private class NextOccurrenceTestCase

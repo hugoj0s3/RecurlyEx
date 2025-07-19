@@ -16,10 +16,10 @@ It's like cron, but readable.
 ## ✨ Features
 
 - Human-readable cron-like recurrence
-- Powerful `between`, `upto`, `from`, and more filtering
+- Powerful `@between`, `@upto`, `@from` filtering
 - Closest weekday, first/last day handling
 - Time zone support with IANA TZ names
-- Friendly aliases (`daily`, `hourly`, etc.)
+- Friendly aliases (`@daily`, `@hourly`, etc.)
 
 
 ## Installation
@@ -32,7 +32,7 @@ dotnet add package RecurlyEx
 using System;
 
 // Define a recurrence rule using natural language
-var recurlyEx = RecurlyEx.RecurlyEx.Parse("every 25 min on friday between 1:00pm and 03:00pm");
+var recurlyEx = RecurlyEx.RecurlyEx.Parse("@every 25 min @on friday @between 1:00pm and 03:00pm");
 
 // Get the next 11 occurrences starting from Jan 1, 2020
 var nextOccurrences = recurlyEx.TryGetNextOccurrencesInUtc(
@@ -65,17 +65,14 @@ Friday, 17 January 2020 13:00:00
 Want to test it right now? [Try on .NET Fiddle 🚀](https://dotnetfiddle.net/OavnHQ)
 
 ## Supported Recurrence Expression Syntax
-We support the rules every, on, in, at, between, upto, and from. 
-The @ is optional, e.g @every day @at 9:00am or every day at 9:00am both work in the same way.
-We can use if want highlight the rules separately, but it is not required.
 
-### `@every` or `every` — Main Recurrence Interval
+### `@every` — Main Recurrence Interval
 
 Defines how often the recurrence happens.  
 The interval must be a positive integer, and the time unit must be one of the supported units.
 
 **Syntax:**
-- `every <number> <time-unit>`
+- `@every <number> <time-unit>`
 
 **Examples:**
 - `@every day` — every day
@@ -108,13 +105,13 @@ This is especially useful for business, fiscal, or seasonal schedules that must 
 
 In addition to the `@every` rule, you can use shortcut keywords for common intervals:
 
-- `@secondly` or `secondly`
-- `@minutely` or `minutely`
-- `@hourly` or `hourly`
-- `@daily` or `daily`
-- `@weekly` or `weekly`
-- `@monthly` or `monthly`
-- `@yearly` or `yearly`
+- `@secondly`
+- `@minutely`
+- `@hourly`
+- `@daily`
+- `@weekly`
+- `@monthly`
+- `@yearly`
 
 These are equivalent to `@every 1 <time-unit>` and can be used anywhere you would use `@every`.  
 For example:
@@ -123,7 +120,7 @@ For example:
 
 You can use these shortcuts for more concise and readable recurrence expressions.
 
-### `@on`, `@in`, `@at` or `on`, `in`, `at` — Specific Occurrences
+### `@on`, `@in`, `@at` — Specific Occurrences
 
 Defines when the recurrence happens.  
 The interval must be a positive integer, and the time unit must be one of the supported units.
@@ -226,7 +223,7 @@ The recurrence engine does not make a strict distinction between `@on`, `@at`, a
 All three keywords are treated equivalently for specifying time units, even if this sometimes results in expressions that sound like broken English. 
 This design choice is for flexibility and ease of parsing, so you can use whichever keyword feels most natural in your context.
 
-### `@between` or `between` Between Rules
+### `@between` Between Rules
 
 The `@between` rule allows you to restrict occurrences to a specific range—such as a range of days in the month, times within a day, or other supported units.
 
@@ -251,7 +248,7 @@ The `@between` rule allows you to restrict occurrences to a specific range—suc
 - `@between` can be combined with other rules (such as `@on`, `@at`, etc.) for more precise filtering.
 
 
-### `@upto` and `@from` or `upto` and `from` Rules
+### Upto and From Rules
 
 The `@upto` and `@from` rules allow you to restrict occurrences to only those before or after a specific point (such as a time, day, or other supported unit), relative to the recurrence interval.
 
@@ -282,12 +279,12 @@ You can specify the time zone for your recurrence expressions using either `@tim
 This ensures that all date and time calculations are made in the specified IANA time zone, rather than the default (usually UTC).
 
 **Syntax:**
-- `@timezone <IANA-timezone>` or `timezone <IANA-timezone>`
-- `@tz <IANA-timezone>` or `tz <IANA-timezone>`
+- `@timezone <IANA-timezone>`
+- `@tz <IANA-timezone>`
 
 **Examples:**
-- `@every day @at 09:00 @timezone America/New_York` or `every day at 09:00 tz America/New_York`
-- `@monthly @on 1st @tz Asia/Tokyo` or `monthly on 1st tz Asia/Tokyo`
+- `@every day @at 09:00 @timezone America/New_York`
+- `@monthly @on 1st @tz Asia/Tokyo`
 
 **Notes:**
 - The engine uses IANA time zone names (e.g., `America/Los_Angeles`, `Europe/London`).

@@ -2,7 +2,7 @@ namespace RecurlyEx.Tokens;
 
 public enum RecurlyExTokenType
 {
-    // every, between, at, on, in, tz, timezone
+    // @every, @between, @at, @on, @in, @tz, @timezone
     RuleSpec = 1,
     
     Anchored,

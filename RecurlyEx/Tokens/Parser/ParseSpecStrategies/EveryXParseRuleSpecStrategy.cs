@@ -13,7 +13,7 @@ internal class EveryXParseRuleSpecStrategy : ParseRuleSpecStrategy
         var tokens = TokenParserUtil.RemoveWhitespaceAndIgnoredTokens(groupedRuleSpec.Tokens);
         if (tokens.Count < 2)
         {
-            return (new List<RecurlyExRule>(), "Invalid every expression".AsList());
+            return (new List<RecurlyExRule>(), "Invalid @every expression".AsList());
         }
 
         var everyTimeUnit = tokens.Count > 2
@@ -35,16 +35,16 @@ internal class EveryXParseRuleSpecStrategy : ParseRuleSpecStrategy
                 return (recurlyExRuleEveryX.AsList<RecurlyExRule>(), new List<string>());
             }
             
-            return (new List<RecurlyExRule>(), "Invalid every expression".AsList());
+            return (new List<RecurlyExRule>(), "Invalid @every expression".AsList());
         }
 
-        // every 1 day or every day 
+        // @every 1 day or @every day 
         var value = 1;
         if (tokens.Count > 2 && tokens[2].Type == RecurlyExTokenType.TimeUnit)
         {
             if (!int.TryParse(tokens[1].Value, out value))
             {
-                return (new List<RecurlyExRule>(), "Invalid every expression".AsList());
+                return (new List<RecurlyExRule>(), "Invalid @every expression".AsList());
             }
         }
 

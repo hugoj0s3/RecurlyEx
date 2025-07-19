@@ -26,13 +26,13 @@ public class RecurlyExEveryXRule : RecurlyExRule
     /// <summary>
     /// An anchored recurrence is a repeating schedule that always aligns with a specific value within the time unit.
     /// For example:
-    ///   - `every 2 months AnchoredOn Feb` means the recurrence will happen in February, April, June, August, October, December, etc.
-    ///   - `every 3 months AnchoredOn Feb` means the recurrence will happen in February, May, August, November, and so on—always anchored to February.
+    ///   - `@every 2 months AnchoredOn Feb` means the recurrence will happen in February, April, June, August, October, December, etc.
+    ///   - `@every 3 months AnchoredOn Feb` means the recurrence will happen in February, May, August, November, and so on—always anchored to February.
     /// 
     /// When using an anchored value (e.g., `AnchoredOn Feb` for months), the recurrence interval must be a divisor of the time unit's total length
     /// (e.g., 12 for months, 60 for minutes) to ensure that the anchor is always hit consistently.
-    /// Example: `every 3 months AnchoredOn Feb` is valid because every 3 months from February will always include February in the cycle.
-    /// Example: `every 5 months AnchoredOn Feb` is NOT valid, as 5 does not divide 12, so February will not always be included.
+    /// Example: `@every 3 months AnchoredOn Feb` is valid because every 3 months from February will always include February in the cycle.
+    /// Example: `@every 5 months AnchoredOn Feb` is NOT valid, as 5 does not divide 12, so February will not always be included.
     /// Although we will not have any exception if this condition is not met, the anchor behavior will be inconsistent and unintuitive.
     /// </summary>
     public string? AnchoredValue { get; internal set; }

@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using RecurlyEx.Tokens;
 using RecurlyEx.Rules;
@@ -62,12 +62,47 @@ public class RecurlyEx
         {
             TimeUnit = RecurlyExTimeUnit.TimeZone, IanaId = "Etc/UTC"
         };
-    /// <summary>
-    /// Tries to get the next occurrence in UTC. Returns null if no occurrence is found within the specified lookahead period.
-    /// </summary>
-    /// <param name="utcBaseTime">The base time in UTC from which to find the next occurrence</param>
-    /// <param name="utcMaxLookahead">Maximum lookahead time in UTC. If null, defaults to DateTime.MaxValue</param>
-    /// <returns>The next occurrence in UTC, or null if no occurrence is found</returns>
+
+    public IList<DateTime> GetNextOccurrencesInUtc(DateTime utcBaseTime, int count, DateTime? utcMaxLookahead = null)
+    {
+        var result = TryGetNextOccurrencesInUtc(utcBaseTime, count, utcMaxLookahead);
+        if (result.Count < count)
+        {
+            throw new InvalidOperationException("Not enough occurrences found");
+        }
+
+        return result;
+    }
+
+    public IList<DateTime> TryGetNextOccurrencesInUtc(DateTime utcBaseTime, int count, DateTime? utcMaxLookahead = null)
+    {
+        var result = new List<DateTime>();
+        for (var i = 0; i < count; i++)
+        {
+            var nextOccurrence = TryGetNextOccurrenceInUtc(utcBaseTime, utcMaxLookahead);
+            if (nextOccurrence == null)
+            {
+                break;
+            }
+
+            result.Add(nextOccurrence.Value);
+            utcBaseTime = nextOccurrence.Value;
+        }
+
+        return result;
+    }
+
+    public DateTime GetNextOccurrenceInUtc(DateTime utcBaseTime, DateTime? utcMaxLookahead = null)
+    {
+        var nextOccurrence = TryGetNextOccurrenceInUtc(utcBaseTime, utcMaxLookahead);
+        if (nextOccurrence == null)
+        {
+            throw new InvalidOperationException("No next occurrence found");
+        }
+
+        return nextOccurrence.Value;
+    }
+
     public DateTime? TryGetNextOccurrenceInUtc(DateTime utcBaseTime, DateTime? utcMaxLookahead = null)
     {
         // 1. Normalize input
@@ -162,152 +197,6 @@ public class RecurlyEx
         // 6. Return UTC if match found
         return hasMatch ? TimeZoneRule().ConvertToUtc(localNextOccurrence) : (DateTime?)null;
     }
-    
-    /// <summary>
-    /// Gets the next occurrence in UTC. Throws an exception if no occurrence is found within the specified lookahead period.
-    /// </summary>
-    /// <param name="utcBaseTime">The base time in UTC from which to find the next occurrence</param>
-    /// <param name="utcMaxLookahead">Maximum lookahead time in UTC. If null, defaults to DateTime.MaxValue</param>
-    /// <returns>The next occurrence in UTC</returns>
-    /// <exception cref="InvalidOperationException">Thrown when no next occurrence is found</exception>
-    public DateTime GetNextOccurrenceInUtc(DateTime utcBaseTime, DateTime? utcMaxLookahead = null)
-    {
-        var nextOccurrence = TryGetNextOccurrenceInUtc(utcBaseTime, utcMaxLookahead);
-        if (nextOccurrence == null)
-        {
-            throw new InvalidOperationException("No next occurrence found");
-        }
-
-        return nextOccurrence.Value;
-    }
-    
-    /// <summary>
-    /// Tries to get the next occurrences in UTC. Returns as many occurrences as found, up to the specified count.
-    /// Stops when no more occurrences are found or the count is reached.
-    /// </summary>
-    /// <param name="utcBaseTime">The base time in UTC from which to find the next occurrences</param>
-    /// <param name="count">The number of occurrences to retrieve</param>
-    /// <param name="utcMaxLookahead">Maximum lookahead time in UTC. If null, defaults to DateTime.MaxValue</param>
-    /// <returns>A list of occurrences in UTC (may contain fewer than the requested count)</returns>
-    public IList<DateTime> TryGetNextOccurrencesInUtc(DateTime utcBaseTime, int count, DateTime? utcMaxLookahead = null)
-    {
-        var result = new List<DateTime>();
-        for (var i = 0; i < count; i++)
-        {
-            var nextOccurrence = TryGetNextOccurrenceInUtc(utcBaseTime, utcMaxLookahead);
-            if (nextOccurrence == null)
-            {
-                break;
-            }
-
-            result.Add(nextOccurrence.Value);
-            utcBaseTime = nextOccurrence.Value;
-        }
-
-        return result;
-    }
-    
-    /// <summary>
-    /// Gets the next occurrences in UTC. Throws an exception if fewer occurrences than requested are found.
-    /// Use TryGetNextOccurrencesInUtc if you are not sure there are enough occurrences available.
-    /// </summary>
-    /// <param name="utcBaseTime">The base time in UTC from which to find the next occurrences</param>
-    /// <param name="count">The number of occurrences to retrieve</param>
-    /// <param name="utcMaxLookahead">Maximum lookahead time in UTC. If null, defaults to DateTime.MaxValue</param>
-    /// <returns>A list of occurrences in UTC</returns>
-    /// <exception cref="InvalidOperationException">Thrown when fewer than the requested number of occurrences are found</exception>
-    public IList<DateTime> GetNextOccurrencesInUtc(DateTime utcBaseTime, int count, DateTime? utcMaxLookahead = null)
-    {
-        var result = TryGetNextOccurrencesInUtc(utcBaseTime, count, utcMaxLookahead);
-        if (result.Count < count)
-        {
-            throw new InvalidOperationException("Not enough occurrences found");
-        }
-
-        return result;
-    }
-    
-    /// <summary>
-    /// Tries to get the next occurrence using the current thread's timezone. Returns null if no occurrence is found within the specified lookahead period.
-    /// </summary>
-    /// <param name="baseTime">The base time in the current thread's timezone from which to find the next occurrence</param>
-    /// <param name="maxLookahead">Maximum lookahead time in the current thread's timezone. If null, defaults to DateTime.MaxValue</param>
-    /// <returns>The next occurrence in the current thread's timezone, or null if no occurrence is found</returns>
-    public DateTime? TryGetNextOccurrence(DateTime baseTime, DateTime? maxLookahead = null)
-    {
-        // Convert local time to UTC and call the UTC method
-        var utcBaseTime = TimeZoneInfo.ConvertTimeToUtc(baseTime);
-        var utcMaxLookahead = maxLookahead.HasValue ? TimeZoneInfo.ConvertTimeToUtc(maxLookahead.Value) : (DateTime?)null;
-        
-        var utcResult = TryGetNextOccurrenceInUtc(utcBaseTime, utcMaxLookahead);
-        
-        // Convert result back to local time
-        return utcResult.HasValue ? TimeZoneInfo.ConvertTimeFromUtc(utcResult.Value, TimeZoneInfo.Local) : (DateTime?)null;
-    }
-    
-    /// <summary>
-    /// Gets the next occurrence using the current thread's timezone. Throws an exception if no occurrence is found within the specified lookahead period.
-    /// </summary>
-    /// <param name="baseTime">The base time in the current thread's timezone from which to find the next occurrence</param>
-    /// <param name="maxLookahead">Maximum lookahead time in the current thread's timezone. If null, defaults to DateTime.MaxValue</param>
-    /// <returns>The next occurrence in the current thread's timezone</returns>
-    /// <exception cref="InvalidOperationException">Thrown when no next occurrence is found</exception>
-    public DateTime GetNextOccurrence(DateTime baseTime, DateTime? maxLookahead = null)
-    {
-        var nextOccurrence = TryGetNextOccurrence(baseTime, maxLookahead);
-        if (nextOccurrence == null)
-        {
-            throw new InvalidOperationException("No next occurrence found");
-        }
-
-        return nextOccurrence.Value;
-    }
-
-    /// <summary>
-    /// Tries to get the next occurrences using the current thread's timezone. Returns as many occurrences as found, up to the specified count.
-    /// Stops when no more occurrences are found or the count is reached.
-    /// </summary>
-    /// <param name="baseTime">The base time in the current thread's timezone from which to find the next occurrences</param>
-    /// <param name="count">The number of occurrences to retrieve</param>
-    /// <param name="maxLookahead">Maximum lookahead time in the current thread's timezone. If null, defaults to DateTime.MaxValue</param>
-    /// <returns>A list of occurrences in the current thread's timezone (may contain fewer than the requested count)</returns>
-    public IList<DateTime> TryGetNextOccurrences(DateTime baseTime, int count, DateTime? maxLookahead = null)
-    {
-        var result = new List<DateTime>();
-        for (var i = 0; i < count; i++)
-        {
-            var nextOccurrence = TryGetNextOccurrence(baseTime, maxLookahead);
-            if (nextOccurrence == null)
-            {
-                break;
-            }
-
-            result.Add(nextOccurrence.Value);
-            baseTime = nextOccurrence.Value;
-        }
-
-        return result;
-    }
-
-    /// <summary>
-    /// Gets the next occurrences using the current thread's timezone. Throws an exception if fewer occurrences than requested are found.
-    /// Use TryGetNextOccurrences if you are not sure there are enough occurrences available.
-    /// </summary>
-    /// <param name="baseTime">The base time in the current thread's timezone from which to find the next occurrences</param>
-    /// <param name="count">The number of occurrences to retrieve</param>
-    /// <param name="maxLookahead">Maximum lookahead time in the current thread's timezone. If null, defaults to DateTime.MaxValue</param>
-    /// <returns>A list of occurrences in the current thread's timezone</returns>
-    /// <exception cref="InvalidOperationException">Thrown when fewer than the requested number of occurrences are found</exception>
-    public IList<DateTime> GetNextOccurrences(DateTime baseTime, int count, DateTime? maxLookahead = null)
-    {
-        var result = TryGetNextOccurrences(baseTime, count, maxLookahead);
-        if (result.Count < count)
-        {
-            throw new InvalidOperationException("Not enough occurrences found");
-        }
-
-        return result;
-    }
 
     public static RecurlyEx Parse(string expression)
     {
@@ -376,7 +265,7 @@ public class RecurlyEx
            {
                var matchableRules = recurlyEx.Rules.OfType<RecurlyExMatchableRule>().ToList();
                // If there is no day rule and every is year or month, transform week rules to day rules.
-               // It is basically the same. E.g every month on [monday, wednesday] => every month on [1stMon, 1stWed]
+               // It is basically the same. E.g @every month @on [monday, wednesday] => @every month @on [1stMon, 1stWed]
                TransformWeekRulesToFirstWeekDayRulesIfNeeded(matchableRules);
            }
         }
