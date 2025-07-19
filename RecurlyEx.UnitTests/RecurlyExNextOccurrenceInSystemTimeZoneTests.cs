@@ -100,19 +100,19 @@ public class RecurlyExNextOccurrenceInSystemTimeZoneTests
         testOutputHelper.WriteLine($"Local results: {string.Join(", ", localResults.Select(d => d.ToString("F")))}");
     }
 
-    // [Fact]
-    // public void GetNextOccurrence_SingleResult_ReturnsSystemTimeZone()
-    // {
-    //     var recurlyEx = RecurlyEx.Parse("daily at 14:00");
-    //     var baseTime = new DateTime(2024, 1, 1, 10, 0, 0);
-    //     
-    //     var result = recurlyEx.GetNextOccurrence(baseTime);
-    //     
-    //     result.Hour.Should().Be(14);
-    //     
-    //     testOutputHelper.WriteLine($"System TimeZone: {TimeZoneInfo.Local.Id}");
-    //     testOutputHelper.WriteLine($"Result: {result:F}");
-    // }
+    [Fact]
+    public void GetNextOccurrence_SingleResult_ReturnsSystemTimeZone()
+    {
+        var recurlyEx = RecurlyEx.Parse("daily at 14:00");
+        var baseTime = new DateTime(2024, 1, 1, 10, 0, 0);
+        
+        var result = recurlyEx.GetNextOccurrence(baseTime);
+        
+        result.Hour.Should().Be(14);
+        
+        testOutputHelper.WriteLine($"System TimeZone: {TimeZoneInfo.Local.Id}");
+        testOutputHelper.WriteLine($"Result: {result:F}");
+    }
 
     [Fact]
     public void TryGetNextOccurrence_NoResult_ReturnsNull()
