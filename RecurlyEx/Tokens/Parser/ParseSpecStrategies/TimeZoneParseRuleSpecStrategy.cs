@@ -12,7 +12,7 @@ internal class TimeZoneParseRuleSpecStrategy : ParseRuleSpecStrategy
         var tokens = groupedRuleSpec.Tokens;
         if (tokens.Count < 2)
         {
-            return (new List<RecurlyExRule>(), "Invalid @tz expression".AsList());
+            return (new List<RecurlyExRule>(), "Invalid tz expression".AsList());
         }
 
         var tzValue = TokenParserUtil.JoinTokens(tokens.Skip(1).ToList(), RecurlyExTokenType.WhiteSpace, RecurlyExTokenType.EndOfExpression);
