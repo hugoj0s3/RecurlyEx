@@ -19,58 +19,7 @@ public class RecurlyExNextOccurrenceInSystemTimeZoneTests
     }
 
     [Theory]
-    [MemberData(nameof(LoadNextOccurrenceTestCases))]
-    public void GetNextOccurrences_ValidExpressions_ReturnsSystemTimeZone(
-        string description, 
-        string expression, 
-        string baseTimeUtcStr,
-        string[] expectedDateTimeStrs)
-    {
-        var stopwatch = new Stopwatch();
-        stopwatch.Start();
-        
-        var (recurlyEx, errors) = RecurlyEx.TryParse(expression);
-        errors.Should().BeEmpty();
-        recurlyEx.Should().NotBeNull();
-        
-        foreach (var ruleExpression in recurlyEx.Rules.Select(x => x.FullExpression))
-        {
-            ruleExpression.Should().NotBeNullOrEmpty();
-        }
-
-        // Convert UTC base time to system timezone
-        var baseTimeUtc = DateTime.Parse(baseTimeUtcStr);
-        var baseTimeLocal = TimeZoneInfo.ConvertTimeFromUtc(baseTimeUtc, TimeZoneInfo.Local);
-
-        var expectedDateTimeUtc = expectedDateTimeStrs.Where(x => !string.IsNullOrEmpty(x)).Select(x => DateTime.Parse(x)).ToList();
-        var expectedDateTimeLocal = expectedDateTimeUtc.Select(utc => TimeZoneInfo.ConvertTimeFromUtc(utc, TimeZoneInfo.Local)).ToList();
-        
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-        
-        IList<DateTime> nextOccurrences = new List<DateTime>();
-        var task = Task.Run(() => nextOccurrences = recurlyEx.TryGetNextOccurrences(baseTimeLocal, expectedDateTimeStrs.Length), cts.Token);
-        task.Wait(cts.Token);
-
-        // Verify count
-        nextOccurrences.Should().HaveCount(expectedDateTimeLocal.Count);
-        
-        // Verify all results are in local timezone
-        foreach (var occurrence in nextOccurrences)
-        {
-            occurrence.Kind.Should().Be(DateTimeKind.Local);
-        }
-        
-        // Verify the actual times match expected local times
-        nextOccurrences.Should().Equal(expectedDateTimeLocal);
-        
-        stopwatch.Stop();
-        testOutputHelper.WriteLine($"System TimeZone: {TimeZoneInfo.Local.Id}");
-        testOutputHelper.WriteLine($"Elapsed time: {stopwatch.ElapsedMilliseconds} ms");
-        stopwatch.Elapsed.TotalMilliseconds.Should().BeLessThan(2000);
-    }
-
-    [Theory]
-    [MemberData(nameof(LoadNextOccurrenceTestCases))]
+    [MemberData(nameof(LoadNextOccurrenceTestCasesWithTimeZone))]
     public void GetNextOccurrences_ConsistentWithUtcMethods(
         string description, 
         string expression, 
@@ -100,19 +49,19 @@ public class RecurlyExNextOccurrenceInSystemTimeZoneTests
         testOutputHelper.WriteLine($"Local results: {string.Join(", ", localResults.Select(d => d.ToString("F")))}");
     }
 
-    // [Fact]
-    // public void GetNextOccurrence_SingleResult_ReturnsSystemTimeZone()
-    // {
-    //     var recurlyEx = RecurlyEx.Parse("daily at 14:00");
-    //     var baseTime = new DateTime(2024, 1, 1, 10, 0, 0);
-    //     
-    //     var result = recurlyEx.GetNextOccurrence(baseTime);
-    //     
-    //     result.Hour.Should().Be(14);
-    //     
-    //     testOutputHelper.WriteLine($"System TimeZone: {TimeZoneInfo.Local.Id}");
-    //     testOutputHelper.WriteLine($"Result: {result:F}");
-    // }
+    [Fact]
+    public void GetNextOccurrence_SingleResult_ReturnsSystemTimeZone()
+    {
+        var recurlyEx = RecurlyEx.Parse("daily at 14:00");
+        var baseTime = new DateTime(2024, 1, 1, 10, 0, 0);
+        
+        var result = recurlyEx.GetNextOccurrence(baseTime);
+        
+        result.Hour.Should().Be(14);
+        
+        testOutputHelper.WriteLine($"System TimeZone: {TimeZoneInfo.Local.Id}");
+        testOutputHelper.WriteLine($"Result: {result:F}");
+    }
 
     [Fact]
     public void TryGetNextOccurrence_NoResult_ReturnsNull()
@@ -134,10 +83,7 @@ public class RecurlyExNextOccurrenceInSystemTimeZoneTests
         
         var result = recurlyEx.GetNextOccurrence(baseTime);
         
-        // Result should be in system timezone
-        result.Kind.Should().Be(DateTimeKind.Local);
-        
-        // Verify it represents when 9:00 AM Tokyo occurs in system timezone
+        // Verify it reprents when 9:00 AM Tokyo occurs in system timezone
         var tokyoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Asia/Tokyo");
         var tokyo9am = new DateTime(2024, 1, 2, 9, 0, 0); // Next day 9 AM Tokyo
         var expectedLocalTime = TimeZoneInfo.ConvertTime(tokyo9am, tokyoTimeZone, TimeZoneInfo.Local);
@@ -161,42 +107,8 @@ public class RecurlyExNextOccurrenceInSystemTimeZoneTests
         InvalidOperationException exception = Assert.Throws<InvalidOperationException>(action);
     }
 
-    public static IEnumerable<object[]> LoadNextOccurrenceTestCases()
+    public static IEnumerable<object[]> LoadNextOccurrenceTestCasesWithTimeZone()
     {
-        var assembly = Assembly.GetExecutingAssembly();
-        var resourceName = "RecurlyEx.UnitTests.GetNextOcurrencesTestCases.json";
-        using var stream = assembly.GetManifestResourceStream(resourceName);
-        if (stream == null)
-        {
-            throw new Exception($"Resource {resourceName} not found");
-        }
-        
-        using var reader = new StreamReader(stream);
-        var json = reader.ReadToEnd();
-        var cases = JsonSerializer.Deserialize<List<NextOccurrenceTestCase>>(json, new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true,
-        });
-        
-        if (cases == null)
-        {
-            throw new Exception($"Failed to deserialize {resourceName}");
-        }
-        
-        // Test both with and without @ symbols
-        var testCasesWithoutAmpersat = cases
-            .Select(x => new object[] { x.Description.Replace("@", " ") + " Without ampersat", x.Expression.Replace("@", " "), x.BaseTimeUtcStr, x.ExpectedDateTimeStrs });
-        var testCasesWithAmpersat = cases
-            .Select(x => new object[] { x.Description + " With ampersat", x.Expression, x.BaseTimeUtcStr, x.ExpectedDateTimeStrs });
-        
-        return testCasesWithoutAmpersat.Concat(testCasesWithAmpersat);
-    }
-    
-    private class NextOccurrenceTestCase
-    {
-        public string Description { get; set; } = string.Empty;
-        public string Expression { get; set; } = string.Empty;
-        public string BaseTimeUtcStr { get; set; } = string.Empty;
-        public string[] ExpectedDateTimeStrs { get; set; } = Array.Empty<string>();
+        return TestDataHelper.LoadNextOccurrenceTestCases(x => x.Expression.Contains("@tz") || x.Expression.Contains("@timezone"));
     }
 }

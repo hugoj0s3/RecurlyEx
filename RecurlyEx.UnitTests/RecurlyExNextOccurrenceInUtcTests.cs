@@ -56,39 +56,6 @@ public class RecurlyExNextOccurrenceInUtcTests
     
     public static IEnumerable<object[]> LoadNextOccurrenceTestCases()
     {
-        var assembly = Assembly.GetExecutingAssembly();
-        var resourceName = "RecurlyEx.UnitTests.GetNextOcurrencesTestCases.json";
-        using var stream = assembly.GetManifestResourceStream(resourceName);
-        if (stream == null)
-        {
-            throw new Exception($"Resource {resourceName} not found");
-        }
-        
-        using var reader = new StreamReader(stream);
-        var json = reader.ReadToEnd();
-        var cases = JsonSerializer.Deserialize<List<NextOccurrenceTestCase>>(json, new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true,
-        });
-        
-        if (cases == null)
-        {
-            throw new Exception($"Failed to deserialize {resourceName}");
-        }
-        
-        var testCasesWithoutAmpersat = cases
-            .Select(x => new object[] { x.Description.Replace("@", " ") + " Without ampersat", x.Expression.Replace("@", " "), x.BaseTimeUtcStr, x.ExpectedDateTimeStrs });
-        var testCasesWithAmpersat = cases
-            .Select(x => new object[] { x.Description + " With ampersat", x.Expression, x.BaseTimeUtcStr, x.ExpectedDateTimeStrs });
-        
-        return testCasesWithoutAmpersat.Concat(testCasesWithAmpersat);
-    }
-    
-    private class NextOccurrenceTestCase
-    {
-        public string Description { get; set; } = string.Empty;
-        public string Expression { get; set; } = string.Empty;
-        public string BaseTimeUtcStr { get; set; } = string.Empty;
-        public string[] ExpectedDateTimeStrs { get; set; } = Array.Empty<string>();
+        return TestDataHelper.LoadNextOccurrenceTestCases();
     }
 }

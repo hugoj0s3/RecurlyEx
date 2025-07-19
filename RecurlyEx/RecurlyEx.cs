@@ -56,12 +56,8 @@ public class RecurlyEx
     public IList<RecurlyExRule> YearRules() =>
         Rules.Where(x => x.TimeUnit == RecurlyExTimeUnit.Year).ToList();
 
-    public RecurlyExIanaTimeZoneRule TimeZoneRule() =>
-        Rules.FirstOrDefault(x => x.TimeUnit == RecurlyExTimeUnit.TimeZone) as RecurlyExIanaTimeZoneRule ??
-        new RecurlyExIanaTimeZoneRule()
-        {
-            TimeUnit = RecurlyExTimeUnit.TimeZone, IanaId = "Etc/UTC"
-        };
+    public RecurlyExIanaTimeZoneRule? TimeZoneRule() =>
+        Rules.FirstOrDefault(x => x.TimeUnit == RecurlyExTimeUnit.TimeZone) as RecurlyExIanaTimeZoneRule;
     /// <summary>
     /// Tries to get the next occurrence in UTC. Returns null if no occurrence is found within the specified lookahead period.
     /// </summary>
@@ -70,19 +66,35 @@ public class RecurlyEx
     /// <returns>The next occurrence in UTC, or null if no occurrence is found</returns>
     public DateTime? TryGetNextOccurrenceInUtc(DateTime utcBaseTime, DateTime? utcMaxLookahead = null)
     {
+        // 1. Convert to local time
+        var localBaseTime = TimeZoneRule()?.ConvertFromUtc(utcBaseTime) ?? utcBaseTime;
+        DateTime localMaxLookahead;
+        if (utcMaxLookahead.HasValue)
+        {
+            localMaxLookahead = TimeZoneRule()?.ConvertFromUtc(utcMaxLookahead.Value) ?? utcMaxLookahead.Value;
+        }
+        else 
+        {
+            localMaxLookahead = DateTime.MaxValue;
+        }
+        
+        // 2. Get local next occurrence
+        var result = InternalTryGetLocalNextOccurrence(localBaseTime, localMaxLookahead);
+        
+        // 2. Convert to UTC
+        return !result.HasValue ? null : TimeZoneRule()?.ConvertToUtc(result.Value) ?? result.Value;
+    }
+
+    private DateTime? InternalTryGetLocalNextOccurrence(DateTime localBaseTime, DateTime localMaxLookahead)
+    {
         // 1. Normalize input
-        utcBaseTime = new DateTime(
-            utcBaseTime.Year, utcBaseTime.Month, utcBaseTime.Day,
-            utcBaseTime.Hour, utcBaseTime.Minute, utcBaseTime.Second);
-
-        utcMaxLookahead ??= DateTime.MaxValue;
-
-        // 2. Convert to local time
-        var localBaseTime = TimeZoneRule().ConvertFromUtc(utcBaseTime);
-        var localMaxLookahead = TimeZoneRule().ConvertFromUtc(utcMaxLookahead.Value);
+        localBaseTime = new DateTime(
+            localBaseTime.Year, localBaseTime.Month, localBaseTime.Day,
+            localBaseTime.Hour, localBaseTime.Minute, localBaseTime.Second);
+        
         var localNextOccurrence = localBaseTime;
 
-        // 3. Apply "every X" rule anchoring if present
+        // 2. Apply "every X" rule anchoring if present
         var everyRule = Rules.OfType<RecurlyExEveryXRule>().FirstOrDefault();
         if (everyRule != null)
         {
@@ -120,7 +132,7 @@ public class RecurlyEx
             localNextOccurrence = anchoredOccurrence;
         }
 
-        // 4. If still not after base time, advance by the minimum non-everyX unit
+        // 3. If still not after base time, advance by the minimum non-everyX unit
         if (localNextOccurrence <= localBaseTime)
         {
             var matchableRules = this.Rules.OfType<RecurlyExMatchableRule>().ToList();
@@ -156,13 +168,13 @@ public class RecurlyEx
             }
         }
 
-        // 5. Find the next actual match (with all rules)
+        // 4. Find the next actual match (with all rules)
         (localNextOccurrence, var hasMatch) = FindNextMatchOccurrence(localNextOccurrence, localMaxLookahead);
 
-        // 6. Return UTC if match found
-        return hasMatch ? TimeZoneRule().ConvertToUtc(localNextOccurrence) : (DateTime?)null;
+        // 5. Return UTC if match found
+        return hasMatch ? localNextOccurrence : (DateTime?)null;
     }
-    
+
     /// <summary>
     /// Gets the next occurrence in UTC. Throws an exception if no occurrence is found within the specified lookahead period.
     /// </summary>
@@ -235,14 +247,19 @@ public class RecurlyEx
     /// <returns>The next occurrence in the current thread's timezone, or null if no occurrence is found</returns>
     public DateTime? TryGetNextOccurrence(DateTime baseTime, DateTime? maxLookahead = null)
     {
+        if (this.TimeZoneRule() == null)
+        {
+            return InternalTryGetLocalNextOccurrence(baseTime, maxLookahead ?? DateTime.MaxValue);
+        }
+        
         // Convert local time to UTC and call the UTC method
-        var utcBaseTime = TimeZoneInfo.ConvertTimeToUtc(baseTime);
-        var utcMaxLookahead = maxLookahead.HasValue ? TimeZoneInfo.ConvertTimeToUtc(maxLookahead.Value) : (DateTime?)null;
+        baseTime = TimeZoneInfo.ConvertTimeToUtc(baseTime);
+        maxLookahead = maxLookahead.HasValue ? TimeZoneInfo.ConvertTimeToUtc(maxLookahead.Value) : DateTime.MaxValue;
         
-        var utcResult = TryGetNextOccurrenceInUtc(utcBaseTime, utcMaxLookahead);
+        var result = TryGetNextOccurrenceInUtc(baseTime, maxLookahead.Value);
         
-        // Convert result back to local time
-        return utcResult.HasValue ? TimeZoneInfo.ConvertTimeFromUtc(utcResult.Value, TimeZoneInfo.Local) : (DateTime?)null;
+        // Convert UTC to local time
+        return result == null ? null : TimeZoneInfo.ConvertTimeFromUtc(result.Value, TimeZoneInfo.Local);
     }
     
     /// <summary>
