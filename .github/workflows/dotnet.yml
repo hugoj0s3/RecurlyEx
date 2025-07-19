@@ -13,6 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set Sydney timezone
+        run: |
+          sudo timedatectl set-timezone Australia/Sydney
+          echo "Current timezone: $(timedatectl show --property=Timezone --value)"
+          echo "Current time: $(date)"
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -23,5 +29,6 @@ jobs:
 
       - name: Build
         run: dotnet build --no-restore --configuration Release
+        
       - name: Test
         run: dotnet test --no-build --configuration Release --verbosity normal

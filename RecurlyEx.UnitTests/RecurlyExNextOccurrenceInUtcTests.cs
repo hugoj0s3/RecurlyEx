@@ -9,18 +9,18 @@ using Xunit.Sdk;
 namespace RecurlyEx.UnitTests;
 
 [TestCaseOrderer("RecurlyEx.UnitTests.NumberCaseOrderer", "RecurlyEx.UnitTests")]
-public class RecurlyExNextOccurrenceTests
+public class RecurlyExNextOccurrenceInUtcTests
 {
     private readonly ITestOutputHelper testOutputHelper;
 
-    public RecurlyExNextOccurrenceTests(ITestOutputHelper testOutputHelper)
+    public RecurlyExNextOccurrenceInUtcTests(ITestOutputHelper testOutputHelper)
     {
         this.testOutputHelper = testOutputHelper;
     }
 
     [Theory]
     [MemberData(nameof(LoadNextOccurrenceTestCases))]
-    public void GetNextOccurrences_ValidExpressions_Success(
+    public void GetNextOccurrencesInUtc_ValidExpressions_Success(
         string description, 
         string expression, 
         string baseTimeUtcStr,
@@ -56,35 +56,6 @@ public class RecurlyExNextOccurrenceTests
     
     public static IEnumerable<object[]> LoadNextOccurrenceTestCases()
     {
-        var assembly = Assembly.GetExecutingAssembly();
-        var resourceName = "RecurlyEx.UnitTests.GetNextOcurrencesTestCases.json";
-        using var stream = assembly.GetManifestResourceStream(resourceName);
-        if (stream == null)
-        {
-            throw new Exception($"Resource {resourceName} not found");
-        }
-        
-        using var reader = new StreamReader(stream);
-        var json = reader.ReadToEnd();
-        var cases = JsonSerializer.Deserialize<List<NextOccurrenceTestCase>>(json, new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true,
-        });
-        
-        if (cases == null)
-        {
-            throw new Exception($"Failed to deserialize {resourceName}");
-        }
-        
-        return cases
-            .Select(x => new object[] { x.Description, x.Expression, x.BaseTimeUtcStr, x.ExpectedDateTimeStrs });
-    }
-    
-    private class NextOccurrenceTestCase
-    {
-        public string Description { get; set; } = string.Empty;
-        public string Expression { get; set; } = string.Empty;
-        public string BaseTimeUtcStr { get; set; } = string.Empty;
-        public string[] ExpectedDateTimeStrs { get; set; } = Array.Empty<string>();
+        return TestDataHelper.LoadNextOccurrenceTestCases();
     }
 }

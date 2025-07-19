@@ -36,7 +36,7 @@ internal class BetweenParseRuleSpecStrategy : ParseRuleSpecStrategy
         var ranges = ExtractBracketedRanges(tokens); // implement this helper
         if (ranges.Count == 0)
         {
-            errors.Add("Invalid @between expression");
+            errors.Add("Invalid between expression");
             return null;
         }
 
@@ -50,7 +50,7 @@ internal class BetweenParseRuleSpecStrategy : ParseRuleSpecStrategy
             var rule = ParseSingleBetween(rangeTokens, errors, firstToken);
             if (rule == null)
             {
-                errors.Add("Invalid @between expression");
+                errors.Add("Invalid between expression");
                 return null;
             }
             
@@ -61,7 +61,7 @@ internal class BetweenParseRuleSpecStrategy : ParseRuleSpecStrategy
                 expectedUnits = units;
             } else if (!units.SequenceEqual(expectedUnits))
             {
-                errors.Add("Invalid @between expression");
+                errors.Add("Invalid between expression");
                 return null;
             }
 
@@ -70,7 +70,7 @@ internal class BetweenParseRuleSpecStrategy : ParseRuleSpecStrategy
         
         if (betweenRules.Count == 0)
         {
-            errors.Add("Invalid @between expression");
+            errors.Add("Invalid between expression");
             return null;
         }
 
@@ -88,14 +88,14 @@ internal class BetweenParseRuleSpecStrategy : ParseRuleSpecStrategy
         
         if (tokens.Count < 4)
         {
-            errors.Add("Invalid @between expression");
+            errors.Add("Invalid between expression");
             return null;
         }
 
         var andToken = tokens.Skip(2).FirstOrDefault(x => x.Type == RecurlyExTokenType.And);
         if (andToken == null)
         {
-            errors.Add("Invalid @between expression. must have a 'and' between start and end");
+            errors.Add("Invalid between expression. must have a 'and' between start and end");
             return null;
         }
 
@@ -115,7 +115,7 @@ internal class BetweenParseRuleSpecStrategy : ParseRuleSpecStrategy
         
         if (starts.Count != ends.Count)
         {
-            errors.Add("Invalid @between expression. start and end must have the same number of time units");
+            errors.Add("Invalid between expression. start and end must have the same number of time units");
             return null;
         }
 
@@ -127,14 +127,14 @@ internal class BetweenParseRuleSpecStrategy : ParseRuleSpecStrategy
             if (start.TimeUnit == RecurlyExTimeUnitAndUnknown.Unknown)
             {
                 var error = string.IsNullOrEmpty(start.Error)
-                    ? "Invalid @between expression. start and end must have known time units" : start.Error;
+                    ? "Invalid between expression. start and end must have known time units" : start.Error;
                 errors.Add(error);
                 return null;
             }
             
             if (start.TimeUnit != end.TimeUnit)
             {
-                errors.Add("Invalid @between expression. start and end must have the same time units");
+                errors.Add("Invalid between expression. start and end must have the same time units");
                 return null;
             }
             
