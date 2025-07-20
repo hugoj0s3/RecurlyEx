@@ -1,3 +1,4 @@
+using System.Linq;
 using NaturalCron;
 using NaturalCron.Rules;
 using FluentAssertions;

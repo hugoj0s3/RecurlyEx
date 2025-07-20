@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Text;
 using NaturalCron.Rules;
 using NaturalCron.Tokens.Parser;
@@ -22,32 +25,33 @@ public class NaturalCronExpr
     ];
 
     internal NaturalCronExpr() {}
-    public string Expression { get; set; } = string.Empty;
+    public string Expression { get; private set; } = string.Empty;
     public IReadOnlyCollection<NaturalCronRule> Rules { get; internal set; } = new List<NaturalCronRule>();
 
-    public IList<NaturalCronRule> SecondRules() =>
+    public IReadOnlyCollection<NaturalCronRule> SecondRules() =>
         Rules.Where(x => x.TimeUnit == NaturalCronTimeUnit.Second).ToList();
 
-    public IList<NaturalCronRule> MinuteRules() =>
+    public IReadOnlyCollection<NaturalCronRule> MinuteRules() =>
         Rules.Where(x => x.TimeUnit == NaturalCronTimeUnit.Minute).ToList();
 
-    public IList<NaturalCronRule> HourRules() =>
+    public IReadOnlyCollection<NaturalCronRule> HourRules() =>
         Rules.Where(x => x.TimeUnit == NaturalCronTimeUnit.Hour).ToList();
 
-    public IList<NaturalCronRule> DayRules() =>
+    public IReadOnlyCollection<NaturalCronRule> DayRules() =>
         Rules.Where(x => x.TimeUnit == NaturalCronTimeUnit.Day).ToList();
 
-    public IList<NaturalCronRule> WeekRules() =>
+    public IReadOnlyCollection<NaturalCronRule> WeekRules() =>
         Rules.Where(x => x.TimeUnit == NaturalCronTimeUnit.Week).ToList();
 
-    public IList<NaturalCronRule> MonthRules() =>
+    public IReadOnlyCollection<NaturalCronRule> MonthRules() =>
         Rules.Where(x => x.TimeUnit == NaturalCronTimeUnit.Month).ToList();
 
-    public IList<NaturalCronRule> YearRules() =>
+    public IReadOnlyCollection<NaturalCronRule> YearRules() =>
         Rules.Where(x => x.TimeUnit == NaturalCronTimeUnit.Year).ToList();
 
     public NaturalCronIanaTimeZoneRule? TimeZoneRule() =>
         Rules.FirstOrDefault(x => x.TimeUnit == NaturalCronTimeUnit.TimeZone) as NaturalCronIanaTimeZoneRule;
+
     /// <summary>
     /// Tries to get the next occurrence in UTC. Returns null if no occurrence is found within the specified lookahead period.
     /// </summary>
@@ -63,106 +67,16 @@ public class NaturalCronExpr
         {
             localMaxLookahead = TimeZoneRule()?.ConvertFromUtc(utcMaxLookahead.Value) ?? utcMaxLookahead.Value;
         }
-        else 
+        else
         {
             localMaxLookahead = DateTime.MaxValue;
         }
-        
+
         // 2. Get local next occurrence
         var result = InternalTryGetLocalNextOccurrence(localBaseTime, localMaxLookahead);
-        
+
         // 2. Convert to UTC
         return !result.HasValue ? null : TimeZoneRule()?.ConvertToUtc(result.Value) ?? result.Value;
-    }
-
-    private DateTime? InternalTryGetLocalNextOccurrence(DateTime localBaseTime, DateTime localMaxLookahead)
-    {
-        // 1. Normalize input
-        localBaseTime = new DateTime(
-            localBaseTime.Year, localBaseTime.Month, localBaseTime.Day,
-            localBaseTime.Hour, localBaseTime.Minute, localBaseTime.Second);
-        
-        var localNextOccurrence = localBaseTime;
-
-        // 2. Apply "every X" rule anchoring if present
-        var everyRule = Rules.OfType<NaturalCronEveryXRule>().FirstOrDefault();
-        if (everyRule != null)
-        {
-            // Anchor to the correct value (e.g., hour 0, minute 0, etc.)
-            var matchableRules = this.Rules.OfType<NaturalCronMatchableRule>().ToList();
-            var anchoredOccurrence = everyRule.ApplyAnchoredValueIfPresent(localNextOccurrence, localBaseTime, matchableRules);
-            
-            // If at the base time and all rules match, advance once more
-            if (ShouldAddEveryX(localBaseTime, anchoredOccurrence, everyRule.TimeUnit))
-            {
-                anchoredOccurrence = everyRule.AddEveryXTime(anchoredOccurrence, matchableRules);
-            }
-
-            // If we crossed into a new upper unit (e.g., new day), re-anchor and re-advance if needed
-            if (everyRule.AnchoredValue != null)
-            {
-                var upperUnit = everyRule.TimeUnit + 1;
-                if (upperUnit < NaturalCronTimeUnit.Year)
-                {
-                    var upperPartNow = DateTimeUtil.GetPartValue(upperUnit, anchoredOccurrence);
-                    var upperPartBase = DateTimeUtil.GetPartValue(upperUnit, localBaseTime);
-                    if (upperPartNow > upperPartBase)
-                    {
-                        anchoredOccurrence = everyRule.ApplyAnchoredValueIfPresent(anchoredOccurrence, localNextOccurrence, matchableRules);
-
-                        // If at the base time and all rules match, advance once more
-                        if (ShouldAddEveryX(localBaseTime, anchoredOccurrence, everyRule.TimeUnit))
-                        {
-                            anchoredOccurrence = everyRule.AddEveryXTime(anchoredOccurrence, matchableRules);
-                        }
-                    }
-                }
-            }
-
-            localNextOccurrence = anchoredOccurrence;
-        }
-
-        // 3. If still not after base time, advance by the minimum non-everyX unit
-        if (localNextOccurrence <= localBaseTime)
-        {
-            var matchableRules = this.Rules.OfType<NaturalCronMatchableRule>().ToList();
-            
-            // 1. Filter out all between rules from matchableRules
-            var nonBetweenRules = matchableRules
-                .Where(x => x is not NaturalCronBetweenRule && x is not NaturalCronBetweenMultiplesRule);
-
-            // 2. Add between rules that do NOT match localNextOccurrence
-            var unmatchedBetweenRules = matchableRules
-                .Where(x => x is NaturalCronBetweenRule b || x is NaturalCronBetweenMultiplesRule)
-                .Where(x => !x.Match(localNextOccurrence))
-                .ToList();
-
-            // 3. Combine all candidates
-            var allCandidates = nonBetweenRules
-                .Concat(unmatchedBetweenRules);
-
-            // 4. Find the minimum TimeUnit
-            var minAdvanceUnit = allCandidates
-                .OrderBy(x => x.TimeUnit)
-                .First()
-                .TimeUnit;
-            
-            if (minAdvanceUnit == NaturalCronTimeUnit.Week)
-            {
-                minAdvanceUnit = NaturalCronTimeUnit.Day;
-            }
-
-            while (localNextOccurrence <= localBaseTime)
-            {
-                localNextOccurrence = AdvanceNextOccurrence(localNextOccurrence, minAdvanceUnit, 1);
-            }
-        }
-
-        // 4. Find the next actual match (with all rules)
-        (localNextOccurrence, var hasMatch) = FindNextMatchOccurrence(localNextOccurrence, localMaxLookahead);
-
-        // 5. Return UTC if match found
-        return hasMatch ? localNextOccurrence : (DateTime?)null;
     }
 
     /// <summary>
@@ -182,7 +96,7 @@ public class NaturalCronExpr
 
         return nextOccurrence.Value;
     }
-    
+
     /// <summary>
     /// Tries to get the next occurrences in UTC. Returns as many occurrences as found, up to the specified count.
     /// Stops when no more occurrences are found or the count is reached.
@@ -208,7 +122,7 @@ public class NaturalCronExpr
 
         return result;
     }
-    
+
     /// <summary>
     /// Gets the next occurrences in UTC. Throws an exception if fewer occurrences than requested are found.
     /// Use TryGetNextOccurrencesInUtc if you are not sure there are enough occurrences available.
@@ -228,7 +142,7 @@ public class NaturalCronExpr
 
         return result;
     }
-    
+
     /// <summary>
     /// Tries to get the next occurrence using the current thread's timezone. Returns null if no occurrence is found within the specified lookahead period.
     /// </summary>
@@ -241,17 +155,17 @@ public class NaturalCronExpr
         {
             return InternalTryGetLocalNextOccurrence(baseTime, maxLookahead ?? DateTime.MaxValue);
         }
-        
+
         // Convert local time to UTC and call the UTC method
-        baseTime = TimeZoneInfo.ConvertTimeToUtc(baseTime);
-        maxLookahead = maxLookahead.HasValue ? TimeZoneInfo.ConvertTimeToUtc(maxLookahead.Value) : DateTime.MaxValue;
-        
-        var result = TryGetNextOccurrenceInUtc(baseTime, maxLookahead.Value);
-        
+        var utcBaseTime = TimeZoneInfo.ConvertTimeToUtc(baseTime);
+        var utcMaxLookahead = maxLookahead.HasValue ? TimeZoneInfo.ConvertTimeToUtc(maxLookahead.Value) : DateTime.MaxValue;
+
+        var result = TryGetNextOccurrenceInUtc(utcBaseTime, utcMaxLookahead);
+
         // Convert UTC to local time
         return result == null ? null : TimeZoneInfo.ConvertTimeFromUtc(result.Value, TimeZoneInfo.Local);
     }
-    
+
     /// <summary>
     /// Gets the next occurrence using the current thread's timezone. Throws an exception if no occurrence is found within the specified lookahead period.
     /// </summary>
@@ -370,35 +284,34 @@ public class NaturalCronExpr
 
         NaturalCronExpr naturalCronExpr = new()
         {
-            Expression = expression, 
-            Rules = rules.AsReadOnly(),
+            Expression = expression, Rules = rules.AsReadOnly(),
         };
-        
+
         var validationErrors = naturalCronExpr.Validate();
 
         if (!validationErrors.Any())
         {
-           var everyXRule = naturalCronExpr.Rules.FirstOrDefault(x => x is NaturalCronEveryXRule);
-           if (everyXRule != null && everyXRule.TimeUnit >= NaturalCronTimeUnit.Month)
-           {
-               var matchableRules = naturalCronExpr.Rules.OfType<NaturalCronMatchableRule>().ToList();
-               // If there is no day rule and every is year or month, transform week rules to day rules.
-               // It is basically the same. E.g every month on [monday, wednesday] => every month on [1stMon, 1stWed]
-               TransformWeekRulesToFirstWeekDayRulesIfNeeded(matchableRules);
-           }
+            var everyXRule = naturalCronExpr.Rules.FirstOrDefault(x => x is NaturalCronEveryXRule);
+            if (everyXRule != null && everyXRule.TimeUnit >= NaturalCronTimeUnit.Month)
+            {
+                var matchableRules = naturalCronExpr.Rules.OfType<NaturalCronMatchableRule>().ToList();
+                // If there is no day rule and every is year or month, transform week rules to day rules.
+                // It is basically the same. E.g every month on [monday, wednesday] => every month on [1stMon, 1stWed]
+                TransformWeekRulesToFirstWeekDayRulesIfNeeded(matchableRules);
+            }
         }
-        
+
         return (naturalCronExpr, validationErrors);
     }
-    
+
     private static void TransformWeekRulesToFirstWeekDayRulesIfNeeded(List<NaturalCronMatchableRule> matchableRules)
     {
         bool hasDayRules = matchableRules.Any(x =>
             (x is NaturalCronAtInOnRule || x is NaturalCronAtInOnMultiplesRule) &&
-            (x.TimeUnit == NaturalCronTimeUnit.Day || 
-            (x is NaturalCronAtInOnMultiplesRule m && m.HasTimeUnit(NaturalCronTimeUnit.Day)))
+            (x.TimeUnit == NaturalCronTimeUnit.Day ||
+             (x is NaturalCronAtInOnMultiplesRule m && m.HasTimeUnit(NaturalCronTimeUnit.Day)))
         );
-        
+
         if (hasDayRules)
         {
             return;
@@ -408,7 +321,7 @@ public class NaturalCronExpr
             .Where(x => x.TimeUnit == NaturalCronTimeUnit.Week ||
                         (x is NaturalCronAtInOnMultiplesRule m && m.HasTimeUnit(NaturalCronTimeUnit.Week)))
             .ToList();
-        
+
         if (!weekRules.Any())
         {
             return;
@@ -421,7 +334,8 @@ public class NaturalCronExpr
                 m.DayRules = m.WeekRules
                     .Select(x =>
                     {
-                        var weekdayIdx = ExpressionUtil.TryGetValueForMatch(NaturalCronTimeUnit.Week, DateTime.Now, x.InnerExpression) ?? 1;
+                        var weekdayIdx =
+                            ExpressionUtil.TryGetValueForMatch(NaturalCronTimeUnit.Week, DateTime.Now, x.InnerExpression) ?? 1;
                         return new NaturalCronAtInOnRule
                         {
                             TimeUnit = NaturalCronTimeUnit.Day,
@@ -434,7 +348,8 @@ public class NaturalCronExpr
             }
             else if (weekRule is NaturalCronAtInOnRule atInOnRule)
             {
-                var weekdayIdx = ExpressionUtil.TryGetValueForMatch(NaturalCronTimeUnit.Week, DateTime.Now, atInOnRule.InnerExpression) ?? 1;
+                var weekdayIdx =
+                    ExpressionUtil.TryGetValueForMatch(NaturalCronTimeUnit.Week, DateTime.Now, atInOnRule.InnerExpression) ?? 1;
                 atInOnRule.InnerExpression = "1st" + KeywordsConstants.WeekdayWords[weekdayIdx - 1];
             }
         }
@@ -451,22 +366,21 @@ public class NaturalCronExpr
         {
             return (1, NaturalCronTimeUnit.Second);
         }
-        
+
         var minTimeUnit = unmatchedRules.Select(x =>
             {
-                
                 var (timeToAdvance, timeUnit) = x.GetTimeToAdvanceToNextOccurence(datetime);
-               
+
                 // In case of week we just advance to next day. Week doesn't follow the pattern of other time units e.g advance one week
                 // it will simple advance to next day of the week.
                 if (timeUnit == NaturalCronTimeUnit.Week)
                 {
-                   return (1, NaturalCronTimeUnit.Day);
+                    return (1, NaturalCronTimeUnit.Day);
                 }
 
                 // Not all month have the same number of days.
                 // For special cases like last day of month, closest day to, Last[WeekDay] It can advance to the next occurrence skipping the day rules.
-                if (timeUnit == NaturalCronTimeUnit.Month || 
+                if (timeUnit == NaturalCronTimeUnit.Month ||
                     (timeUnit == NaturalCronTimeUnit.Year && DateTime.IsLeapYear(datetime.Year) && datetime.Month == 2))
                 {
                     var simulatedNextOccurrence = AdvanceNextOccurrence(datetime, NaturalCronTimeUnit.Month, timeToAdvance);
@@ -474,7 +388,7 @@ public class NaturalCronExpr
                     var totalDays = (int)(simulatedNextOccurrence - datetime).TotalDays;
                     return (totalDays, NaturalCronTimeUnit.Day);
                 }
-                
+
                 return (timeToAdvance, timeUnit);
             })
             .OrderBy(x => DateTimeUtil.GetDurationInSeconds(x.Item2, x.Item1, datetime.Year, datetime.Month))
@@ -487,7 +401,7 @@ public class NaturalCronExpr
     {
         return AllMatch(dateTime, this.Rules.ToList());
     }
-    
+
     private bool ShouldAddEveryX(DateTime baseTime, DateTime anchoredOccurrence, NaturalCronTimeUnit everyXTimeUnit)
     {
         var result = anchoredOccurrence == baseTime && AllMatch(anchoredOccurrence);
@@ -495,7 +409,7 @@ public class NaturalCronExpr
         {
             return false;
         }
-        
+
         // If we have multiples ensure it matches with the last occurence of it to guarantee the cycle is complete.
         var multiples = Rules.OfType<NaturalCronAtInOnMultiplesRule>()
             .Where(x => x.GetAllRules().Any(y => y.TimeUnit <= everyXTimeUnit))
@@ -511,7 +425,7 @@ public class NaturalCronExpr
     private IList<string> Validate()
     {
         var errors = new List<string>();
-        
+
         bool hasAtOnInOrEveryXRule = Rules.Any(x => x is NaturalCronAtInOnRule) ||
                                      Rules.Any(x => x is NaturalCronEveryXRule) ||
                                      Rules.Any(x => x is NaturalCronAtInOnMultiplesRule);
@@ -551,7 +465,7 @@ public class NaturalCronExpr
             {
                 if (Rules.Any(x =>
                         (x.TimeUnit == NaturalCronTimeUnit.Week && x is NaturalCronAtInOnRule) ||
-                        (x is NaturalCronAtInOnMultiplesRule m && m.HasTimeUnit(NaturalCronTimeUnit.Week))) && 
+                        (x is NaturalCronAtInOnMultiplesRule m && m.HasTimeUnit(NaturalCronTimeUnit.Week))) &&
                     !string.IsNullOrEmpty(everyXRule.AnchoredValue))
                 {
                     errors.Add("You cannot combine an 'every week' + anchored rule with an At/On/In rule for weeks.");
@@ -559,7 +473,7 @@ public class NaturalCronExpr
                 }
             }
         }
-        
+
         // 4. No duplicate At/On/In rules at the same time unit (Between is allowed)
         foreach (var timeUnit in TimeUnitsWithoutTimezone)
         {
@@ -646,7 +560,7 @@ public class NaturalCronExpr
                 errors.Add($"Timezone rule '{timezoneRule.IanaId}' is not valid.");
             }
         }
-        
+
         if (everyXRule != null && everyXRule.Value <= 0)
         {
             errors.Add("Every value cannot be less than or equal to 0.");
@@ -655,12 +569,104 @@ public class NaturalCronExpr
         return errors;
     }
 
+    private DateTime? InternalTryGetLocalNextOccurrence(DateTime localBaseTime, DateTime localMaxLookahead)
+    {
+        // 1. Normalize input
+        localBaseTime = new DateTime(
+            localBaseTime.Year, localBaseTime.Month, localBaseTime.Day,
+            localBaseTime.Hour, localBaseTime.Minute, localBaseTime.Second);
+
+        var localNextOccurrence = localBaseTime;
+
+        // 2. Apply "every X" rule anchoring if present
+        var everyRule = Rules.OfType<NaturalCronEveryXRule>().FirstOrDefault();
+        if (everyRule != null)
+        {
+            // Anchor to the correct value (e.g., hour 0, minute 0, etc.)
+            var matchableRules = this.Rules.OfType<NaturalCronMatchableRule>().ToList();
+            var anchoredOccurrence = everyRule.ApplyAnchoredValueIfPresent(localNextOccurrence, localBaseTime, matchableRules);
+
+            // If at the base time and all rules match, advance once more
+            if (ShouldAddEveryX(localBaseTime, anchoredOccurrence, everyRule.TimeUnit))
+            {
+                anchoredOccurrence = everyRule.AddEveryXTime(anchoredOccurrence, matchableRules);
+            }
+
+            // If we crossed into a new upper unit (e.g., new day), re-anchor and re-advance if needed
+            if (everyRule.AnchoredValue != null)
+            {
+                var upperUnit = everyRule.TimeUnit + 1;
+                if (upperUnit < NaturalCronTimeUnit.Year)
+                {
+                    var upperPartNow = DateTimeUtil.GetPartValue(upperUnit, anchoredOccurrence);
+                    var upperPartBase = DateTimeUtil.GetPartValue(upperUnit, localBaseTime);
+                    if (upperPartNow > upperPartBase)
+                    {
+                        anchoredOccurrence =
+                            everyRule.ApplyAnchoredValueIfPresent(anchoredOccurrence, localNextOccurrence, matchableRules);
+
+                        // If at the base time and all rules match, advance once more
+                        if (ShouldAddEveryX(localBaseTime, anchoredOccurrence, everyRule.TimeUnit))
+                        {
+                            anchoredOccurrence = everyRule.AddEveryXTime(anchoredOccurrence, matchableRules);
+                        }
+                    }
+                }
+            }
+
+            localNextOccurrence = anchoredOccurrence;
+        }
+
+        // 3. If still not after base time, advance by the minimum non-everyX unit
+        if (localNextOccurrence <= localBaseTime)
+        {
+            var matchableRules = this.Rules.OfType<NaturalCronMatchableRule>().ToList();
+
+            // 1. Filter out all between rules from matchableRules
+            var nonBetweenRules = matchableRules
+                .Where(x => x is not NaturalCronBetweenRule && x is not NaturalCronBetweenMultiplesRule);
+
+            // 2. Add between rules that do NOT match localNextOccurrence
+            var unmatchedBetweenRules = matchableRules
+                .Where(x => x is NaturalCronBetweenRule b || x is NaturalCronBetweenMultiplesRule)
+                .Where(x => !x.Match(localNextOccurrence))
+                .ToList();
+
+            // 3. Combine all candidates
+            var allCandidates = nonBetweenRules
+                .Concat(unmatchedBetweenRules);
+
+            // 4. Find the minimum TimeUnit
+            var minAdvanceUnit = allCandidates
+                .OrderBy(x => x.TimeUnit)
+                .First()
+                .TimeUnit;
+
+            if (minAdvanceUnit == NaturalCronTimeUnit.Week)
+            {
+                minAdvanceUnit = NaturalCronTimeUnit.Day;
+            }
+
+            while (localNextOccurrence <= localBaseTime)
+            {
+                localNextOccurrence = AdvanceNextOccurrence(localNextOccurrence, minAdvanceUnit, 1);
+            }
+        }
+
+        // 4. Find the next actual match (with all rules)
+        (localNextOccurrence, var hasMatch) = FindNextMatchOccurrence(localNextOccurrence, localMaxLookahead);
+
+        // 5. Return UTC if match found
+        return hasMatch ? localNextOccurrence : (DateTime?)null;
+    }
+
     private (DateTime, bool) FindNextMatchOccurrence(DateTime localNextOccurrence, DateTime utcMaxLookahead)
     {
         return FindNextMatchOccurrence(localNextOccurrence, utcMaxLookahead, Rules.ToList());
     }
 
-    private (DateTime, bool) FindNextMatchOccurrence(DateTime localNextOccurrence, DateTime utcMaxLookahead, IList<NaturalCronRule> rules)
+    private (DateTime, bool) FindNextMatchOccurrence(DateTime localNextOccurrence, DateTime utcMaxLookahead,
+        IList<NaturalCronRule> rules)
     {
         bool hasMatch = false;
         while (localNextOccurrence < utcMaxLookahead && !hasMatch)
@@ -692,7 +698,7 @@ public class NaturalCronExpr
                 return true;
             }
 
-            if (rule is NaturalCronAtInOnMultiplesRule atInOnMultiplesRule && 
+            if (rule is NaturalCronAtInOnMultiplesRule atInOnMultiplesRule &&
                 atInOnMultiplesRule.HasTimeUnit(timeUnit))
             {
                 return true;
