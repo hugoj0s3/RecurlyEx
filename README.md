@@ -63,7 +63,7 @@ Friday, 17 January 2020 13:00:00
 */
 ```
 
-Want to test it right now? [Try on .NET Fiddle 🚀](https://dotnetfiddle.net/OavnHQ)
+Want to test it right now? [Try on .NET Fiddle 🚀](https://dotnetfiddle.net/cJkXpr)
 
 ## Supported Recurrence Expression Syntax
 We support the rules every, on, in, at, between, upto, and from. 
