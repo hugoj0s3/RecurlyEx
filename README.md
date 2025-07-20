@@ -1,9 +1,9 @@
-# RecurlyEx
-RecurlyEx is a C# library for scheduling recurring events using easy-to-read, natural language–inspired expressions.
+# NaturalCron
+NaturalCron is a C# library for scheduling recurring events using easy-to-read, natural language–inspired expressions.
 It's like cron, but readable.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-![.NET](https://github.com/hugoj0s3/RecurlyEx/actions/workflows/dotnet.yml/badge.svg)
+![.NET](https://github.com/hugoj0s3/NaturalCron/actions/workflows/dotnet.yml/badge.svg)
 
 
 🔁 Examples of expressions you can write:
@@ -24,18 +24,19 @@ It's like cron, but readable.
 
 ## Installation
 ```bash
-dotnet add package RecurlyEx
+dotnet add package NaturalCron
 ```
 
 ## Usage
 ```csharp
 using System;
+using NaturalCron;
 
 // Define a recurrence rule using natural language
-var recurlyEx = RecurlyEx.RecurlyEx.Parse("every 25 min on friday between 1:00pm and 03:00pm");
+var expression = NaturalCronExpr.Parse("every 25 min on friday between 1:00pm and 03:00pm");
 
 // Get the next 11 occurrences starting from Jan 1, 2020
-var nextOccurrences = recurlyEx.TryGetNextOccurrencesInUtc(
+var nextOccurrences = expression.TryGetNextOccurrencesInUtc(
     DateTime.Parse("2020-01-01 00:00:00"), 11
 );
 

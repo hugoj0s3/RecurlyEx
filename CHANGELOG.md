@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.1.0]
+Rename project from RecurlyEx to NaturalCron
+
 ## [0.0.3] - 2025-07-15
 ### Added
 - Make @ optional we support both "@every day @at 9:00am" and "every day at 9:00am"
