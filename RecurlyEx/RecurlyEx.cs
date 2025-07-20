@@ -85,96 +85,6 @@ public class RecurlyEx
         return !result.HasValue ? null : TimeZoneRule()?.ConvertToUtc(result.Value) ?? result.Value;
     }
 
-    private DateTime? InternalTryGetLocalNextOccurrence(DateTime localBaseTime, DateTime localMaxLookahead)
-    {
-        // 1. Normalize input
-        localBaseTime = new DateTime(
-            localBaseTime.Year, localBaseTime.Month, localBaseTime.Day,
-            localBaseTime.Hour, localBaseTime.Minute, localBaseTime.Second);
-        
-        var localNextOccurrence = localBaseTime;
-
-        // 2. Apply "every X" rule anchoring if present
-        var everyRule = Rules.OfType<RecurlyExEveryXRule>().FirstOrDefault();
-        if (everyRule != null)
-        {
-            // Anchor to the correct value (e.g., hour 0, minute 0, etc.)
-            var matchableRules = this.Rules.OfType<RecurlyExMatchableRule>().ToList();
-            var anchoredOccurrence = everyRule.ApplyAnchoredValueIfPresent(localNextOccurrence, localBaseTime, matchableRules);
-            
-            // If at the base time and all rules match, advance once more
-            if (ShouldAddEveryX(localBaseTime, anchoredOccurrence, everyRule.TimeUnit))
-            {
-                anchoredOccurrence = everyRule.AddEveryXTime(anchoredOccurrence, matchableRules);
-            }
-
-            // If we crossed into a new upper unit (e.g., new day), re-anchor and re-advance if needed
-            if (everyRule.AnchoredValue != null)
-            {
-                var upperUnit = everyRule.TimeUnit + 1;
-                if (upperUnit < RecurlyExTimeUnit.Year)
-                {
-                    var upperPartNow = DateTimeUtil.GetPartValue(upperUnit, anchoredOccurrence);
-                    var upperPartBase = DateTimeUtil.GetPartValue(upperUnit, localBaseTime);
-                    if (upperPartNow > upperPartBase)
-                    {
-                        anchoredOccurrence = everyRule.ApplyAnchoredValueIfPresent(anchoredOccurrence, localNextOccurrence, matchableRules);
-
-                        // If at the base time and all rules match, advance once more
-                        if (ShouldAddEveryX(localBaseTime, anchoredOccurrence, everyRule.TimeUnit))
-                        {
-                            anchoredOccurrence = everyRule.AddEveryXTime(anchoredOccurrence, matchableRules);
-                        }
-                    }
-                }
-            }
-
-            localNextOccurrence = anchoredOccurrence;
-        }
-
-        // 3. If still not after base time, advance by the minimum non-everyX unit
-        if (localNextOccurrence <= localBaseTime)
-        {
-            var matchableRules = this.Rules.OfType<RecurlyExMatchableRule>().ToList();
-            
-            // 1. Filter out all between rules from matchableRules
-            var nonBetweenRules = matchableRules
-                .Where(x => x is not RecurlyExBetweenRule && x is not RecurlyExBetweenMultiplesRule);
-
-            // 2. Add between rules that do NOT match localNextOccurrence
-            var unmatchedBetweenRules = matchableRules
-                .Where(x => x is RecurlyExBetweenRule b || x is RecurlyExBetweenMultiplesRule)
-                .Where(x => !x.Match(localNextOccurrence))
-                .ToList();
-
-            // 3. Combine all candidates
-            var allCandidates = nonBetweenRules
-                .Concat(unmatchedBetweenRules);
-
-            // 4. Find the minimum TimeUnit
-            var minAdvanceUnit = allCandidates
-                .OrderBy(x => x.TimeUnit)
-                .First()
-                .TimeUnit;
-            
-            if (minAdvanceUnit == RecurlyExTimeUnit.Week)
-            {
-                minAdvanceUnit = RecurlyExTimeUnit.Day;
-            }
-
-            while (localNextOccurrence <= localBaseTime)
-            {
-                localNextOccurrence = AdvanceNextOccurrence(localNextOccurrence, minAdvanceUnit, 1);
-            }
-        }
-
-        // 4. Find the next actual match (with all rules)
-        (localNextOccurrence, var hasMatch) = FindNextMatchOccurrence(localNextOccurrence, localMaxLookahead);
-
-        // 5. Return UTC if match found
-        return hasMatch ? localNextOccurrence : (DateTime?)null;
-    }
-
     /// <summary>
     /// Gets the next occurrence in UTC. Throws an exception if no occurrence is found within the specified lookahead period.
     /// </summary>
@@ -253,10 +163,10 @@ public class RecurlyEx
         }
         
         // Convert local time to UTC and call the UTC method
-        baseTime = TimeZoneInfo.ConvertTimeToUtc(baseTime);
-        maxLookahead = maxLookahead.HasValue ? TimeZoneInfo.ConvertTimeToUtc(maxLookahead.Value) : DateTime.MaxValue;
+        var baseTimeInUtc = TimeZoneInfo.ConvertTimeToUtc(baseTime);
+        var maxLookaheadInUtc = maxLookahead.HasValue ? TimeZoneInfo.ConvertTimeToUtc(maxLookahead.Value) : DateTime.MaxValue;
         
-        var result = TryGetNextOccurrenceInUtc(baseTime, maxLookahead.Value);
+        var result = TryGetNextOccurrenceInUtc(baseTimeInUtc, maxLookaheadInUtc);
         
         // Convert UTC to local time
         return result == null ? null : TimeZoneInfo.ConvertTimeFromUtc(result.Value, TimeZoneInfo.Local);
@@ -347,6 +257,96 @@ public class RecurlyEx
         }
 
         return (recurlyEx, new List<string>());
+    }
+    
+    private DateTime? InternalTryGetLocalNextOccurrence(DateTime localBaseTime, DateTime localMaxLookahead)
+    {
+        // 1. Normalize input
+        localBaseTime = new DateTime(
+            localBaseTime.Year, localBaseTime.Month, localBaseTime.Day,
+            localBaseTime.Hour, localBaseTime.Minute, localBaseTime.Second);
+        
+        var localNextOccurrence = localBaseTime;
+
+        // 2. Apply "every X" rule anchoring if present
+        var everyRule = Rules.OfType<RecurlyExEveryXRule>().FirstOrDefault();
+        if (everyRule != null)
+        {
+            // Anchor to the correct value (e.g., hour 0, minute 0, etc.)
+            var matchableRules = this.Rules.OfType<RecurlyExMatchableRule>().ToList();
+            var anchoredOccurrence = everyRule.ApplyAnchoredValueIfPresent(localNextOccurrence, localBaseTime, matchableRules);
+            
+            // If at the base time and all rules match, advance once more
+            if (ShouldAddEveryX(localBaseTime, anchoredOccurrence, everyRule.TimeUnit))
+            {
+                anchoredOccurrence = everyRule.AddEveryXTime(anchoredOccurrence, matchableRules);
+            }
+
+            // If we crossed into a new upper unit (e.g., new day), re-anchor and re-advance if needed
+            if (everyRule.AnchoredValue != null)
+            {
+                var upperUnit = everyRule.TimeUnit + 1;
+                if (upperUnit < RecurlyExTimeUnit.Year)
+                {
+                    var upperPartNow = DateTimeUtil.GetPartValue(upperUnit, anchoredOccurrence);
+                    var upperPartBase = DateTimeUtil.GetPartValue(upperUnit, localBaseTime);
+                    if (upperPartNow > upperPartBase)
+                    {
+                        anchoredOccurrence = everyRule.ApplyAnchoredValueIfPresent(anchoredOccurrence, localNextOccurrence, matchableRules);
+
+                        // If at the base time and all rules match, advance once more
+                        if (ShouldAddEveryX(localBaseTime, anchoredOccurrence, everyRule.TimeUnit))
+                        {
+                            anchoredOccurrence = everyRule.AddEveryXTime(anchoredOccurrence, matchableRules);
+                        }
+                    }
+                }
+            }
+
+            localNextOccurrence = anchoredOccurrence;
+        }
+
+        // 3. If still not after base time, advance by the minimum non-everyX unit
+        if (localNextOccurrence <= localBaseTime)
+        {
+            var matchableRules = this.Rules.OfType<RecurlyExMatchableRule>().ToList();
+            
+            // 1. Filter out all between rules from matchableRules
+            var nonBetweenRules = matchableRules
+                .Where(x => x is not RecurlyExBetweenRule && x is not RecurlyExBetweenMultiplesRule);
+
+            // 2. Add between rules that do NOT match localNextOccurrence
+            var unmatchedBetweenRules = matchableRules
+                .Where(x => x is RecurlyExBetweenRule b || x is RecurlyExBetweenMultiplesRule)
+                .Where(x => !x.Match(localNextOccurrence))
+                .ToList();
+
+            // 3. Combine all candidates
+            var allCandidates = nonBetweenRules
+                .Concat(unmatchedBetweenRules);
+
+            // 4. Find the minimum TimeUnit
+            var minAdvanceUnit = allCandidates
+                .OrderBy(x => x.TimeUnit)
+                .First()
+                .TimeUnit;
+            
+            if (minAdvanceUnit == RecurlyExTimeUnit.Week)
+            {
+                minAdvanceUnit = RecurlyExTimeUnit.Day;
+            }
+
+            while (localNextOccurrence <= localBaseTime)
+            {
+                localNextOccurrence = AdvanceNextOccurrence(localNextOccurrence, minAdvanceUnit, 1);
+            }
+        }
+
+        // 4. Find the next actual match (with all rules)
+        (localNextOccurrence, var hasMatch) = FindNextMatchOccurrence(localNextOccurrence, localMaxLookahead);
+
+        // 5. Return UTC if match found
+        return hasMatch ? localNextOccurrence : (DateTime?)null;
     }
 
     internal static (RecurlyEx?, IList<string> errors) InternalTryParse(string expression)
