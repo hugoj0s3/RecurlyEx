@@ -8,18 +8,18 @@ It's like cron, but readable.
 
 🔁 Examples of expressions you can write:
 
-- @every day @at 9:00am
-- @every week @on [Tuesday, Thursday] @at 18:00
-- @every month @on ClosestWeekdayTo 6th
-- @every 25 seconds @between 1:20pm and 01:22pm
+- @every day @at 9:00am or every day at 9:00am
+- @every week @on [Tuesday, Thursday] @at 18:00 or every week on [Tuesday, Thursday] at 18:00
+- @every month @on ClosestWeekdayTo 6th or every month on ClosestWeekdayTo 6th
+- @every 25 seconds @between 1:20pm and 01:22pm or every 25 seconds between 1:20pm and 01:22pm
 
 ## ✨ Features
 
 - Human-readable cron-like recurrence
-- Powerful `@between`, `@upto`, `@from` filtering
+- Powerful `between`, `upto`, `from`, and more filtering
 - Closest weekday, first/last day handling
 - Time zone support with IANA TZ names
-- Friendly aliases (`@daily`, `@hourly`, etc.)
+- Friendly aliases (`daily`, `hourly`, etc.)
 
 
 ## Installation
@@ -32,7 +32,7 @@ dotnet add package RecurlyEx
 using System;
 
 // Define a recurrence rule using natural language
-var recurlyEx = RecurlyEx.RecurlyEx.Parse("@every 25 min @on friday @between 1:00pm and 03:00pm");
+var recurlyEx = RecurlyEx.RecurlyEx.Parse("every 25 min on friday between 1:00pm and 03:00pm");
 
 // Get the next 11 occurrences starting from Jan 1, 2020
 var nextOccurrences = recurlyEx.TryGetNextOccurrencesInUtc(
@@ -65,14 +65,17 @@ Friday, 17 January 2020 13:00:00
 Want to test it right now? [Try on .NET Fiddle 🚀](https://dotnetfiddle.net/OavnHQ)
 
 ## Supported Recurrence Expression Syntax
+We support the rules every, on, in, at, between, upto, and from. 
+The @ is optional, e.g @every day @at 9:00am or every day at 9:00am both work in the same way.
+We can use if want highlight the rules separately, but it is not required.
 
-### `@every` — Main Recurrence Interval
+### `@every` or `every` — Main Recurrence Interval
 
 Defines how often the recurrence happens.  
 The interval must be a positive integer, and the time unit must be one of the supported units.
 
 **Syntax:**
-- `@every <number> <time-unit>`
+- `every <number> <time-unit>`
 
 **Examples:**
 - `@every day` — every day
@@ -105,13 +108,13 @@ This is especially useful for business, fiscal, or seasonal schedules that must 
 
 In addition to the `@every` rule, you can use shortcut keywords for common intervals:
 
-- `@secondly`
-- `@minutely`
-- `@hourly`
-- `@daily`
-- `@weekly`
-- `@monthly`
-- `@yearly`
+- `@secondly` or `secondly`
+- `@minutely` or `minutely`
+- `@hourly` or `hourly`
+- `@daily` or `daily`
+- `@weekly` or `weekly`
+- `@monthly` or `monthly`
+- `@yearly` or `yearly`
 
 These are equivalent to `@every 1 <time-unit>` and can be used anywhere you would use `@every`.  
 For example:
@@ -120,7 +123,7 @@ For example:
 
 You can use these shortcuts for more concise and readable recurrence expressions.
 
-### `@on`, `@in`, `@at` — Specific Occurrences
+### `@on`, `@in`, `@at` or `on`, `in`, `at` — Specific Occurrences
 
 Defines when the recurrence happens.  
 The interval must be a positive integer, and the time unit must be one of the supported units.
@@ -137,11 +140,11 @@ For multiple uses bracket the time units and numbers:
 **Examples:**
 - `@on day 10` — on the 10th day of the month or just `@on 10th`
 - `@in month 10` — in december or use `@in december` or `@in dec`
-- `@at hour 10 @at minute 30` — at the 10th day of the month or use `@at 10:30am`
+- `@at hour 10 @at minute 30` or `@at 10:30am` — at 10:30am
 
 **Examples:**
 - `@on [day 1, day 20, day 30]` or `@on [1st, 20th, 30th]` — on the 1st, 20th, and 30th days of the month
-- `@at [10:00pm, 12:00am]` or `@at [22:00, 00:00]` — - `@at [10:00pm, 12:00am]` or `@at [22:00, 00:00]` — If neither `am` nor `pm` is specified, the time will be interpreted using 24-hour notation by default.
+- `@at [10:00pm, 12:00am]` or `@at [22:00, 00:00]` or `@at [10:00pm, 12:00am]` — If neither `am` nor `pm` is specified, the time will be interpreted using 24-hour notation by default.
 - `@on [friday, saturday]` or `@on [fri, sat]` — on Friday or Saturday
 
 **Special Days**
@@ -194,23 +197,6 @@ For multiple uses bracket the time units and numbers:
         - `@on 1stMon`, `@on 1stMonday`, `@on FirstMon`, `@on FirstMonday` — all specify the first Monday of the month.
         - `@on 2ndTuesday`, `@on ThirdFri`, `@on 5thMonday` — specify the second Tuesday, third Friday, or fifth Monday of the month, respectively.
 
-- **First or last day of the month:**  
-  You can use any of the following interchangeable keywords to match the first or last day of the month:
-
-    - **Last day of the month:**
-        - `@on LastDayOfTheMonth`
-        - `@on LastDayOfMonth`
-        - `@on LastDay`
-
-    - **First day of the month:**
-        - `@on FirstOfTheMonth`
-        - `@on FirstDayOfMonth`
-        - `@on FirstDay`
-
-  _Examples:_
-    - `@every month @on LastDay` — triggers on the last day of every month.
-    - `@every month @on FirstDayOfMonth` — triggers on the first day of every month.
-
 - **Basic arithmetic with day keywords:**  
   The recurrence engine supports simple arithmetic operations (`+` and `-`) with day-based keywords.  
   For example:
@@ -223,7 +209,7 @@ The recurrence engine does not make a strict distinction between `@on`, `@at`, a
 All three keywords are treated equivalently for specifying time units, even if this sometimes results in expressions that sound like broken English. 
 This design choice is for flexibility and ease of parsing, so you can use whichever keyword feels most natural in your context.
 
-### `@between` Between Rules
+### `@between` or `between` Between Rules
 
 The `@between` rule allows you to restrict occurrences to a specific range—such as a range of days in the month, times within a day, or other supported units.
 
@@ -248,7 +234,7 @@ The `@between` rule allows you to restrict occurrences to a specific range—suc
 - `@between` can be combined with other rules (such as `@on`, `@at`, etc.) for more precise filtering.
 
 
-### Upto and From Rules
+### `@upto` and `@from` or `upto` and `from` Rules
 
 The `@upto` and `@from` rules allow you to restrict occurrences to only those before or after a specific point (such as a time, day, or other supported unit), relative to the recurrence interval.
 
@@ -276,19 +262,18 @@ The `@upto` and `@from` rules allow you to restrict occurrences to only those be
 ### Time Zone Support
 
 You can specify the time zone for your recurrence expressions using either `@timezone` or the shorthand `@tz`.  
-This ensures that all date and time calculations are made in the specified IANA time zone, rather than the default (usually UTC).
+This ensures that all date and time calculations are made in the specified IANA time zone.
 
 **Syntax:**
-- `@timezone <IANA-timezone>`
-- `@tz <IANA-timezone>`
+- `@timezone <IANA-timezone>` or `timezone <IANA-timezone>`
+- `@tz <IANA-timezone>` or `tz <IANA-timezone>`
 
 **Examples:**
-- `@every day @at 09:00 @timezone America/New_York`
-- `@monthly @on 1st @tz Asia/Tokyo`
+- `@every day @at 09:00 @timezone America/New_York` or `every day at 09:00 tz America/New_York`
+- `@monthly @on 1st @tz Asia/Tokyo` or `monthly on 1st tz Asia/Tokyo`
 
 **Notes:**
 - The engine uses IANA time zone names (e.g., `America/Los_Angeles`, `Europe/London`).
-- If no time zone is specified, UTC is used by default.
 - Time zone rules affect all time-based calculations, including DST transitions.
 
 ### Supported time units and aliases
@@ -379,8 +364,9 @@ it allows the combination of date and time
 Colon + ordinal day (e.g. 1st JAN 14:00)
 - `1st JAN 14:00` or `1st JAN 14:00:10` or `1st JAN 2:00pm` or `1st JAN 2:00:10pm`
 
-PS: The comma is ignored if not in brackets for multiple dates
-- `@on 1st, January` works, but not @on [1st, January]
+**Note:** Commas are ignored in single date expressions but not allowed in bracketed multiple date expressions.
+- ✅ `@on 1st, January` works (comma is ignored)
+- ❌ `@on [1st, January]` doesn't work (invalid syntax in brackets)
 
 ## Changelog
 See [CHANGELOG.md](./CHANGELOG.md) for release history and details.

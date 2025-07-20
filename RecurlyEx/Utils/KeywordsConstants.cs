@@ -1,16 +1,22 @@
 using TimeZoneConverter;
 
-namespace RecurlyEx;
+namespace RecurlyEx.Utils;
 
 internal static class KeywordsConstants
 {
-    internal static readonly string[] RuleSpec =
+    // Keep the support for rules with ampersat.
+    internal static readonly string[] RuleSpecWithAmpersat =
     {
         "@AT", "@ON", "@IN", 
         "@EVERY", "@YEARLY", "@MONTHLY", "@WEEKLY", "@DAILY", "@HOURLY", "@MINUTELY", "@SECONDLY", 
         "@BETWEEN", "@UPTO", "@FROM",
         "@TimeZone", "@TZ"
     };
+    
+    internal static readonly string[] RuleSpec = RuleSpecWithAmpersat
+        .Select(x => x.Replace("@", ""))
+        .Concat(RuleSpecWithAmpersat)
+        .ToArray();
 
     internal static readonly string[] Anchored =
     [
