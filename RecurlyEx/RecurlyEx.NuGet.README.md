@@ -1,5 +1,13 @@
 # RecurlyEx
 
+> **⚠️ IMPORTANT: This package has been renamed to HumanCron**
+> 
+> RecurlyEx is now **HumanCron**! Please migrate to the new package for future updates and support.
+> 
+> **New Package:** [HumanCron](https://www.nuget.org/packages/HumanCron)
+> 
+> This RecurlyEx package will continue to work but will no longer receive updates. All new features and bug fixes will be available in HumanCron.
+
 RecurlyEx is a C# library for scheduling recurring events using easy-to-read, natural language–inspired expressions.  
 It's like cron, but readable.
 

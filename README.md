@@ -140,11 +140,11 @@ For multiple uses bracket the time units and numbers:
 **Examples:**
 - `@on day 10` — on the 10th day of the month or just `@on 10th`
 - `@in month 10` — in december or use `@in december` or `@in dec`
-- `@at hour 10 @at minute 30` — at the 10th day of the month or use `@at 10:30am`
+- `@at hour 10 @at minute 30` or `@at 10:30am` — at 10:30am
 
 **Examples:**
 - `@on [day 1, day 20, day 30]` or `@on [1st, 20th, 30th]` — on the 1st, 20th, and 30th days of the month
-- `@at [10:00pm, 12:00am]` or `@at [22:00, 00:00]` — - `@at [10:00pm, 12:00am]` or `@at [22:00, 00:00]` — If neither `am` nor `pm` is specified, the time will be interpreted using 24-hour notation by default.
+- `@at [10:00pm, 12:00am]` or `@at [22:00, 00:00]` or `@at [10:00pm, 12:00am]` — If neither `am` nor `pm` is specified, the time will be interpreted using 24-hour notation by default.
 - `@on [friday, saturday]` or `@on [fri, sat]` — on Friday or Saturday
 
 **Special Days**
@@ -196,23 +196,6 @@ For multiple uses bracket the time units and numbers:
     - _Examples:_
         - `@on 1stMon`, `@on 1stMonday`, `@on FirstMon`, `@on FirstMonday` — all specify the first Monday of the month.
         - `@on 2ndTuesday`, `@on ThirdFri`, `@on 5thMonday` — specify the second Tuesday, third Friday, or fifth Monday of the month, respectively.
-
-- **First or last day of the month:**  
-  You can use any of the following interchangeable keywords to match the first or last day of the month:
-
-    - **Last day of the month:**
-        - `@on LastDayOfTheMonth`
-        - `@on LastDayOfMonth`
-        - `@on LastDay`
-
-    - **First day of the month:**
-        - `@on FirstOfTheMonth`
-        - `@on FirstDayOfMonth`
-        - `@on FirstDay`
-
-  _Examples:_
-    - `@every month @on LastDay` — triggers on the last day of every month.
-    - `@every month @on FirstDayOfMonth` — triggers on the first day of every month.
 
 - **Basic arithmetic with day keywords:**  
   The recurrence engine supports simple arithmetic operations (`+` and `-`) with day-based keywords.  
@@ -279,7 +262,7 @@ The `@upto` and `@from` rules allow you to restrict occurrences to only those be
 ### Time Zone Support
 
 You can specify the time zone for your recurrence expressions using either `@timezone` or the shorthand `@tz`.  
-This ensures that all date and time calculations are made in the specified IANA time zone, rather than the default (usually UTC).
+This ensures that all date and time calculations are made in the specified IANA time zone.
 
 **Syntax:**
 - `@timezone <IANA-timezone>` or `timezone <IANA-timezone>`
@@ -291,7 +274,6 @@ This ensures that all date and time calculations are made in the specified IANA 
 
 **Notes:**
 - The engine uses IANA time zone names (e.g., `America/Los_Angeles`, `Europe/London`).
-- If no time zone is specified, UTC is used by default.
 - Time zone rules affect all time-based calculations, including DST transitions.
 
 ### Supported time units and aliases
@@ -382,8 +364,9 @@ it allows the combination of date and time
 Colon + ordinal day (e.g. 1st JAN 14:00)
 - `1st JAN 14:00` or `1st JAN 14:00:10` or `1st JAN 2:00pm` or `1st JAN 2:00:10pm`
 
-PS: The comma is ignored if not in brackets for multiple dates
-- `@on 1st, January` works, but not @on [1st, January]
+**Note:** Commas are ignored in single date expressions but not allowed in bracketed multiple date expressions.
+- ✅ `@on 1st, January` works (comma is ignored)
+- ❌ `@on [1st, January]` doesn't work (invalid syntax in brackets)
 
 ## Changelog
 See [CHANGELOG.md](./CHANGELOG.md) for release history and details.
