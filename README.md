@@ -35,7 +35,7 @@ using System;
 var recurlyEx = RecurlyEx.RecurlyEx.Parse("every 25 min on friday between 1:00pm and 03:00pm");
 
 // Get the next 11 occurrences starting from Jan 1, 2020
-var nextOccurrences = recurlyEx.TryGetNextOccurrencesInUtc(
+var nextOccurrences = recurlyEx.TryGetNextOccurrences(
     DateTime.Parse("2020-01-01 00:00:00"), 11
 );
 
