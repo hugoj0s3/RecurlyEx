@@ -1,9 +1,9 @@
-# RecurlyEx
-RecurlyEx is a C# library for scheduling recurring events using easy-to-read, natural language–inspired expressions.
-It's like cron, but readable.
+# NaturalCron
+NaturalCron is a C# library for scheduling recurring events using easy-to-read, natural language–inspired expressions.
+It's a readable version of traditional cron expressions with additional features like timezone support, anchoring, and more.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-![.NET](https://github.com/hugoj0s3/RecurlyEx/actions/workflows/dotnet.yml/badge.svg)
+![.NET](https://github.com/hugoj0s3/NaturalCron/actions/workflows/dotnet.yml/badge.svg)
 
 
 🔁 Examples of expressions you can write:
@@ -24,18 +24,19 @@ It's like cron, but readable.
 
 ## Installation
 ```bash
-dotnet add package RecurlyEx
+dotnet add package NaturalCron
 ```
 
 ## Usage
 ```csharp
 using System;
+using NaturalCron;
 
 // Define a recurrence rule using natural language
-var recurlyEx = RecurlyEx.RecurlyEx.Parse("every 25 min on friday between 1:00pm and 03:00pm");
+var expression = NaturalCronExpr.Parse("every 25 min on friday between 1:00pm and 03:00pm");
 
 // Get the next 11 occurrences starting from Jan 1, 2020
-var nextOccurrences = recurlyEx.TryGetNextOccurrences(
+var nextOccurrences = expression.TryGetNextOccurrences(
     DateTime.Parse("2020-01-01 00:00:00"), 11
 );
 
@@ -67,7 +68,7 @@ Want to test it right now? [Try on .NET Fiddle 🚀](https://dotnetfiddle.net/Oa
 ## Supported Recurrence Expression Syntax
 We support the rules every, on, in, at, between, upto, and from. 
 The @ is optional, e.g @every day @at 9:00am or every day at 9:00am both work in the same way.
-We can use if want highlight the rules separately, but it is not required.
+We can use @ if want highlight the rules separately, but it is not required.
 
 ### `@every` or `every` — Main Recurrence Interval
 
