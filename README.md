@@ -1,4 +1,4 @@
-# NaturalCron.NET
+# NaturalCron
 NaturalCron is a C# library for scheduling recurring events using easy-to-read, natural language–inspired expressions.
 It's a readable version of traditional cron expressions with additional features like timezone support, anchoring, and more.
 
