@@ -7,6 +7,16 @@ This document provides a comprehensive reference for the NaturalCron library's p
 var compiledExpr = NaturalCronExpr.Parse("daily at 14:30");
 ```
 
+## Quick Navigation
+- [Parse Methods](#parse-methods)
+- [Properties](#properties)
+- [Local Time Occurrence Methods](#local-time-occurrence-methods)
+- [UTC Occurrence Methods](#utc-occurrence-methods)
+- [Timezone Behavior](#timezone-behavior)
+- [Usage Examples](#usage-examples)
+- [Rule Filter Methods](#rule-filter-methods)
+
+
 ## Parse Methods
 
 ### Parse()
