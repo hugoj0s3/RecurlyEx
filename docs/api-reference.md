@@ -36,7 +36,7 @@ Attempts to parse a NaturalCron expression string. Returns the parsed expression
 - `IList<string> errors`: A list of error messages (empty if parsing succeeded)
 
 
-## Compiled Expression properties and methods
+## Properties
 
 ### Expression
 ```csharp
