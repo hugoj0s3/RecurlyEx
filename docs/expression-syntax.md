@@ -22,7 +22,6 @@ For example:
 
 
 ## 🔹 `@every` or `every` — Main Recurrence Interval
-
 Defines how often the recurrence happens.  
 The interval must be a positive integer, and the time unit must be one of the supported units.
 
@@ -39,7 +38,6 @@ The interval must be a positive integer, and the time unit must be one of the su
 ---
 
 ### Anchored Recurrences
-
 The `AnchoredOn` keyword lets you **fix the schedule to a specific anchor point**, useful for fiscal or seasonal rules.
 
 **Syntax:**
@@ -67,10 +65,8 @@ These are equivalent to `every 1 <time-unit>`:
 
 You can use these shortcuts for more concise and readable recurrence expressions.
 
-## `@on`, `@in`, `@at` or `on`, `in`, `at` — Specific Occurrences
-
-Defines when the recurrence happens.  
-The interval must be a positive integer, and the time unit must be one of the supported units.
+## 🔹 `@on`, `@in`, `@at` or `on`, `in`, `at` — Specific Occurrences
+Defines when the recurrence happens.
 
 **Syntax:**
 - `@on <time-unit> <number>`
@@ -81,7 +77,8 @@ For multiple uses bracket the time units and numbers:
 - `@on [<time-unit> <number>, ...]`
 - `@in [<time-unit> <number>, ...]`
 - `@at [<time-unit> <number>, ...]`
-  **Examples:**
+
+**Examples:**
 - `@on day 10` — on the 10th day of the month or just `@on 10th`
 - `@in month 10` — in december or use `@in december` or `@in dec`
 - `@at hour 10 @at minute 30` or `@at 10:30am` — at 10:30am
@@ -153,8 +150,7 @@ The recurrence engine does not make a strict distinction between `@on`, `@at`, a
 All three keywords are treated equivalently for specifying time units, even if this sometimes results in expressions that sound like broken English.
 This design choice is for flexibility and ease of parsing, so you can use whichever keyword feels most natural in your context.
 
-## `@between` or `between` Between Rules
-
+## 🔹 `@between` or `between` Between Rules
 The `@between` rule allows you to restrict occurrences to a specific range—such as a range of days in the month, times within a day, or other supported units.
 
 **Syntax:**
@@ -178,8 +174,7 @@ The `@between` rule allows you to restrict occurrences to a specific range—suc
 - `@between` can be combined with other rules (such as `@on`, `@at`, etc.) for more precise filtering.
 
 
-## `@upto` and `@from` or `upto` and `from` Rules
-
+## 🔹 `@upto` and `@from` or `upto` and `from` Rules
 The `@upto` and `@from` rules allow you to restrict occurrences to only those before or after a specific point (such as a time, day, or other supported unit), relative to the recurrence interval.
 
 **Syntax:**
@@ -203,8 +198,7 @@ The `@upto` and `@from` rules allow you to restrict occurrences to only those be
 - You can use any supported aliases for times, days, or months.
 - `@upto` and `@from` can be combined with other rules (such as `@on`, `@at`, etc.) for more precise filtering.
 
-## Time Zone Support
-
+## 🔹 Time Zone Support
 You can specify the time zone for your recurrence expressions using either `@timezone` or the shorthand `@tz`.  
 This ensures that all date and time calculations are made in the specified IANA time zone.
 
@@ -221,7 +215,6 @@ This ensures that all date and time calculations are made in the specified IANA 
 - Time zone rules affect all time-based calculations, including DST transitions.
 
 ## Supported time units and aliases
-
 The following units and their aliases can be used with all relevant rules, such as `@every`, `@on`, and `@between`, as well as `@upto` and `@from`:
 
 | Unit    | Aliases                            |
@@ -243,7 +236,6 @@ The following units and their aliases can be used with all relevant rules, such 
 You can use any alias interchangeably in your recurrence expressions.
 
 ## Specifying Time in Recurrence Expressions
-
 You can specify times in your recurrence expressions using several supported formats. The engine accepts both 12-hour and 24-hour notation, and you can include seconds if needed.
 
 **Supported Time Formats:**
