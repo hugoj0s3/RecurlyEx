@@ -5,25 +5,27 @@ Instead of memorizing cryptic CRON syntax.
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ![.NET](https://github.com/hugoj0s3/NaturalCron/actions/workflows/dotnet.yml/badge.svg)
 
-## 🔁 Examples of expressions you can write:
 
+## 🔁 Examples of expressions you can write:
 - `@every day @at 9:00am` or `every day at 9:00am`
 - `@every week @on [Tuesday, Thursday] @at 18:00` or `every week on [Tuesday, Thursday] at 18:00`
 - `@every month @on ClosestWeekdayTo 6th` or `every month on ClosestWeekdayTo 6th`
 - `@every 25 seconds @between 1:20pm and 01:22pm` or `every 25 seconds between 1:20pm and 01:22pm`
 
-## ✨ Features
 
+## ✨ Features
 - Readable, expressive and easy to memorize — e.g use `every 5 minutes on friday` instead of `*/5 * * * 5`
 - Powerful `between`, `upto`, `from`, and more filtering
 - Closest weekday, first/last day handling
 - Time zone support with IANA TZ names
 - Friendly aliases (`daily`, `hourly`, etc.)
 
+
 ## 📦 Installation
 ```bash
 dotnet add package NaturalCron
 ```
+
 
 ## 🚀 Usage
 ```csharp
@@ -55,8 +57,8 @@ Friday, 10 January 2020 13:00:00
 */
 ```
 
-## 📚 Other Examples
 
+## 📚 Other Examples
 ```csharp
 // Every 5 minutes on Fridays
 var recur1 = NaturalCron.Parse("every 5 min on friday");
@@ -74,17 +76,20 @@ var recur4 = NaturalCron.Parse("every day at 9:00am");
 var recur5 = NaturalCron.Parse("every week on [Tuesday, Thursday] at 18:00");
 ```
 
-## 📖 Documentation
 
+## 📖 Documentation
 - [Expression Syntax](docs/expression-syntax.md) — Learn how to write human-readable recurrence rules.
 - [Builder Guide](docs/builder.md) — Programmatically create NaturalCron expressions in C#.
 - [API Reference](docs/api-reference.md) — Full API details and usage examples.
 
+
 ## 🤝 Contributing
 Contributions, bug reports, and feature requests are welcome!
-Please open an [issue](../../issues) or submit a pull request.
+
+Please open an [issue](../../issues) or submit a [pull request](../../pulls).
 
 Want to test it right now? [Try on .NET Fiddle 🚀](https://dotnetfiddle.net/cJkXpr)
+
 
 ## Changelog
 See [CHANGELOG.md](./CHANGELOG.md) for release history and details.
