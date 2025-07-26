@@ -214,7 +214,7 @@ This ensures that all date and time calculations are made in the specified IANA 
 - The engine uses IANA time zone names (e.g., `America/Los_Angeles`, `Europe/London`).
 - Time zone rules affect all time-based calculations, including DST transitions.
 
-## Supported time units and aliases
+## 🔹 Supported time units and aliases
 The following units and their aliases can be used with all relevant rules, such as `@every`, `@on`, and `@between`, as well as `@upto` and `@from`:
 
 | Unit    | Aliases                            |
@@ -235,7 +235,7 @@ The following units and their aliases can be used with all relevant rules, such 
 
 You can use any alias interchangeably in your recurrence expressions.
 
-## Specifying Time in Recurrence Expressions
+## 🔹 Specifying Time in Recurrence Expressions
 You can specify times in your recurrence expressions using several supported formats. The engine accepts both 12-hour and 24-hour notation, and you can include seconds if needed.
 
 **Supported Time Formats:**
@@ -255,7 +255,7 @@ You can specify times in your recurrence expressions using several supported for
 - Seconds are optional; if omitted, the time matches at the start of the specified minute.
 - You can use these formats in any rule that accepts a time value, such as `@at`, `@on`, `@between`, `@from`, and `@upto`.
 
-## Specifying Dates in Recurrence Expressions
+## 🔹 Specifying Dates in Recurrence Expressions
 
 You can specify dates in your recurrence expressions using the following formats:
 
@@ -300,7 +300,8 @@ it allows the combination of date and time
 Colon + ordinal day (e.g. 1st JAN 14:00)
 - `1st JAN 14:00` or `1st JAN 14:00:10` or `1st JAN 2:00pm` or `1st JAN 2:00:10pm`
 
-**Note:** Commas are ignored in single date expressions but not allowed in bracketed multiple date expressions.
+**Note:** 
+Commas are ignored in single date expressions but not allowed in bracketed multiple date expressions.
 - ✅ `@on 1st, January` works (comma is ignored)
 - ❌ `@on [1st, January]` doesn't work (invalid syntax in brackets)
 
