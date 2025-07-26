@@ -21,6 +21,13 @@ Instead of memorizing cryptic CRON syntax.
 - Friendly aliases (`daily`, `hourly`, etc.)
 
 
+## Why NaturalCron?
+Cron is powerful but hard to read. NaturalCron is designed to:
+- Be human-readable
+- Stay close to natural language
+- Still flexible enough for advanced use cases
+
+
 ## 📦 Installation
 ```bash
 dotnet add package NaturalCron
@@ -77,6 +84,9 @@ var recur5 = NaturalCron.Parse("every week on [Tuesday, Thursday] at 18:00");
 ```
 
 
+▶ Try it online: [Run on .NET Fiddle](https://dotnetfiddle.net/cJkXpr)
+
+
 ## 📖 Documentation
 - [Expression Syntax](docs/expression-syntax.md) — Learn how to write human-readable recurrence rules.
 - [Builder Guide](docs/builder.md) — Programmatically create NaturalCron expressions in C#.
@@ -87,9 +97,6 @@ var recur5 = NaturalCron.Parse("every week on [Tuesday, Thursday] at 18:00");
 Contributions, bug reports, and feature requests are welcome!
 
 Please open an [issue](../../issues) or submit a [pull request](../../pulls).
-
-Want to test it right now? [Try on .NET Fiddle 🚀](https://dotnetfiddle.net/cJkXpr)
-
 
 ## Changelog
 See [CHANGELOG.md](./CHANGELOG.md) for release history and details.
