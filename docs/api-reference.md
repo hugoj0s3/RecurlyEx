@@ -46,8 +46,6 @@ Attempts to parse a NaturalCron expression string. Returns the parsed expression
 - `IList<string> errors`: A list of error messages (empty if parsing succeeded)
 
 
---------------------------------------------------------
-
 ## Properties
 
 ### Expression
@@ -62,8 +60,6 @@ public IReadOnlyCollection<NaturalCronRule> Rules { get; }
 ```
 The parsed rules that define the recurrence.
 
-
---------------------------------------------------------
 
 ## Local Time Occurrence Methods
 These methods work with the current thread's timezone and return results in the local timezone.
@@ -123,8 +119,6 @@ Gets the next occurrences using the current thread's timezone. Throws an excepti
 **Throws:** `InvalidOperationException` when fewer than the requested number of occurrences are found
 
 
---------------------------------------------------------
-
 ## UTC Occurrence Methods
 These methods work with UTC times and return UTC results.
 
@@ -183,8 +177,6 @@ Gets the next occurrences in UTC. Throws an exception if fewer occurrences than 
 **Throws:** `InvalidOperationException` when fewer than the requested number of occurrences are found
 
 
---------------------------------------------------------
-
 ## Timezone Behavior
 Understanding how timezones work in NaturalCron is crucial for correct usage:
 
@@ -206,8 +198,6 @@ For expression `"daily at 09:00 tz Asia/Tokyo"`:
 
 The `tz` keyword affects the **calculation** timezone, not the **return** timezone.
 
-
---------------------------------------------------------
 
 ## Usage Examples
 
@@ -257,8 +247,6 @@ var nextLocal = expr.GetNextOccurrence(DateTime.Now);
 // This calculates 9 AM New York time and returns it in UTC
 var nextUtc = expr.GetNextOccurrenceInUtc(DateTime.UtcNow);
 ```
-
---------------------------------------------------------
 
 ## Rule Filter Methods
 These methods return subsets of rules filtered by time unit:
