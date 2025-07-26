@@ -25,7 +25,7 @@ Instead of memorizing cryptic CRON syntax.
 dotnet add package NaturalCron
 ```
 
-## Usage
+## 🚀 Usage
 ```csharp
 using System;
 using NaturalCron;
@@ -81,17 +81,8 @@ var recur5 = NaturalCron.Parse("every week on [Tuesday, Thursday] at 18:00");
 - [API Reference](docs/api-reference.md) — Full API details and usage examples.
 
 ## 🤝 Contributing
-Contributions, bug reports, and feature requests are welcome!  
-If you’d like to help:
-
-1. **Fork** the repository
-2. **Create** your feature branch (`git checkout -b feature/my-feature`)
-3. **Commit** your changes (`git commit -am 'Add new feature'`)
-4. **Push** to the branch (`git push origin feature/my-feature`)
-5. **Open a Pull Request**
-
-For bugs or ideas, please open an [issue](../../issues).  
-
+Contributions, bug reports, and feature requests are welcome!
+Please open an [issue](../../issues) or submit a pull request.
 
 Want to test it right now? [Try on .NET Fiddle 🚀](https://dotnetfiddle.net/cJkXpr)
 
