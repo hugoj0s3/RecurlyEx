@@ -1,4 +1,4 @@
-# Builder
+# FluentBuilder
 
 The **NaturalCron Builder** provides a **fluent, strongly-typed API** for constructing NaturalCron expressions programmatically in C#.  
 Its primary goals are:
@@ -36,7 +36,7 @@ var expr = NaturalCronBuilder.Start()
 
 ## Core Concepts
 
-### Build() vs ToRawExpression()
+### Build() and ToRawExpression()
 
 The builder provides two output methods with **important differences**:
 
@@ -61,8 +61,7 @@ Console.WriteLine($"Expression: {rawString}");
 | `Build()` | Validates expression and throws exception if parsing fails | `NaturalCronExpr` | Runtime use |
 | `ToRawExpression()` | No validation - returns raw string | `string` | Debugging, logging |
 
-> Important: The builder is **not a silver bullet** - it can construct **invalid expressions**.  
-> Use ToRawExpression() if want to see/log the wrong raw expression.
+> Important: The builder is **not a silver bullet** - it can construct **invalid expressions**.
 
 **Example of invalid expression:**
 ```csharp
