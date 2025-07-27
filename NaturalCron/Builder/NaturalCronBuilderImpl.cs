@@ -7,8 +7,8 @@ internal class NaturalCronBuilderImpl :
     INaturalCronStarterSelector,
     INaturalEveryTimeUnitSelector,
     INaturalEveryTimeUnitWithValueSelector,
-    INaturalCronTimeSpecificationSelector,
-    INaturalCronTimeSpecificationWithAnchoredSelector
+    INaturalCronFinalSelector,
+    INaturalCronFinalWithAnchoredSelector
 {
     private bool useAmpersat;
     private bool useWeekFullName;
@@ -116,72 +116,72 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
         return this;
     }
 
-    public INaturalCronTimeSpecificationSelector Yearly()
+    public INaturalCronFinalSelector Yearly()
     {
         this.everyRawExpr = $"{prefix}Yearly";
         return this;
     }
 
-    public INaturalCronTimeSpecificationSelector Monthly()
+    public INaturalCronFinalSelector Monthly()
     {
         this.everyRawExpr = $"{prefix}Monthly";
         return this;
     }
 
-    public INaturalCronTimeSpecificationSelector Weekly()
+    public INaturalCronFinalSelector Weekly()
     {
         this.everyRawExpr = $"{prefix}Weekly";
         return this;
     }
 
-    public INaturalCronTimeSpecificationSelector Daily()
+    public INaturalCronFinalSelector Daily()
     {
         this.everyRawExpr = $"{prefix}Daily";
         return this;
     }
 
-    public INaturalCronTimeSpecificationSelector Hourly()
+    public INaturalCronFinalSelector Hourly()
     {
         this.everyRawExpr = $"{prefix}Hourly";
         return this;
     }
 
-    public INaturalCronTimeSpecificationSelector Minutely()
+    public INaturalCronFinalSelector Minutely()
     {
         this.everyRawExpr = $"{prefix}Minutely";
         return this;
     }
     
-    public INaturalCronTimeSpecificationSelector Secondly()
+    public INaturalCronFinalSelector Secondly()
     {
         this.everyRawExpr = $"{prefix}Secondly";
         return this;
     }
     
-    public INaturalCronTimeSpecificationSelector On(params string[] rawValues) => AppendToken("On", rawValues);
-    public INaturalCronTimeSpecificationSelector In(params string[] rawValues) => AppendToken("In", rawValues);
-    public INaturalCronTimeSpecificationSelector At(params string[] rawValues) => AppendToken("At", rawValues);
+    public INaturalCronFinalSelector On(params string[] rawValues) => AppendToken("On", rawValues);
+    public INaturalCronFinalSelector In(params string[] rawValues) => AppendToken("In", rawValues);
+    public INaturalCronFinalSelector At(params string[] rawValues) => AppendToken("At", rawValues);
 
-    public INaturalCronTimeSpecificationSelector On(string rawValue) => AppendToken("On", rawValue);
-    public INaturalCronTimeSpecificationSelector In(string rawValue) => AppendToken("In", rawValue);
-    public INaturalCronTimeSpecificationSelector At(string rawValue) => AppendToken("At", rawValue);
+    public INaturalCronFinalSelector On(string rawValue) => AppendToken("On", rawValue);
+    public INaturalCronFinalSelector In(string rawValue) => AppendToken("In", rawValue);
+    public INaturalCronFinalSelector At(string rawValue) => AppendToken("At", rawValue);
 
-    public INaturalCronTimeSpecificationSelector From(string rawValue) => AppendToken("From", rawValue);
-    public INaturalCronTimeSpecificationSelector Upto(string rawValue) => AppendToken("Upto", rawValue);
+    public INaturalCronFinalSelector From(string rawValue) => AppendToken("From", rawValue);
+    public INaturalCronFinalSelector Upto(string rawValue) => AppendToken("Upto", rawValue);
     
 
-    public INaturalCronTimeSpecificationSelector Between(string startRawValue, string endRawValue) => AppendRangeToken("Between", (startRawValue, endRawValue));
+    public INaturalCronFinalSelector Between(string startRawValue, string endRawValue) => AppendRangeToken("Between", (startRawValue, endRawValue));
 
-    public INaturalCronTimeSpecificationSelector Between(params (string startRawValue, string endRawValue)[] ranges) => AppendRangeToken("Between", ranges);
+    public INaturalCronFinalSelector Between(params (string startRawValue, string endRawValue)[] ranges) => AppendRangeToken("Between", ranges);
 
-    public INaturalCronTimeSpecificationSelector Between(DayOfWeek start, DayOfWeek end)
+    public INaturalCronFinalSelector Between(DayOfWeek start, DayOfWeek end)
     {
         NaturalCronDayOfWeek startDayOfWeek = (NaturalCronDayOfWeek)start + 1;
         NaturalCronDayOfWeek endDayOfWeek = (NaturalCronDayOfWeek)end + 1;
         return this.Between(startDayOfWeek, endDayOfWeek);
     }
 
-    public INaturalCronTimeSpecificationSelector Between(NaturalCronDayOfWeek start, NaturalCronDayOfWeek end)
+    public INaturalCronFinalSelector Between(NaturalCronDayOfWeek start, NaturalCronDayOfWeek end)
     {
         var startRawValue = GetWeekName(start);
         var endRawValue = GetWeekName(end);
@@ -189,50 +189,50 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
         
     }
 
-    public INaturalCronTimeSpecificationSelector From(NaturalCronDayOfWeek value)
+    public INaturalCronFinalSelector From(NaturalCronDayOfWeek value)
     {
         var rawValue = GetWeekName(value);
         return this.From(rawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector Upto(NaturalCronDayOfWeek value)
+    public INaturalCronFinalSelector Upto(NaturalCronDayOfWeek value)
     {
         var rawValue = GetWeekName(value);
         return this.Upto(rawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector Between(NaturalCronMonth start, NaturalCronMonth end)
+    public INaturalCronFinalSelector Between(NaturalCronMonth start, NaturalCronMonth end)
     {
         var startRawValue = GetMonthName(start);
         var endRawValue = GetMonthName(end);
         return this.Between(startRawValue, endRawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector From(NaturalCronMonth value)
+    public INaturalCronFinalSelector From(NaturalCronMonth value)
     {
         var rawValue = GetMonthName(value);
         return this.From(rawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector Upto(NaturalCronMonth value)
+    public INaturalCronFinalSelector Upto(NaturalCronMonth value)
     {
         var rawValue = GetMonthName(value);
         return this.Upto(rawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector FromDay(int day)
+    public INaturalCronFinalSelector FromDay(int day)
     {
         var rawValue = GetDayRawValue(day);
         return this.From(rawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector UptoDay(int day)
+    public INaturalCronFinalSelector UptoDay(int day)
     {
         var rawValue = GetDayRawValue(day);
         return this.Upto(rawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector AtDayPosition(NaturalCronDayPosition position)
+    public INaturalCronFinalSelector AtDayPosition(NaturalCronDayPosition position)
     {
         var rawValue = position switch
         {
@@ -246,7 +246,7 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
         return this.At(rawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector OnNthWeekday(NaturalCronNthWeekDay nthDay, NaturalCronDayOfWeek dayOfWeek)
+    public INaturalCronFinalSelector OnNthWeekday(NaturalCronNthWeekDay nthDay, NaturalCronDayOfWeek dayOfWeek)
     {
         var weekRawValue = GetWeekName(dayOfWeek);
         var nthRawValue = nthDay switch
@@ -263,26 +263,26 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
         return this.On($"{nthRawValue}{weekRawValue}");
     }
 
-    public INaturalCronTimeSpecificationSelector OnClosestWeekdayTo(int day)
+    public INaturalCronFinalSelector OnClosestWeekdayTo(int day)
     {
         var rawValue = "ClosestWeekdayTo " + GetDayRawValue(day);
         return this.On(rawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector AtTime(int hour, int minute, int? second, NaturalCronAmOrPm? amOrPm)
+    public INaturalCronFinalSelector AtTime(int hour, int minute, int? second, NaturalCronAmOrPm? amOrPm)
     {
         var rawValue = GetTimeRawValue(hour, minute, second, amOrPm);
         return this.At(rawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector BetweenTime(int startHour, int startMinute, int endHour, int endMinute, NaturalCronAmOrPm? amOrPm = null)
+    public INaturalCronFinalSelector BetweenTime(int startHour, int startMinute, int endHour, int endMinute, NaturalCronAmOrPm? amOrPm = null)
     {
         var startRawValue = GetTimeRawValue(startHour, startMinute, null, amOrPm);
         var endRawValue = GetTimeRawValue(endHour, endMinute, null, amOrPm);
         return this.Between(startRawValue, endRawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector BetweenTime(
+    public INaturalCronFinalSelector BetweenTime(
         int startHour, int startMinute, int startSecond, int endHour, int endMinute, int endSecond,
         NaturalCronAmOrPm? amOrPm = null)
     {
@@ -291,39 +291,39 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
         return this.Between(startRawValue, endRawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector FromTime(int hour, int minute, int? second = null, NaturalCronAmOrPm? amOrPm = null)
+    public INaturalCronFinalSelector FromTime(int hour, int minute, int? second = null, NaturalCronAmOrPm? amOrPm = null)
     {
         var rawValue = GetTimeRawValue(hour, minute, second, amOrPm);
         return this.From(rawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector UptoTime(int hour, int minute, int? second = null, NaturalCronAmOrPm? amOrPm = null)
+    public INaturalCronFinalSelector UptoTime(int hour, int minute, int? second = null, NaturalCronAmOrPm? amOrPm = null)
     {
         var rawValue = GetTimeRawValue(hour, minute, second, amOrPm);
         return this.Upto(rawValue);
     }
     
 #if NET6_0_OR_GREATER
-    public INaturalCronTimeSpecificationSelector At(TimeOnly time, bool includeSeconds = false, NaturalCronAmOrPm? amOrPm = null)
+    public INaturalCronFinalSelector At(TimeOnly time, bool includeSeconds = false, NaturalCronAmOrPm? amOrPm = null)
     {
         var (hour, minute, second) = ExtractTimeComponents(time, includeSeconds, amOrPm);
 
         return this.AtTime(hour, minute, second, amOrPm);
     }
 
-    public INaturalCronTimeSpecificationSelector From(TimeOnly value, bool includeSeconds = false, NaturalCronAmOrPm? amOrPm = null)
+    public INaturalCronFinalSelector From(TimeOnly value, bool includeSeconds = false, NaturalCronAmOrPm? amOrPm = null)
     {
         var (hour, minute, second) = ExtractTimeComponents(value, includeSeconds, amOrPm);
         return this.FromTime(hour, minute, second, amOrPm);
     }
 
-    public INaturalCronTimeSpecificationSelector Upto(TimeOnly value, bool includeSeconds = false, NaturalCronAmOrPm? amOrPm = null)
+    public INaturalCronFinalSelector Upto(TimeOnly value, bool includeSeconds = false, NaturalCronAmOrPm? amOrPm = null)
     {
         var (hour, minute, second) = ExtractTimeComponents(value, includeSeconds, amOrPm);
         return this.UptoTime(hour, minute, second, amOrPm);
     }
 
-    public INaturalCronTimeSpecificationSelector Between(TimeOnly start, TimeOnly end, bool includeSeconds = false, NaturalCronAmOrPm? amOrPm = null)
+    public INaturalCronFinalSelector Between(TimeOnly start, TimeOnly end, bool includeSeconds = false, NaturalCronAmOrPm? amOrPm = null)
     {
         var (startHour, startMinute, startSecond) = ExtractTimeComponents(start, includeSeconds, amOrPm);
         var (endHour, endMinute, endSecond) = ExtractTimeComponents(end, includeSeconds, amOrPm);
@@ -337,7 +337,7 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
     }
 #endif
 
-    public INaturalCronTimeSpecificationSelector At(NaturalCronMonth month, int day)
+    public INaturalCronFinalSelector At(NaturalCronMonth month, int day)
     {
         var dayRawValue = GetDayRawValue(day);
         var monthRawValue = GetMonthName(month);
@@ -345,7 +345,7 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
         return this.At(rawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector Upto(NaturalCronMonth month, int day)
+    public INaturalCronFinalSelector Upto(NaturalCronMonth month, int day)
     {
         var dayRawValue = GetDayRawValue(day);
         var monthRawValue = GetMonthName(month);
@@ -353,7 +353,7 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
         return this.Upto(rawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector From(NaturalCronMonth month, int day)
+    public INaturalCronFinalSelector From(NaturalCronMonth month, int day)
     {
         var dayRawValue = GetDayRawValue(day);
         var monthRawValue = GetMonthName(month);
@@ -361,7 +361,7 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
         return this.From(rawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector Between(NaturalCronMonth startMonth, int startDay, NaturalCronMonth endMonth, int endDay)
+    public INaturalCronFinalSelector Between(NaturalCronMonth startMonth, int startDay, NaturalCronMonth endMonth, int endDay)
     {
         var startDayRawValue = GetDayRawValue(startDay);
         var startMonthRawValue = GetMonthName(startMonth);
@@ -374,133 +374,133 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
         return this.Between(startRawValue, endRawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector WithTimeZone(string ianaName)
+    public INaturalCronFinalSelector WithTimeZone(string ianaName)
     {
         this.ianaTimeZoneId = ianaName;
         return this;
     }
 
-    public INaturalCronTimeSpecificationSelector On(DayOfWeek dayOfWeek)
+    public INaturalCronFinalSelector On(DayOfWeek dayOfWeek)
     {
         NaturalCronDayOfWeek naturalCronDayOfWeek = (NaturalCronDayOfWeek)dayOfWeek + 1;
         return this.On(naturalCronDayOfWeek);
     }
     
-    public INaturalCronTimeSpecificationSelector From(DayOfWeek value)
+    public INaturalCronFinalSelector From(DayOfWeek value)
     {
         NaturalCronDayOfWeek naturalCronDayOfWeek = (NaturalCronDayOfWeek)value + 1;
         return this.From(naturalCronDayOfWeek);
     }
 
-    public INaturalCronTimeSpecificationSelector Upto(DayOfWeek value)
+    public INaturalCronFinalSelector Upto(DayOfWeek value)
     {
         NaturalCronDayOfWeek naturalCronDayOfWeek = (NaturalCronDayOfWeek)value + 1;
         return this.Upto(naturalCronDayOfWeek);
     }
 
-    public INaturalCronTimeSpecificationSelector On(NaturalCronDayOfWeek dayOfWeek)
+    public INaturalCronFinalSelector On(NaturalCronDayOfWeek dayOfWeek)
     {
         var rawValue = GetWeekName(dayOfWeek);
         return this.On(rawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector In(NaturalCronMonth month)
+    public INaturalCronFinalSelector In(NaturalCronMonth month)
     {
         var rawValue = GetMonthName(month);
         return this.In(rawValue);
     }
     
-    public INaturalCronTimeSpecificationSelector AtDay(int day)
+    public INaturalCronFinalSelector AtDay(int day)
     {
         var rawValue = GetDayRawValue(day);
         return this.At(rawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector Day()
+    public INaturalCronFinalSelector Day()
     {
         this.everyTimeUnit = NaturalCronTimeUnit.Day;
         return this;
     }
 
-    public INaturalCronTimeSpecificationSelector Week()
+    public INaturalCronFinalSelector Week()
     {
         this.everyTimeUnit = NaturalCronTimeUnit.Week;
         return this;
     }
 
-    public INaturalCronTimeSpecificationSelector Month()
+    public INaturalCronFinalSelector Month()
     {
         this.everyTimeUnit = NaturalCronTimeUnit.Month;
         return this;
     }
 
-    public INaturalCronTimeSpecificationSelector Year()
+    public INaturalCronFinalSelector Year()
     {
         this.everyTimeUnit = NaturalCronTimeUnit.Year;
         return this;
     }
 
-    public INaturalCronTimeSpecificationWithAnchoredSelector Days()
+    public INaturalCronFinalWithAnchoredSelector Days()
     {
         this.everyTimeUnit = NaturalCronTimeUnit.Day;
         return this;
     }
 
-    public INaturalCronTimeSpecificationWithAnchoredSelector Weeks()
+    public INaturalCronFinalWithAnchoredSelector Weeks()
     {
         this.everyTimeUnit = NaturalCronTimeUnit.Week;
         return this;
     }
 
-    public INaturalCronTimeSpecificationWithAnchoredSelector Months()
+    public INaturalCronFinalWithAnchoredSelector Months()
     {
         this.everyTimeUnit = NaturalCronTimeUnit.Month;
         return this;
     }
 
-    public INaturalCronTimeSpecificationWithAnchoredSelector Years()
+    public INaturalCronFinalWithAnchoredSelector Years()
     {
         this.everyTimeUnit = NaturalCronTimeUnit.Year;
         return this;
     }
 
-    public INaturalCronTimeSpecificationSelector AnchoredOn(string rawValue)
+    public INaturalCronFinalSelector AnchoredOn(string rawValue)
     {
         this.anchoredRawExpr = "AnchoredOn " + rawValue;
         return this;
     }
 
-    public INaturalCronTimeSpecificationSelector AnchoredIn(string rawValue)
+    public INaturalCronFinalSelector AnchoredIn(string rawValue)
     {
         this.anchoredRawExpr = "AnchoredIn " + rawValue;
         return this;
     }
 
-    public INaturalCronTimeSpecificationSelector AnchoredAt(string rawValue)
+    public INaturalCronFinalSelector AnchoredAt(string rawValue)
     {
         this.anchoredRawExpr = "AnchoredAt " + rawValue;
         return this;
     }
 
-    public INaturalCronTimeSpecificationSelector AnchoredOn(DayOfWeek dayOfWeek)
+    public INaturalCronFinalSelector AnchoredOn(DayOfWeek dayOfWeek)
     {
         NaturalCronDayOfWeek naturalCronDayOfWeek = (NaturalCronDayOfWeek)dayOfWeek + 1;
         return this.AnchoredOn(naturalCronDayOfWeek);
     }
 
-    public INaturalCronTimeSpecificationSelector AnchoredIn(NaturalCronMonth month)
+    public INaturalCronFinalSelector AnchoredIn(NaturalCronMonth month)
     {
         var rawValue = GetMonthName(month);
         return this.AnchoredIn(rawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector AnchoredOn(NaturalCronDayOfWeek dayOfWeek)
+    public INaturalCronFinalSelector AnchoredOn(NaturalCronDayOfWeek dayOfWeek)
     {
         var rawValue = GetWeekName(dayOfWeek);
         return this.AnchoredOn(rawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector AnchoredOn(int value)
+    public INaturalCronFinalSelector AnchoredOn(int value)
     {
         var rawValue = value.ToString();
         if (this.everyTimeUnit == NaturalCronTimeUnit.Day)
@@ -511,7 +511,7 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
         return this.AnchoredOn(rawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector AnchoredIn(int value)
+    public INaturalCronFinalSelector AnchoredIn(int value)
     {
         var rawValue = value.ToString();
         if (this.everyTimeUnit == NaturalCronTimeUnit.Day)
@@ -522,7 +522,7 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
         return this.AnchoredIn(rawValue);
     }
 
-    public INaturalCronTimeSpecificationSelector AnchoredAt(int value)
+    public INaturalCronFinalSelector AnchoredAt(int value)
     {
         var rawValue = value.ToString();
         if (this.everyTimeUnit == NaturalCronTimeUnit.Day)
@@ -546,7 +546,8 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
 
             if (everyTimeUnit.HasValue)
             {
-                result.Append(' ').Append(everyTimeUnit.Value.ToString().ToLower());
+                result.Append(' ').Append(everyTimeUnit.Value.ToString());
+                
                 if (everyValue.HasValue && everyValue.Value > 1)
                     result.Append('s');
             }
@@ -624,7 +625,7 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
     private string GetWeekName(NaturalCronDayOfWeek day) =>
         useWeekFullName ? WeekFullNames[day] : WeekNameAbbreviations[day];
     
-    private INaturalCronTimeSpecificationSelector AppendRangeToken(string keyword, params (string start, string end)[] ranges)
+    private INaturalCronFinalSelector AppendRangeToken(string keyword, params (string start, string end)[] ranges)
     {
         string formatted;
         if (ranges.Length == 1)
@@ -650,7 +651,7 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
     private static string FormatValues(string[] values) =>
         values.Length == 1 ? values[0] : $"[{string.Join(", ", values)}]";
     
-    private INaturalCronTimeSpecificationSelector AppendToken(string keyword, params string[] values)
+    private INaturalCronFinalSelector AppendToken(string keyword, params string[] values)
     {
         var formatted = FormatValues(values);
         AppendWithSpace($"{prefix}{keyword} {formatted}");

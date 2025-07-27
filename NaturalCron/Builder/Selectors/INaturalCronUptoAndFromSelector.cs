@@ -2,32 +2,32 @@ namespace NaturalCron.Builder.Selectors;
 
 public interface INaturalCronUptoAndFromSelector
 {
-    INaturalCronTimeSpecificationSelector From(string rawValue);
-    INaturalCronTimeSpecificationSelector Upto(string rawValue);
+    INaturalCronFinalSelector From(string rawValue);
+    INaturalCronFinalSelector Upto(string rawValue);
     
-    INaturalCronTimeSpecificationSelector From(DayOfWeek value);
-    INaturalCronTimeSpecificationSelector Upto(DayOfWeek value);
+    INaturalCronFinalSelector From(DayOfWeek value);
+    INaturalCronFinalSelector Upto(DayOfWeek value);
     
-    INaturalCronTimeSpecificationSelector From(NaturalCronDayOfWeek value);
-    INaturalCronTimeSpecificationSelector Upto(NaturalCronDayOfWeek value);
+    INaturalCronFinalSelector From(NaturalCronDayOfWeek value);
+    INaturalCronFinalSelector Upto(NaturalCronDayOfWeek value);
     
-    INaturalCronTimeSpecificationSelector From(NaturalCronMonth value);
-    INaturalCronTimeSpecificationSelector Upto(NaturalCronMonth value);
+    INaturalCronFinalSelector From(NaturalCronMonth value);
+    INaturalCronFinalSelector Upto(NaturalCronMonth value);
     
     // Days
-    INaturalCronTimeSpecificationSelector FromDay(int day);
-    INaturalCronTimeSpecificationSelector UptoDay(int day);
+    INaturalCronFinalSelector FromDay(int day);
+    INaturalCronFinalSelector UptoDay(int day);
 #if NET6_0_OR_GREATER
     // Time only
-    INaturalCronTimeSpecificationSelector From(TimeOnly value, bool includeSeconds = false, NaturalCronAmOrPm? amOrPm = null);
-    INaturalCronTimeSpecificationSelector Upto(TimeOnly value, bool includeSeconds = false, NaturalCronAmOrPm? amOrPm = null);
+    INaturalCronFinalSelector From(TimeOnly value, bool includeSeconds = false, NaturalCronAmOrPm? amOrPm = null);
+    INaturalCronFinalSelector Upto(TimeOnly value, bool includeSeconds = false, NaturalCronAmOrPm? amOrPm = null);
 #endif
     
     
     // Month + Day
-    INaturalCronTimeSpecificationSelector Upto(NaturalCronMonth month, int day);
-    INaturalCronTimeSpecificationSelector From(NaturalCronMonth month, int day);
+    INaturalCronFinalSelector Upto(NaturalCronMonth month, int day);
+    INaturalCronFinalSelector From(NaturalCronMonth month, int day);
     
-    INaturalCronTimeSpecificationSelector FromTime(int hour, int minute, int? second = null, NaturalCronAmOrPm? amOrPm = null);
-    INaturalCronTimeSpecificationSelector UptoTime(int hour, int minute, int? second = null, NaturalCronAmOrPm? amOrPm = null);
+    INaturalCronFinalSelector FromTime(int hour, int minute, int? second = null, NaturalCronAmOrPm? amOrPm = null);
+    INaturalCronFinalSelector UptoTime(int hour, int minute, int? second = null, NaturalCronAmOrPm? amOrPm = null);
 }

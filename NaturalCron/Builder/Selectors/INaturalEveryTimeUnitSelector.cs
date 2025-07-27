@@ -2,8 +2,8 @@ namespace NaturalCron.Builder.Selectors;
 
 public interface INaturalEveryTimeUnitSelector
 {
-    INaturalCronTimeSpecificationSelector Day();
-    INaturalCronTimeSpecificationSelector Week();
-    INaturalCronTimeSpecificationSelector Month();
-    INaturalCronTimeSpecificationSelector Year();
+    INaturalCronFinalSelector Day();
+    INaturalCronFinalSelector Week();
+    INaturalCronFinalSelector Month();
+    INaturalCronFinalSelector Year();
 }

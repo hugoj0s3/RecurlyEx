@@ -1,11 +1,11 @@
 namespace NaturalCron.Builder.Selectors;
 
-public interface INaturalCronTimeSpecificationSelector : 
+public interface INaturalCronFinalSelector : 
     INaturalCronOnInAtSelector, 
     INaturalCronBuildSelector, 
     INaturalCronBetweenRangeSelector, 
     INaturalCronUptoAndFromSelector
 {
     // TimeZones
-    INaturalCronTimeSpecificationSelector WithTimeZone(string ianaTimeZoneId);
+    INaturalCronFinalSelector WithTimeZone(string ianaTimeZoneId);
 }

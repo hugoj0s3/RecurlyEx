@@ -5,11 +5,11 @@ public interface INaturalCronEverySelector
     INaturalEveryTimeUnitSelector Every();
     INaturalEveryTimeUnitWithValueSelector Every(int value);
     
-    INaturalCronTimeSpecificationSelector Yearly();
-    INaturalCronTimeSpecificationSelector Monthly();
-    INaturalCronTimeSpecificationSelector Weekly();
-    INaturalCronTimeSpecificationSelector Daily();
-    INaturalCronTimeSpecificationSelector Hourly();
-    INaturalCronTimeSpecificationSelector Minutely();
-    INaturalCronTimeSpecificationSelector Secondly();
+    INaturalCronFinalSelector Yearly();
+    INaturalCronFinalSelector Monthly();
+    INaturalCronFinalSelector Weekly();
+    INaturalCronFinalSelector Daily();
+    INaturalCronFinalSelector Hourly();
+    INaturalCronFinalSelector Minutely();
+    INaturalCronFinalSelector Secondly();
 }
