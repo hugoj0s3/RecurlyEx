@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.2.0] - 2025-07-27
+- Include builder feature.
+
 ## [0.1.0]
 Rename project from RecurlyEx to NaturalCron
 

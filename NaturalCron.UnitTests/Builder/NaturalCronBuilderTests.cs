@@ -612,6 +612,284 @@ namespace NaturalCron.UnitTests.Builder
         }
         
         [Fact]
+        public void Build_ShouldHandleNewSingleTimeUnitMethods()
+        {
+            // Test Every().Second()
+            var expr1 = NaturalCronBuilder.Start().Every().Second().Build();
+            expr1.Expression.Should().Be("Every Second");
+
+            // Test Every().Minute()
+            var expr2 = NaturalCronBuilder.Start().Every().Minute().Build();
+            expr2.Expression.Should().Be("Every Minute");
+
+            // Test Every().Hour()
+            var expr3 = NaturalCronBuilder.Start().Every().Hour().Build();
+            expr3.Expression.Should().Be("Every Hour");
+        }
+
+        [Fact]
+        public void Build_ShouldHandleNewSingleTimeUnitMethodsWithRanges()
+        {
+            // Test Every().Minute() with Between
+            var expr1 = NaturalCronBuilder.Start()
+                .Every().Minute()
+                .Between("10:00am", "12:00pm")
+                .Build();
+            expr1.Expression.Should().Be("Every Minute Between 10:00am and 12:00pm");
+
+            // Test Every().Hour() with From
+            var expr2 = NaturalCronBuilder.Start()
+                .Every().Hour()
+                .From("08:00pm")
+                .Build();
+            expr2.Expression.Should().Be("Every Hour From 08:00pm");
+
+            // Test Every().Second() with Upto
+            var expr3 = NaturalCronBuilder.Start()
+                .Every().Second()
+                .Upto("12:00pm")
+                .Build();
+            expr3.Expression.Should().Be("Every Second Upto 12:00pm");
+        }
+
+        [Fact]
+        public void Build_ShouldHandleNewSingleTimeUnitMethodsWithAmpersat()
+        {
+            // Test Every().Minute() with ampersat prefix
+            var expr1 = NaturalCronBuilder.Start()
+                .UseAmpersatPrefix()
+                .Every().Minute()
+                .Build();
+            expr1.Expression.Should().Be("@Every Minute");
+
+            // Test Every().Hour() with ampersat prefix
+            var expr2 = NaturalCronBuilder.Start()
+                .UseAmpersatPrefix()
+                .Every().Hour()
+                .Build();
+            expr2.Expression.Should().Be("@Every Hour");
+
+            // Test Every().Second() with ampersat prefix
+            var expr3 = NaturalCronBuilder.Start()
+                .UseAmpersatPrefix()
+                .Every().Second()
+                .Build();
+            expr3.Expression.Should().Be("@Every Second");
+        }
+
+        [Fact]
+        public void Build_ShouldHandleNewSingleTimeUnitMethodsWithTimezone()
+        {
+            // Test Every().Minute() with timezone
+            var expr1 = NaturalCronBuilder.Start()
+                .Every().Minute()
+                .WithTimeZone("America/New_York")
+                .Build();
+            expr1.Expression.Should().Be("Every Minute TimeZone America/New_York");
+
+            // Test Every().Hour() with timezone
+            var expr2 = NaturalCronBuilder.Start()
+                .Every().Hour()
+                .WithTimeZone("UTC")
+                .Build();
+            expr2.Expression.Should().Be("Every Hour TimeZone UTC");
+        }
+
+        [Theory]
+        [InlineData("Every Second", "Second")]
+        [InlineData("Every Minute", "Minute")]
+        [InlineData("Every Hour", "Hour")]
+        public void Build_ShouldHandleNewSingleTimeUnitMethodsParameterized(string expected, string timeUnit)
+        {
+            var expr = timeUnit switch
+            {
+                "Second" => NaturalCronBuilder.Start().Every().Second().Build(),
+                "Minute" => NaturalCronBuilder.Start().Every().Minute().Build(),
+                "Hour" => NaturalCronBuilder.Start().Every().Hour().Build(),
+                _ => throw new ArgumentException("Invalid time unit")
+            };
+
+            expr.Expression.Should().Be(expected);
+        }
+        
+        [Fact]
+        public void Build_ShouldHandleEveryWithValueForNewTimeUnits()
+        {
+            // Test Every(5).Seconds()
+            var expr1 = NaturalCronBuilder.Start()
+                .Every(5)
+                .Seconds()
+                .Build();
+            expr1.Expression.Should().Be("Every 5 Seconds");
+
+            // Test Every(15).Minutes()
+            var expr2 = NaturalCronBuilder.Start()
+                .Every(15)
+                .Minutes()
+                .Build();
+            expr2.Expression.Should().Be("Every 15 Minutes");
+
+            // Test Every(4).Hours()
+            var expr3 = NaturalCronBuilder.Start()
+                .Every(4)
+                .Hours()
+                .Build();
+            expr3.Expression.Should().Be("Every 4 Hours");
+        }
+
+        [Fact]
+        public void Build_ShouldHandleEveryWithValueForNewTimeUnitsWithAnchoring()
+        {
+            // Test Every(30).Seconds() with anchoring
+            var expr1 = NaturalCronBuilder.Start()
+                .Every(30)
+                .Seconds()
+                .AnchoredAt(15)
+                .Build();
+            expr1.Expression.Should().Be("Every 30 Seconds AnchoredAt 15");
+
+            // Test Every(10).Minutes() with anchoring
+            var expr2 = NaturalCronBuilder.Start()
+                .Every(10)
+                .Minutes()
+                .AnchoredAt("30")
+                .Build();
+            expr2.Expression.Should().Be("Every 10 Minutes AnchoredAt 30");
+
+            // Test Every(6).Hours() with anchoring
+            var expr3 = NaturalCronBuilder.Start()
+                .Every(6)
+                .Hours()
+                .AnchoredAt("09:00")
+                .Build();
+            expr3.Expression.Should().Be("Every 6 Hours AnchoredAt 09:00");
+        }
+
+        [Fact]
+        public void Build_ShouldHandleEveryWithValueForNewTimeUnitsWithRanges()
+        {
+            // Test Every(5).Minutes() with Between
+            var expr1 = NaturalCronBuilder.Start()
+                .Every(5)
+                .Minutes()
+                .Between("10:00", "22:00")
+                .Build();
+            expr1.Expression.Should().Be("Every 5 Minutes Between 10:00 and 22:00");
+
+            // Test Every(2).Hours() with From
+            var expr2 = NaturalCronBuilder.Start()
+                .Every(2)
+                .Hours()
+                .From("08:00")
+                .Build();
+            expr2.Expression.Should().Be("Every 2 Hours From 08:00");
+
+            // Test Every(10).Seconds() with Upto
+            var expr3 = NaturalCronBuilder.Start()
+                .Every(10)
+                .Seconds()
+                .Upto("min 45")
+                .Build();
+            expr3.Expression.Should().Be("Every 10 Seconds Upto min 45");
+        }
+
+        [Fact]
+        public void Build_ShouldHandleEveryWithValueForNewTimeUnitsWithAmpersat()
+        {
+            // Test Every(3).Minutes() with ampersat
+            var expr1 = NaturalCronBuilder.Start()
+                .UseAmpersatPrefix()
+                .Every(3)
+                .Minutes()
+                .Build();
+            expr1.Expression.Should().Be("@Every 3 Minutes");
+
+            // Test Every(8).Hours() with ampersat
+            var expr2 = NaturalCronBuilder.Start()
+                .UseAmpersatPrefix()
+                .Every(8)
+                .Hours()
+                .Build();
+            expr2.Expression.Should().Be("@Every 8 Hours");
+
+            // Test Every(20).Seconds() with ampersat
+            var expr3 = NaturalCronBuilder.Start()
+                .UseAmpersatPrefix()
+                .Every(20)
+                .Seconds()
+                .Build();
+            expr3.Expression.Should().Be("@Every 20 Seconds");
+        }
+
+        [Fact]
+        public void Build_ShouldHandleEveryWithValueForNewTimeUnitsWithTimezone()
+        {
+            // Test Every(30).Minutes() with timezone
+            var expr1 = NaturalCronBuilder.Start()
+                .Every(30)
+                .Minutes()
+                .WithTimeZone("America/New_York")
+                .Build();
+            expr1.Expression.Should().Be("Every 30 Minutes TimeZone America/New_York");
+
+            // Test Every(12).Hours() with timezone
+            var expr2 = NaturalCronBuilder.Start()
+                .Every(12)
+                .Hours()
+                .WithTimeZone("UTC")
+                .Build();
+            expr2.Expression.Should().Be("Every 12 Hours TimeZone UTC");
+        }
+
+        [Theory]
+        [InlineData("Every 2 Seconds", 2, "Seconds")]
+        [InlineData("Every 5 Minutes", 5, "Minutes")]
+        [InlineData("Every 3 Hours", 3, "Hours")]
+        [InlineData("Every 7 Days", 7, "Days")]
+        [InlineData("Every 2 Weeks", 2, "Weeks")]
+        [InlineData("Every 6 Months", 6, "Months")]
+        [InlineData("Every 2 Years", 2, "Years")]
+        public void Build_ShouldHandleEveryWithValueParameterized(string expected, int value, string timeUnit)
+        {
+            var expr = timeUnit switch
+            {
+                "Seconds" => NaturalCronBuilder.Start().Every(value).Seconds().Build(),
+                "Minutes" => NaturalCronBuilder.Start().Every(value).Minutes().Build(),
+                "Hours" => NaturalCronBuilder.Start().Every(value).Hours().Build(),
+                "Days" => NaturalCronBuilder.Start().Every(value).Days().Build(),
+                "Weeks" => NaturalCronBuilder.Start().Every(value).Weeks().Build(),
+                "Months" => NaturalCronBuilder.Start().Every(value).Months().Build(),
+                "Years" => NaturalCronBuilder.Start().Every(value).Years().Build(),
+                _ => throw new ArgumentException("Invalid time unit")
+            };
+
+            expr.Expression.Should().Be(expected);
+        }
+
+        [Fact]
+        public void Build_ShouldHandleEveryWithValueComplexChaining()
+        {
+            // Test complex chaining with new time units
+            var expr1 = NaturalCronBuilder.Start()
+                .UseAmpersatPrefix()
+                .Every(15)
+                .Minutes()
+                .Between("10:00", "22:00")
+                .WithTimeZone("Europe/London")
+                .Build();
+            expr1.Expression.Should().Be("@Every 15 Minutes @Between 10:00 and 22:00 @TimeZone Europe/London");
+
+            // Test anchoring with range
+            var expr2 = NaturalCronBuilder.Start()
+                .Every(4)
+                .Hours()
+                .AnchoredAt("08:00")
+                .From("09:00")
+                .Build();
+            expr2.Expression.Should().Be("Every 4 Hours AnchoredAt 08:00 From 09:00");
+        }
+        
+        [Fact]
         public void Build_ShouldHandleTimeOnlyMethods()
         {
             var time1 = new TimeOnly(14, 30);
