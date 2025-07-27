@@ -533,7 +533,7 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
         return this.AnchoredAt(rawValue);
     }
     
-    public string BuildString()
+    public string ToRawExpression()
     {
         var result = new StringBuilder();
 
@@ -575,7 +575,7 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
     
     public NaturalCronExpr Build()
     {
-        var expr = this.BuildString();
+        var expr = this.ToRawExpression();
         return NaturalCronExpr.Parse(expr);
     }
     
