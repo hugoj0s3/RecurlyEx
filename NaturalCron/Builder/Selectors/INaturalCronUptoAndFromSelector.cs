@@ -11,6 +11,9 @@ public interface INaturalCronUptoAndFromSelector
     INaturalCronTimeSpecificationSelector From(NaturalCronDayOfWeek value);
     INaturalCronTimeSpecificationSelector Upto(NaturalCronDayOfWeek value);
     
+    INaturalCronTimeSpecificationSelector From(NaturalCronMonth value);
+    INaturalCronTimeSpecificationSelector Upto(NaturalCronMonth value);
+    
     // Days
     INaturalCronTimeSpecificationSelector FromDay(int day);
     INaturalCronTimeSpecificationSelector UptoDay(int day);

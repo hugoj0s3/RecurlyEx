@@ -1,139 +1,220 @@
 using NaturalCron.Builder;
-
-namespace NaturalCron.UnitTests.Builder;
-
 using System;
 using FluentAssertions;
 using Xunit;
 
-public class NaturalCronBuilderTests
+namespace NaturalCron.UnitTests.Builder
 {
-    [Theory]
-    [InlineData("every day", false)]
-    [InlineData("@every day", true)]
-    public void BuildExpr_ShouldHandleEveryDay_WithAmpersatOption(string expected, bool useAmpersat)
+    public class NaturalCronBuilderTests
     {
-        var builder = NaturalCronBuilder.Start();
+        [Theory]
+        [InlineData("every day", false)]
+        [InlineData("@every day", true)]
+        public void Build_ShouldHandleEveryDay_WithAmpersatOption(string expected, bool useAmpersat)
+        {
+            var builder = NaturalCronBuilder.Start();
 
-        if (useAmpersat)
-            builder.UseAmpersatPrefix();
+            if (useAmpersat)
+                builder.UseAmpersatPrefix();
 
-        var result = builder.Every().Day().BuildExpr();
+            var expr = builder.Every().Day().Build();
 
-        result.Should().Be(expected);
-    }
+            expr.Expression.Should().Be(expected);
+        }
 
-    [Theory]
-    [InlineData("every 2 days", 2)]
-    [InlineData("every 10 days", 10)]
-    public void BuildExpr_ShouldHandleEveryWithValue(string expected, int value)
-    {
-        var result = NaturalCronBuilder.Start()
-            .Every(value)
-            .Days()
-            .BuildExpr();
+        [Theory]
+        [InlineData("every 2 days", 2)]
+        [InlineData("every 10 days", 10)]
+        public void Build_ShouldHandleEveryWithValue(string expected, int value)
+        {
+            var expr = NaturalCronBuilder.Start()
+                .Every(value)
+                .Days()
+                .Build();
 
-        result.Should().Be(expected);
-    }
+            expr.Expression.Should().Be(expected);
+        }
 
-    [Fact]
-    public void BuildExpr_ShouldHandleAnchored()
-    {
-        var result = NaturalCronBuilder.Start()
-            .Every(3)
-            .Weeks()
-            .AnchoredOn(DayOfWeek.Friday)
-            .BuildExpr();
+        [Fact]
+        public void Build_ShouldHandleAnchored()
+        {
+            var expr = NaturalCronBuilder.Start()
+                .Every(3)
+                .Weeks()
+                .AnchoredOn(DayOfWeek.Friday)
+                .Build();
 
-        result.Should().Be("every 3 weeks anchoredOn fri");
-    }
+            expr.Expression.Should().Be("every 3 weeks anchoredOn fri");
+        }
 
-    [Theory]
-    [InlineData("on mon", DayOfWeek.Monday)]
-    [InlineData("on sun", DayOfWeek.Sunday)]
-    public void BuildExpr_ShouldHandleOn_DayOfWeek(string expected, DayOfWeek day)
-    {
-        var result = NaturalCronBuilder.Start()
-            .On(day)
-            .BuildExpr();
+        [Theory]
+        [InlineData("on mon", DayOfWeek.Monday)]
+        [InlineData("on sun", DayOfWeek.Sunday)]
+        public void Build_ShouldHandleOn_DayOfWeek(string expected, DayOfWeek day)
+        {
+            var expr = NaturalCronBuilder.Start()
+                .On(day)
+                .Build();
 
-        result.Should().Be(expected);
-    }
+            expr.Expression.Should().Be(expected);
+        }
 
-    [Fact]
-    public void BuildExpr_ShouldHandleOnMultipleValues()
-    {
-        var result = NaturalCronBuilder.Start()
-            .On("Mon", "Wed", "Fri")
-            .BuildExpr();
+        [Fact]
+        public void Build_ShouldHandleOnMultipleValues()
+        {
+            var expr = NaturalCronBuilder.Start()
+                .On("mon", "wed", "fri")
+                .Build();
 
-        result.Should().Be("on [Mon, Wed, Fri]");
-    }
+            expr.Expression.Should().Be("on [mon, wed, fri]");
+        }
 
-    [Fact]
-    public void BuildExpr_ShouldHandleInMonth()
-    {
-        var result = NaturalCronBuilder.Start()
-            .In(NaturalCronMonth.Jan)
-            .BuildExpr();
+        [Fact]
+        public void Build_ShouldHandleInMonth()
+        {
+            var expr = NaturalCronBuilder.Start()
+                .In(NaturalCronMonth.Jan)
+                .Build();
 
-        result.Should().Be("in jan");
-    }
+            expr.Expression.Should().Be("in jan");
+        }
 
-    [Fact]
-    public void BuildExpr_ShouldHandleAtTime()
-    {
-        var result = NaturalCronBuilder.Start()
-            .AtTime(10, 30)
-            .BuildExpr();
+        [Fact]
+        public void Build_ShouldHandleAtTime()
+        {
+            var expr = NaturalCronBuilder.Start()
+                .AtTime(10, 30)
+                .Build();
 
-        result.Should().Be("at 10:30");
-    }
+            expr.Expression.Should().Be("at 10:30");
+        }
 
-    [Fact]
-    public void BuildExpr_ShouldHandleBetweenRange()
-    {
-        var result = NaturalCronBuilder.Start()
-            .Every().Day()
-            .Between("Jan", "Mar")
-            .BuildExpr();
+        [Fact]
+        public void Build_ShouldHandleBetweenRange()
+        {
+            var expr = NaturalCronBuilder.Start()
+                .Every().Day()
+                .Between("Jan", "Mar")
+                .Build();
 
-        result.Should().Be("every day between Jan and Mar");
-    }
+            expr.Expression.Should().Be("every day between Jan and Mar");
+        }
 
-    [Fact]
-    public void BuildExpr_ShouldHandleFromAndUpto()
-    {
-        var result = NaturalCronBuilder.Start()
-            .Every().Day()
-            .From("Jan")
-            .Upto("Dec")
-            .BuildExpr();
+        [Fact]
+        public void Build_ShouldHandleFromAndUpto()
+        {
+            var expr = NaturalCronBuilder.Start()
+                .Every().Day()
+                .From("Jan")
+                .Upto("Dec")
+                .Build();
 
-        result.Should().Be("every day from Jan upto Dec");
-    }
+            expr.Expression.Should().Be("every day from Jan upto Dec");
+        }
 
-    [Fact]
-    public void BuildExpr_ShouldHandleWithTimeZone()
-    {
-        var result = NaturalCronBuilder.Start()
-            .Every()
-            .Day()
-            .WithTimeZone("America/New_York")
-            .BuildExpr();
+        [Fact]
+        public void Build_ShouldHandleWithTimeZone()
+        {
+            var expr = NaturalCronBuilder.Start()
+                .Every()
+                .Day()
+                .WithTimeZone("America/New_York")
+                .Build();
 
-        result.Should().Be("every day TimeZone America/New_York");
-    }
+            expr.Expression.Should().Be("every day TimeZone America/New_York");
+        }
 
-    [Fact]
-    public void Build_ShouldReturnNaturalCronExpr()
-    {
-        var expr = NaturalCronBuilder.Start()
-            .Every()
-            .Day()
-            .Build();
+        [Fact]
+        public void Build_ShouldReturnValidNaturalCronExpr()
+        {
+            var expr = NaturalCronBuilder.Start()
+                .Every()
+                .Day()
+                .Build();
 
-        expr.Should().NotBeNull();
-        expr.Expression.Should().Be("every day");
+            expr.Should().NotBeNull();
+            expr.Expression.Should().Be("every day");
+        }
+        
+        [Fact]
+        public void Build_ShouldHandleUseWeekFullName()
+        {
+            var expr = NaturalCronBuilder.Start()
+                .UseWeekFullName()
+                .On(DayOfWeek.Monday)
+                .Build();
+
+            expr.Expression.Should().Be("on monday");
+        }
+
+        [Fact]
+        public void Build_ShouldHandleUseMonthFullName()
+        {
+            var expr = NaturalCronBuilder.Start()
+                .UseMonthFullName()
+                .In(NaturalCronMonth.Jan)
+                .Build();
+
+            expr.Expression.Should().Be("in january");
+        }
+
+        [Fact]
+        public void Build_ShouldHandleUseWeekAndMonthFullNameTogether()
+        {
+            var expr = NaturalCronBuilder.Start()
+                .UseWeekFullName()
+                .UseMonthFullName()
+                .On(DayOfWeek.Friday)
+                .In(NaturalCronMonth.Dec)
+                .Build();
+
+            expr.Expression.Should().Be("on friday in december");
+        }
+
+        [Fact]
+        public void Build_ShouldHandleEveryWithFullNamesAndAnchors()
+        {
+            var expr = NaturalCronBuilder.Start()
+                .UseWeekFullName()
+                .UseMonthFullName()
+                .Every(2)
+                .Weeks()
+                .AnchoredOn(DayOfWeek.Monday)
+                .Build();
+
+            expr.Expression.Should().Be("every 2 weeks anchoredOn monday");
+        }
+
+        [Fact]
+        public void Build_ShouldHandleComplexExpression_WithEverything()
+        {
+            var expr = NaturalCronBuilder.Start()
+                .UseAmpersatPrefix()
+                .UseWeekFullName()
+                .UseMonthFullName()
+                .Every(2)
+                .Weeks()
+                .AnchoredOn(DayOfWeek.Monday)
+                .Between(NaturalCronMonth.Jan, NaturalCronMonth.Mar)
+                .WithTimeZone("UTC")
+                .Build();
+
+            expr.Expression.Should().Be("@every 2 weeks anchoredOn monday @between january and march @TimeZone UTC");
+        }
+
+        [Fact]
+        public void Build_ShouldHandleComplexExpression_WithoutAmpersat()
+        {
+            var expr = NaturalCronBuilder.Start()
+                .UseWeekFullName()
+                .Every(3)
+                .Months()
+                .AnchoredOn(DayOfWeek.Sunday)
+                .From(NaturalCronMonth.Feb)
+                .Upto(NaturalCronMonth.Dec)
+                .Build();
+
+            expr.Expression.Should().Be("every 3 months anchoredOn sunday from feb upto dec");
+        }
     }
 }
