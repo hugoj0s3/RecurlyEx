@@ -28,59 +28,59 @@ internal class NaturalCronBuilderImpl :
    private static readonly Dictionary<NaturalCronMonth, string> MonthNameAbbreviations =
     new Dictionary<NaturalCronMonth, string>
     {
-        { NaturalCronMonth.Jan, "Jan" },
-        { NaturalCronMonth.Feb, "Feb" },
-        { NaturalCronMonth.Mar, "Mar" },
-        { NaturalCronMonth.Apr, "Apr" },
-        { NaturalCronMonth.May, "May" },
-        { NaturalCronMonth.Jun, "Jun" },
-        { NaturalCronMonth.Jul, "Jul" },
-        { NaturalCronMonth.Aug, "Aug" },
-        { NaturalCronMonth.Sep, "Sep" },
-        { NaturalCronMonth.Oct, "Oct" },
-        { NaturalCronMonth.Nov, "Nov" },
-        { NaturalCronMonth.Dec, "Dec" },
+        { NaturalCronMonth.Jan, "jan" },
+        { NaturalCronMonth.Feb, "feb" },
+        { NaturalCronMonth.Mar, "mar" },
+        { NaturalCronMonth.Apr, "apr" },
+        { NaturalCronMonth.May, "may" },
+        { NaturalCronMonth.Jun, "jun" },
+        { NaturalCronMonth.Jul, "jul" },
+        { NaturalCronMonth.Aug, "aug" },
+        { NaturalCronMonth.Sep, "sep" },
+        { NaturalCronMonth.Oct, "oct" },
+        { NaturalCronMonth.Nov, "nov" },
+        { NaturalCronMonth.Dec, "dec" },
     };
 
 private static readonly Dictionary<NaturalCronMonth, string> MonthFullNames =
     new Dictionary<NaturalCronMonth, string>
     {
-        { NaturalCronMonth.Jan, "January" },
-        { NaturalCronMonth.Feb, "February" },
-        { NaturalCronMonth.Mar, "March" },
-        { NaturalCronMonth.Apr, "April" },
-        { NaturalCronMonth.May, "May" },
-        { NaturalCronMonth.Jun, "June" },
-        { NaturalCronMonth.Jul, "July" },
-        { NaturalCronMonth.Aug, "August" },
-        { NaturalCronMonth.Sep, "September" },
-        { NaturalCronMonth.Oct, "October" },
-        { NaturalCronMonth.Nov, "November" },
-        { NaturalCronMonth.Dec, "December" },
+        { NaturalCronMonth.Jan, "january" },
+        { NaturalCronMonth.Feb, "february" },
+        { NaturalCronMonth.Mar, "march" },
+        { NaturalCronMonth.Apr, "april" },
+        { NaturalCronMonth.May, "may" },
+        { NaturalCronMonth.Jun, "june" },
+        { NaturalCronMonth.Jul, "july" },
+        { NaturalCronMonth.Aug, "august" },
+        { NaturalCronMonth.Sep, "september" },
+        { NaturalCronMonth.Oct, "october" },
+        { NaturalCronMonth.Nov, "november" },
+        { NaturalCronMonth.Dec, "december" },
     };
 
 private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekNameAbbreviations =
     new Dictionary<NaturalCronDayOfWeek, string>
     {
-        { NaturalCronDayOfWeek.Sun, "Sun" },
-        { NaturalCronDayOfWeek.Mon, "Mon" },
-        { NaturalCronDayOfWeek.Tue, "Tue" },
-        { NaturalCronDayOfWeek.Wed, "Wed" },
-        { NaturalCronDayOfWeek.Thu, "Thu" },
-        { NaturalCronDayOfWeek.Fri, "Fri" },
-        { NaturalCronDayOfWeek.Sat, "Sat" },
+        { NaturalCronDayOfWeek.Sun, "sun" },
+        { NaturalCronDayOfWeek.Mon, "mon" },
+        { NaturalCronDayOfWeek.Tue, "tue" },
+        { NaturalCronDayOfWeek.Wed, "wed" },
+        { NaturalCronDayOfWeek.Thu, "thu" },
+        { NaturalCronDayOfWeek.Fri, "fri" },
+        { NaturalCronDayOfWeek.Sat, "sat" },
     };
 
 private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
     new Dictionary<NaturalCronDayOfWeek, string>
     {
-        { NaturalCronDayOfWeek.Sun, "Sunday" },
-        { NaturalCronDayOfWeek.Mon, "Monday" },
-        { NaturalCronDayOfWeek.Tue, "Tuesday" },
-        { NaturalCronDayOfWeek.Wed, "Wednesday" },
-        { NaturalCronDayOfWeek.Thu, "Thursday" },
-        { NaturalCronDayOfWeek.Fri, "Friday" },
-        { NaturalCronDayOfWeek.Sat, "Saturday" },
+        { NaturalCronDayOfWeek.Sun, "sunday" },
+        { NaturalCronDayOfWeek.Mon, "monday" },
+        { NaturalCronDayOfWeek.Tue, "tuesday" },
+        { NaturalCronDayOfWeek.Wed, "wednesday" },
+        { NaturalCronDayOfWeek.Thu, "thursday" },
+        { NaturalCronDayOfWeek.Fri, "friday" },
+        { NaturalCronDayOfWeek.Sat, "saturday" },
     };
 
     public INaturalCronStarterSelector UseAmpersatPrefix()
@@ -111,6 +111,7 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
 
     public INaturalEveryTimeUnitWithValueSelector Every(int value)
     {
+        this.everyRawExpr = $"{prefix}every";
         this.everyValue = value;
         return this;
     }
@@ -465,19 +466,19 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
 
     public INaturalCronTimeSpecificationSelector AnchoredOn(string rawValue)
     {
-        this.anchoredRawExpr = rawValue;
+        this.anchoredRawExpr = "anchoredOn " + rawValue;
         return this;
     }
 
     public INaturalCronTimeSpecificationSelector AnchoredIn(string rawValue)
     {
-        this.anchoredRawExpr = rawValue;
+        this.anchoredRawExpr = "anchoredIn " + rawValue;
         return this;
     }
 
     public INaturalCronTimeSpecificationSelector AnchoredAt(string rawValue)
     {
-        this.anchoredRawExpr = rawValue;
+        this.anchoredRawExpr = "anchoredAt " + rawValue;
         return this;
     }
 
@@ -545,7 +546,7 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
 
             if (everyTimeUnit.HasValue)
             {
-                result.Append(' ').Append(everyTimeUnit.Value);
+                result.Append(' ').Append(everyTimeUnit.Value.ToString().ToLower());
                 if (everyValue.HasValue && everyValue.Value > 1)
                     result.Append('s');
             }
