@@ -416,6 +416,24 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
         return this.At(rawValue);
     }
 
+    public INaturalCronFinalSelector Second()
+    {
+        this.everyTimeUnit = NaturalCronTimeUnit.Second;
+        return this;
+    }
+
+    public INaturalCronFinalSelector Minute()
+    {
+        this.everyTimeUnit = NaturalCronTimeUnit.Minute;
+        return this;
+    }
+
+    public INaturalCronFinalSelector Hour()
+    {
+        this.everyTimeUnit = NaturalCronTimeUnit.Hour;
+        return this;
+    }
+
     public INaturalCronFinalSelector Day()
     {
         this.everyTimeUnit = NaturalCronTimeUnit.Day;
@@ -437,6 +455,24 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
     public INaturalCronFinalSelector Year()
     {
         this.everyTimeUnit = NaturalCronTimeUnit.Year;
+        return this;
+    }
+
+    public INaturalCronFinalWithAnchoredSelector Seconds()
+    {
+        this.everyTimeUnit = NaturalCronTimeUnit.Second;
+        return this;
+    }
+
+    public INaturalCronFinalWithAnchoredSelector Minutes()
+    {
+        this.everyTimeUnit = NaturalCronTimeUnit.Minute;
+        return this;
+    }
+
+    public INaturalCronFinalWithAnchoredSelector Hours()
+    {
+        this.everyTimeUnit = NaturalCronTimeUnit.Hour;
         return this;
     }
 
