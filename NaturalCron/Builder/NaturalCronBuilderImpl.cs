@@ -28,59 +28,59 @@ internal class NaturalCronBuilderImpl :
    private static readonly Dictionary<NaturalCronMonth, string> MonthNameAbbreviations =
     new Dictionary<NaturalCronMonth, string>
     {
-        { NaturalCronMonth.Jan, "jan" },
-        { NaturalCronMonth.Feb, "feb" },
-        { NaturalCronMonth.Mar, "mar" },
-        { NaturalCronMonth.Apr, "apr" },
-        { NaturalCronMonth.May, "may" },
-        { NaturalCronMonth.Jun, "jun" },
-        { NaturalCronMonth.Jul, "jul" },
-        { NaturalCronMonth.Aug, "aug" },
-        { NaturalCronMonth.Sep, "sep" },
-        { NaturalCronMonth.Oct, "oct" },
-        { NaturalCronMonth.Nov, "nov" },
-        { NaturalCronMonth.Dec, "dec" },
+        { NaturalCronMonth.Jan, "Jan" },
+        { NaturalCronMonth.Feb, "Feb" },
+        { NaturalCronMonth.Mar, "Mar" },
+        { NaturalCronMonth.Apr, "Apr" },
+        { NaturalCronMonth.May, "May" },
+        { NaturalCronMonth.Jun, "Jun" },
+        { NaturalCronMonth.Jul, "Jul" },
+        { NaturalCronMonth.Aug, "Aug" },
+        { NaturalCronMonth.Sep, "Sep" },
+        { NaturalCronMonth.Oct, "Oct" },
+        { NaturalCronMonth.Nov, "Nov" },
+        { NaturalCronMonth.Dec, "Dec" },
     };
 
 private static readonly Dictionary<NaturalCronMonth, string> MonthFullNames =
     new Dictionary<NaturalCronMonth, string>
     {
-        { NaturalCronMonth.Jan, "january" },
-        { NaturalCronMonth.Feb, "february" },
-        { NaturalCronMonth.Mar, "march" },
-        { NaturalCronMonth.Apr, "april" },
+        { NaturalCronMonth.Jan, "January" },
+        { NaturalCronMonth.Feb, "February" },
+        { NaturalCronMonth.Mar, "March" },
+        { NaturalCronMonth.Apr, "April" },
         { NaturalCronMonth.May, "may" },
-        { NaturalCronMonth.Jun, "june" },
-        { NaturalCronMonth.Jul, "july" },
-        { NaturalCronMonth.Aug, "august" },
-        { NaturalCronMonth.Sep, "september" },
-        { NaturalCronMonth.Oct, "october" },
-        { NaturalCronMonth.Nov, "november" },
-        { NaturalCronMonth.Dec, "december" },
+        { NaturalCronMonth.Jun, "June" },
+        { NaturalCronMonth.Jul, "July" },
+        { NaturalCronMonth.Aug, "August" },
+        { NaturalCronMonth.Sep, "September" },
+        { NaturalCronMonth.Oct, "October" },
+        { NaturalCronMonth.Nov, "November" },
+        { NaturalCronMonth.Dec, "December" },
     };
 
 private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekNameAbbreviations =
     new Dictionary<NaturalCronDayOfWeek, string>
     {
-        { NaturalCronDayOfWeek.Sun, "sun" },
-        { NaturalCronDayOfWeek.Mon, "mon" },
-        { NaturalCronDayOfWeek.Tue, "tue" },
-        { NaturalCronDayOfWeek.Wed, "wed" },
-        { NaturalCronDayOfWeek.Thu, "thu" },
-        { NaturalCronDayOfWeek.Fri, "fri" },
-        { NaturalCronDayOfWeek.Sat, "sat" },
+        { NaturalCronDayOfWeek.Sun, "Sun" },
+        { NaturalCronDayOfWeek.Mon, "Mon" },
+        { NaturalCronDayOfWeek.Tue, "Tue" },
+        { NaturalCronDayOfWeek.Wed, "Wed" },
+        { NaturalCronDayOfWeek.Thu, "Thu" },
+        { NaturalCronDayOfWeek.Fri, "Fri" },
+        { NaturalCronDayOfWeek.Sat, "Sat" },
     };
 
 private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
     new Dictionary<NaturalCronDayOfWeek, string>
     {
-        { NaturalCronDayOfWeek.Sun, "sunday" },
-        { NaturalCronDayOfWeek.Mon, "monday" },
-        { NaturalCronDayOfWeek.Tue, "tuesday" },
-        { NaturalCronDayOfWeek.Wed, "wednesday" },
-        { NaturalCronDayOfWeek.Thu, "thursday" },
-        { NaturalCronDayOfWeek.Fri, "friday" },
-        { NaturalCronDayOfWeek.Sat, "saturday" },
+        { NaturalCronDayOfWeek.Sun, "Sunday" },
+        { NaturalCronDayOfWeek.Mon, "Monday" },
+        { NaturalCronDayOfWeek.Tue, "Tuesday" },
+        { NaturalCronDayOfWeek.Wed, "Wednesday" },
+        { NaturalCronDayOfWeek.Thu, "Thursday" },
+        { NaturalCronDayOfWeek.Fri, "Friday" },
+        { NaturalCronDayOfWeek.Sat, "Saturday" },
     };
 
     public INaturalCronStarterSelector UseAmpersatPrefix()
@@ -105,74 +105,74 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
     
     public INaturalEveryTimeUnitSelector Every()
     {
-        this.everyRawExpr = $"{prefix}every";
+        this.everyRawExpr = $"{prefix}Every";
         return this;
     }
 
     public INaturalEveryTimeUnitWithValueSelector Every(int value)
     {
-        this.everyRawExpr = $"{prefix}every";
+        this.everyRawExpr = $"{prefix}Every";
         this.everyValue = value;
         return this;
     }
 
     public INaturalCronTimeSpecificationSelector Yearly()
     {
-        this.everyRawExpr = $"{prefix}yearly";
+        this.everyRawExpr = $"{prefix}Yearly";
         return this;
     }
 
     public INaturalCronTimeSpecificationSelector Monthly()
     {
-        this.everyRawExpr = $"{prefix}monthly";
+        this.everyRawExpr = $"{prefix}Monthly";
         return this;
     }
 
     public INaturalCronTimeSpecificationSelector Weekly()
     {
-        this.everyRawExpr = $"{prefix}weekly";
+        this.everyRawExpr = $"{prefix}Weekly";
         return this;
     }
 
     public INaturalCronTimeSpecificationSelector Daily()
     {
-        this.everyRawExpr = $"{prefix}daily";
+        this.everyRawExpr = $"{prefix}Daily";
         return this;
     }
 
     public INaturalCronTimeSpecificationSelector Hourly()
     {
-        this.everyRawExpr = $"{prefix}hourly";
+        this.everyRawExpr = $"{prefix}Hourly";
         return this;
     }
 
     public INaturalCronTimeSpecificationSelector Minutely()
     {
-        this.everyRawExpr = $"{prefix}minutely";
+        this.everyRawExpr = $"{prefix}Minutely";
         return this;
     }
     
     public INaturalCronTimeSpecificationSelector Secondly()
     {
-        this.everyRawExpr = $"{prefix}secondly";
+        this.everyRawExpr = $"{prefix}Secondly";
         return this;
     }
     
-    public INaturalCronTimeSpecificationSelector On(params string[] rawValues) => AppendToken("on", rawValues);
-    public INaturalCronTimeSpecificationSelector In(params string[] rawValues) => AppendToken("in", rawValues);
-    public INaturalCronTimeSpecificationSelector At(params string[] rawValues) => AppendToken("at", rawValues);
+    public INaturalCronTimeSpecificationSelector On(params string[] rawValues) => AppendToken("On", rawValues);
+    public INaturalCronTimeSpecificationSelector In(params string[] rawValues) => AppendToken("In", rawValues);
+    public INaturalCronTimeSpecificationSelector At(params string[] rawValues) => AppendToken("At", rawValues);
 
-    public INaturalCronTimeSpecificationSelector On(string rawValue) => AppendToken("on", rawValue);
-    public INaturalCronTimeSpecificationSelector In(string rawValue) => AppendToken("in", rawValue);
-    public INaturalCronTimeSpecificationSelector At(string rawValue) => AppendToken("at", rawValue);
+    public INaturalCronTimeSpecificationSelector On(string rawValue) => AppendToken("On", rawValue);
+    public INaturalCronTimeSpecificationSelector In(string rawValue) => AppendToken("In", rawValue);
+    public INaturalCronTimeSpecificationSelector At(string rawValue) => AppendToken("At", rawValue);
 
-    public INaturalCronTimeSpecificationSelector From(string rawValue) => AppendToken("from", rawValue);
-    public INaturalCronTimeSpecificationSelector Upto(string rawValue) => AppendToken("upto", rawValue);
+    public INaturalCronTimeSpecificationSelector From(string rawValue) => AppendToken("From", rawValue);
+    public INaturalCronTimeSpecificationSelector Upto(string rawValue) => AppendToken("Upto", rawValue);
     
 
-    public INaturalCronTimeSpecificationSelector Between(string startRawValue, string endRawValue) => AppendRangeToken("between", (startRawValue, endRawValue));
+    public INaturalCronTimeSpecificationSelector Between(string startRawValue, string endRawValue) => AppendRangeToken("Between", (startRawValue, endRawValue));
 
-    public INaturalCronTimeSpecificationSelector Between(params (string startRawValue, string endRawValue)[] ranges) => AppendRangeToken("between", ranges);
+    public INaturalCronTimeSpecificationSelector Between(params (string startRawValue, string endRawValue)[] ranges) => AppendRangeToken("Between", ranges);
 
     public INaturalCronTimeSpecificationSelector Between(DayOfWeek start, DayOfWeek end)
     {
@@ -466,19 +466,19 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
 
     public INaturalCronTimeSpecificationSelector AnchoredOn(string rawValue)
     {
-        this.anchoredRawExpr = "anchoredOn " + rawValue;
+        this.anchoredRawExpr = "AnchoredOn " + rawValue;
         return this;
     }
 
     public INaturalCronTimeSpecificationSelector AnchoredIn(string rawValue)
     {
-        this.anchoredRawExpr = "anchoredIn " + rawValue;
+        this.anchoredRawExpr = "AnchoredIn " + rawValue;
         return this;
     }
 
     public INaturalCronTimeSpecificationSelector AnchoredAt(string rawValue)
     {
-        this.anchoredRawExpr = "anchoredAt " + rawValue;
+        this.anchoredRawExpr = "AnchoredAt " + rawValue;
         return this;
     }
 
