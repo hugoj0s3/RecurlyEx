@@ -4,6 +4,7 @@ Instead of memorizing cryptic CRON syntax.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ![.NET](https://github.com/hugoj0s3/NaturalCron/actions/workflows/dotnet.yml/badge.svg)
+[![Awesome .NET](https://awesome.re/badge.svg)](https://github.com/quozd/awesome-dotnet)
 
 
 ## 🔁 Examples of expressions you can write:
