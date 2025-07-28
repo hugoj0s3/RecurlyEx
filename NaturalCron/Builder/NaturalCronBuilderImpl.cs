@@ -10,7 +10,6 @@ internal class NaturalCronBuilderImpl :
     INaturalCronFinalSelector,
     INaturalCronFinalWithAnchoredSelector
 {
-    private bool useAmpersat;
     private bool useWeekFullName;
     private bool useMonthFullName;
     
@@ -23,7 +22,7 @@ internal class NaturalCronBuilderImpl :
     
     
     private readonly StringBuilder exprBuilder = new StringBuilder();
-    private string prefix;
+    private string prefix = string.Empty;
 
    private static readonly Dictionary<NaturalCronMonth, string> MonthNameAbbreviations =
     new Dictionary<NaturalCronMonth, string>
@@ -85,7 +84,6 @@ private static readonly Dictionary<NaturalCronDayOfWeek, string> WeekFullNames =
 
     public INaturalCronStarterSelector UseAmpersatPrefix()
     {
-        this.useAmpersat = true;
         this.prefix = "@";
         return this;
     }
