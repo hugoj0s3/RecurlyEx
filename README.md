@@ -83,7 +83,7 @@ var recur5 = NaturalCron.Parse("every week on [Tuesday, Thursday] at 18:00");
 ```
 
 
-▶ Try it online: [Run on .NET Fiddle](https://dotnetfiddle.net/cJkXpr)
+▶ Try it online: [Run on .NET Fiddle](https://dotnetfiddle.net/wU5hzg)
 
 
 ## 📖 Documentation
