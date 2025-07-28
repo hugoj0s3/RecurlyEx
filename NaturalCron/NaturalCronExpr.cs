@@ -242,7 +242,7 @@ public class NaturalCronExpr
     }
 
     /// <summary>
-    /// 
+    /// Parses a string expression into a NaturalCronExpr. Throws an exception if the expression is invalid.
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
@@ -258,6 +258,11 @@ public class NaturalCronExpr
         return naturalCronExpr!;
     }
 
+    /// <summary>
+    /// Tries to parse a string expression into a NaturalCronExpr. Returns null if the expression is invalid and a list of error messages.
+    /// </summary>
+    /// <param name="expression"></param>
+    /// <returns></returns>
     public static (NaturalCronExpr?, IList<string> errors) TryParse(string expression)
     {
         var (naturalCronExpr, errors) = InternalTryParse(expression);
