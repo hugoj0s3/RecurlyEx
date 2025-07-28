@@ -11,6 +11,9 @@ using TimeZoneConverter;
 
 namespace NaturalCron;
 
+/// <summary>
+/// Represents a parsed NaturalCron expression with rules for generating recurrence schedules.
+/// </summary>
 public class NaturalCronExpr
 {
     private static readonly NaturalCronTimeUnit[] TimeUnitsWithoutTimezone =
@@ -25,7 +28,15 @@ public class NaturalCronExpr
     ];
 
     internal NaturalCronExpr() {}
+    
+    /// <summary>
+    /// The original expression string used to create this object.
+    /// </summary>
     public string Expression { get; private set; } = string.Empty;
+    
+    /// <summary>
+    /// The parsed rules that define the recurrence.
+    /// </summary>
     public IReadOnlyCollection<NaturalCronRule> Rules { get; internal set; } = new List<NaturalCronRule>();
 
     public IReadOnlyCollection<NaturalCronRule> SecondRules() =>
@@ -230,6 +241,12 @@ public class NaturalCronExpr
         return result;
     }
 
+    /// <summary>
+    /// Parses a string expression into a NaturalCronExpr. Throws an exception if the expression is invalid.
+    /// </summary>
+    /// <param name="expression"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
     public static NaturalCronExpr Parse(string expression)
     {
         var (naturalCronExpr, errors) = InternalTryParse(expression);
@@ -241,6 +258,11 @@ public class NaturalCronExpr
         return naturalCronExpr!;
     }
 
+    /// <summary>
+    /// Tries to parse a string expression into a NaturalCronExpr. Returns null if the expression is invalid and a list of error messages.
+    /// </summary>
+    /// <param name="expression"></param>
+    /// <returns></returns>
     public static (NaturalCronExpr?, IList<string> errors) TryParse(string expression)
     {
         var (naturalCronExpr, errors) = InternalTryParse(expression);

@@ -15,3 +15,4 @@ It's like cron, but readable.
 - Human-readable cron-like recurrence
 - Filtering by time, day, and more
 - Time zone support
+- Fluent builder for easy expression construction.
