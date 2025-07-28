@@ -1,11 +1,10 @@
 # NaturalCron
-**NaturalCron** is a lightweight .NET library for writing **human-readable recurrence rules**.
-Instead of memorizing cryptic CRON syntax.
+**NaturalCron** is a lightweight .NET library for writing **human-readable recurrence rules** — an easier alternative to cryptic CRON syntax.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ![.NET](https://github.com/hugoj0s3/NaturalCron/actions/workflows/dotnet.yml/badge.svg)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/NaturalCron.svg?style=flat&logo=nuget)](https://www.nuget.org/packages/NaturalCron)
 [![Awesome .NET](https://awesome.re/badge.svg)](https://github.com/quozd/awesome-dotnet)
-
 
 ## 🔁 Examples of expressions you can write:
 - `@every day @at 9:00am` or `every day at 9:00am`
@@ -90,7 +89,7 @@ var recur5 = NaturalCron.Parse("every week on [Tuesday, Thursday] at 18:00");
 
 ## 📖 Documentation
 - [Expression Syntax](docs/expression-syntax.md) — Learn how to write human-readable recurrence rules.
-- [Builder Guide](docs/builder.md) — Programmatically create NaturalCron expressions in C#.
+- [Fluent Builder Guide](docs/builder.md) — Build expressions easily with type safety and IntelliSense.
 - [API Reference](docs/api-reference.md) — Full API details and usage examples.
 
 
