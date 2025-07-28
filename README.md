@@ -3,7 +3,6 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ![.NET](https://github.com/hugoj0s3/NaturalCron/actions/workflows/dotnet.yml/badge.svg)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/NaturalCron.svg?style=flat&logo=nuget)](https://www.nuget.org/packages/NaturalCron)
 [![Awesome .NET](https://awesome.re/badge.svg)](https://github.com/quozd/awesome-dotnet)
 
 ## 🔁 Examples of expressions you can write:
