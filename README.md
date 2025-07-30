@@ -11,7 +11,15 @@ NaturalCron is a **human-readable scheduling engine for .NET**. It lets you writ
 
 > **Note:** NaturalCron is **not a cron converter**. It’s a new expressive syntax for better readability.
 
-
+## 💡 Why use NaturalCron?
+- **Readable syntax**: `every 30 minutes in [jan, jun] between 09:00 and 18:00`
+- **Fluent Builder API**: Strongly typed for .NET developers.
+- **No online generators needed**.
+- **Features**:
+  - Ranges
+  - Weekday list
+  - Closest weekday, first/last day handling
+  - Time zone support with IANA TZ names
 
 ## 🚀 Quick Start
 
@@ -50,17 +58,6 @@ Console.WriteLine($"Next occurrence in UTC: {next}");
 ▶️ **Try it online:** [Run on .NET Fiddle](https://dotnetfiddle.net/NfEBM8)
 
 
-## 💡 Why use NaturalCron?
-- **Readable syntax**: `every 30 minutes in [jan, jun] between 09:00 and 18:00`
-- **Fluent Builder API**: Strongly typed for .NET developers.
-- **No online generators needed**.
-- **Features**: 
-  - Ranges
-  - Weekday list
-  - Closest weekday, first/last day handling
-  - Time zone support with IANA TZ names
-
-
 ## 🆚 Cron vs NaturalCron
 | Task                                      | Cron Expression        | NaturalCron Expression                                          |
 |------------------------------------------|------------------------|-----------------------------------------------------------------|
@@ -97,5 +94,6 @@ Please open an [issue](../../issues) or submit a [pull request](../../pulls).
 
 ## ❤️ Support the Project
 If you enjoy using NaturalCron and would like to support its future development, consider buying me a coffee. Your support helps keep the project alive and growing!
+
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-☕-orange)](https://buymeacoffee.com/hugoj0s3)
 
