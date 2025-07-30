@@ -81,7 +81,7 @@ DateTime next = schedule.GetNextOccurrenceInUtc(DateTime.UtcNow);
 
 Console.WriteLine($"Next occurrence in UTC: {next}");
 ```
-
+▶️ **Try it online:** [Run on .NET Fiddle](https://dotnetfiddle.net/NfEBM8)
 
 ## 📖 Documentation
 - [Expression Syntax](docs/expression-syntax.md) — Learn how to write human-readable recurrence rules.
