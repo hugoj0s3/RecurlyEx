@@ -95,6 +95,6 @@ Contributions, bug reports, and feature requests are welcome!
 Please open an [issue](../../issues) or submit a [pull request](../../pulls).
 
 ❤️ Support the Project
-If you enjoy NaturalCron and want to support future development
+If you enjoy NaturalCron and want to support future development, consider buying me a coffee:
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-☕-orange)](https://buymeacoffee.com/hugoj0s3)
 
