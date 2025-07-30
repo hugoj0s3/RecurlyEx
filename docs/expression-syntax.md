@@ -77,7 +77,7 @@ For multiple uses bracket the time units and numbers:
 
 **Examples:**
 - `on day 10` — on the 10th day of the month or just `on 10th`
-- `in month 10` — in december or use `in december` or `in dec`
+- `in month 10` — in october or use `in october` or `in oct`
 - `at hour 10 at minute 30` or `at 10:30am` — at 10:30am
 
 **Examples:**
