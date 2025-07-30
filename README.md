@@ -5,7 +5,7 @@
 
 NaturalCron is a **human-readable scheduling engine for .NET**. It lets you write schedules in a clear and intuitive way instead of memorizing cryptic cron strings.
 
-**Why?** Because memorizing `0 18 * * 1-5`
+**Why?** Because memorizing `0 18 * * 1-5` is harder than understanding `every day between monday and friday at 6:00pm`.
 
 **Readable schedules reduce mistakes, write expressions that you can understand at a glance.**
 
