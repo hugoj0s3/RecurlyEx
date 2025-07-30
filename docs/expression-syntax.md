@@ -165,6 +165,7 @@ The `between` rule allows you to restrict occurrences to a specific range—such
   Matches only occurrences between 1:00pm and 3:00pm, and 6:00pm and 8:00pm, every 25 seconds.
 
 **Notes:**
+- The boundaries in the `between` rule are inclusive. For example, `between 10th and 15th` includes both the 10th and the 15th.
 - You can use any supported aliases for days, times, or months in the `between` rule.
 - `between` can be combined with other rules (such as `on`, `at`, etc.) for more precise filtering.
 
