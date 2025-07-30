@@ -144,7 +144,7 @@ For multiple uses bracket the time units and numbers:
 
 **Note:**  
 The recurrence engine does not make a strict distinction between `on`, `at`, and `in` when used in expressions.
-This design choice is for flexibility and ease of parsing, so you can use whichever keyword feels most natural in your context.
+This design choice is intentional to prioritize flexibility and ease of use. By treating these keywords equivalently, the recurrence engine allows users to write expressions in a way that feels most natural to them, without worrying about strict syntax rules. This approach also simplifies parsing and ensures that the system can accommodate a wide range of user preferences and writing styles.
 
 ## `between` or `@between` Between Rules
 The `between` rule allows you to restrict occurrences to a specific range—such as a range of days in the month, times within a day, or other supported units.
