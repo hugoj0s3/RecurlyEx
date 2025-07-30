@@ -55,7 +55,7 @@ DateTime next = schedule.GetNextOccurrenceInUtc(DateTime.UtcNow);
 Console.WriteLine($"Next occurrence in UTC: {next}");
 ```
 
-▶️ **Try it online:** [Run on .NET Fiddle](https://dotnetfiddle.net/NfEBM8)
+⚡ **Try it online:** [Run on .NET Fiddle](https://dotnetfiddle.net/NfEBM8)
 
 
 ## 🆚 Cron vs NaturalCron
