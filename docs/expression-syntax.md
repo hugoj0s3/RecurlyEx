@@ -198,7 +198,7 @@ You can specify the time zone for your recurrence expressions using either `time
 This ensures that all date and time calculations are made in the specified IANA time zone.
 
 **Syntax:**
-- `timezone <IANA-timezone>` or `timezone <IANA-timezone>`
+- `timezone <IANA-timezone>` or `@timezone <IANA-timezone>`
 - `tz <IANA-timezone>` or `tz <IANA-timezone>`
 
 **Examples:**
