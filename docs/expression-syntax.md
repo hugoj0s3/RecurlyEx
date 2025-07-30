@@ -297,7 +297,7 @@ Colon + ordinal day (e.g. 1st JAN 14:00)
 
 **Note:** 
 Commas are ignored in single date expressions but not allowed in bracketed multiple date expressions.
-- `on 1st, January` works (comma is ignored)
-- `on [1st, January]` doesn't work (invalid syntax in brackets)
+- Valid: `on 1st, January` (comma is ignored)
+- Invalid: `on [1st, January]` (invalid syntax in brackets)
 
 [Back to Main README](../README.md)
