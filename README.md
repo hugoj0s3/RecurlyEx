@@ -23,7 +23,7 @@ NaturalCron is a **human-readable scheduling engine for .NET**. It lets you writ
 
 ## 🚀 Quick Start
 
-### **Using an Expression (Local Time)**
+### **Using an Expression**
 ```csharp
 using System;
 using NaturalCron;
@@ -38,7 +38,7 @@ DateTime next = schedule.GetNextOccurrence(DateTime.Now);
 Console.WriteLine($"Next occurrence: {next}");
 ```
 
-### **Using Fluent Builder (UTC)**
+### **Using Fluent Builder**
 ```csharp
 using System;
 using NaturalCron;
