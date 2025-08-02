@@ -159,8 +159,8 @@ The `between` rule allows you to restrict occurrences to a specific range—such
   Matches only occurrences between 9:00am and 5:00pm each hour.
 - `every week between Jun and Dec`  
   Matches weekly occurrences between June and December.
-- `every month between 2nd and LastDay`
-  Matches only the first through last day of each month.
+- `every day between 2nd and LastDay`
+  Matches only the second through last day of month each day
 - `every 25 secs between [1:00pm and 03:00pm, 6:00pm and 8:00pm]`
   Matches only occurrences between 1:00pm and 3:00pm, and 6:00pm and 8:00pm, every 25 seconds.
 
